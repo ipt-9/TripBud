@@ -2,7 +2,7 @@
     <div class="login-container">
         <!-- TripBud Logo and Name -->
     <div class="logo-container">
-        <img src="C:\Users\mpira\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
+        <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
       <span class="logo-text">TripBud</span>
     </div>
     
