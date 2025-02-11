@@ -72,8 +72,6 @@ export default {
 * {
   font-family: 'Outfit', sans-serif;
 }
-
-
 .login-container {
   display: flex;
   flex-direction: column;
