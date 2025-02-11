@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* :root {
+=======
+/* /* :root {
+>>>>>>> a354266874c4c943aafa7e950f56d0d584635f2e
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -20,17 +24,13 @@ a {
 }
 a:hover {
   color: #535bf2;
-}
+} */
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
-h1 {
+/* h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
@@ -77,6 +77,9 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+<<<<<<< HEAD
 body {
   margin: 0px;
 }
+=======
+>>>>>>> a354266874c4c943aafa7e950f56d0d584635f2e
