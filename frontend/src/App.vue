@@ -4,12 +4,13 @@ import LoginPage from './components/LoginPage.vue';
 </script>
 
 <template>
-  <RegisterPage/> 
-  <LoginPage />
+  <router-view />
 </template>
 
 
 <style>
-/* Global styles (if needed) can go here */
+  * {
+  margin: 0;
+}
 </style>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="logo-container">
-      <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
+      <img src="C:\Users\mpira\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
       <span class="logo-text">TripBud</span>
     </div>
 
@@ -25,7 +25,7 @@
             class="toggle-password" 
             @click="togglePasswordVisibility"
           >
-            <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\hide.png" alt="Toggle Password" style="width: 20px; height: 20px;" />
+            <img src="C:\Users\mpira\TripBud\TripBud\frontend\src\assets\hide.png" alt="Toggle Password" style="width: 20px; height: 20px;" />
           </button>
         </div>
 
@@ -66,6 +66,7 @@ export default {
 * {
   font-family: 'Outfit', sans-serif;
 }
+
 
 .login-container {
   display: flex;
