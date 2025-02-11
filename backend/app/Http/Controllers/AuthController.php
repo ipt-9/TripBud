@@ -6,8 +6,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use function Laravel\Prompts\error;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function register(Request $request)
     {
@@ -51,17 +53,20 @@ class LoginController extends Controller
             ->first();
 
         if (!$user) {
+            Log::info('Invalid credentials');
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
         $encryptedPassword = Crypt::encryptString($request->password);
 
         if (!Hash::check($encryptedPassword, $user->password)) {
+            Log::info('Invalid credentials');
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        Log::info('Login successful');
         return response()->json([
             'message' => 'Login successful',
             'token' => $token,

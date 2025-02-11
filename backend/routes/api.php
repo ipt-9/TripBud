@@ -1,17 +1,20 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/home', [CategoryController::class, 'index']);
-Route::get('/register', [LoginController::class, 'register']);
-Route::get('/login', [LoginController::class, 'login']);
-Route::get('/why-us', [CategoryController::class, 'index']);
-Route::get('/plans', [CategoryController::class, 'index']);
+//Route::get('/home', [CategoryController::class, 'index']);
+//Route::get('/why-us', [CategoryController::class, 'index']);
+//Route::get('/plans', [CategoryController::class, 'index']);
+//Route::get('/register', [CategoryController::class, 'index']);
+//Route::get('/login', [CategoryController::class, 'index']);
 
-Route::get('/check-auth', [LoginController::class, 'checkAuth']);
-Route::get('/logout', [LoginController::class, 'logout']);
 
-Route::get('/dashboard', [CategoryController::class, 'index'])->middleware('auth:sanctum');
+Route::post('/register/user', [AuthController::class, 'register']);
+Route::post('/login/user', [AuthController::class, 'login']);
+
+Route::get('/check-auth', [AuthController::class, 'checkAuth']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
+//Route::get('/dashboard', [CategoryController::class, 'index'])->middleware('auth:sanctum');
