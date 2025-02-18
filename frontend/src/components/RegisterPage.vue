@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="logo-container">
-      <img src="C:\Users\mpira\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
+      <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
       <span class="logo-text">TripBud</span>
     </div>
 
@@ -31,13 +31,13 @@
             class="toggle-password" 
             @click="togglePasswordVisibility"
           >
-            <img src="C:\Users\mpira\TripBud\TripBud\frontend\src\assets\hide.png" alt="Toggle Password" style="width: 20px; height: 20px;" />
+            <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\hide.png" alt="Toggle Password" style="width: 20px; height: 20px;" />
           </button>
         </div>
 
         <button type="submit" class="signup-button">Sign Up</button>
       </form>
-      <p>Already have an account? <router-link to="/login" class="register-text">Login now</router-link></p>
+      <p>Already have an account? <router-link to="/login" class="login-text">Login now</router-link></p>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
@@ -162,6 +162,7 @@ input, .signup-button{
   cursor: pointer;
   border: none;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .signup-button:hover {
@@ -173,12 +174,12 @@ input, .signup-button{
   margin-top: 1rem;
 }
 
-.register-text {
+.login-text {
   color: #409FDB;
   cursor: pointer;
 }
 
-.register-text:hover {
+.login-text:hover {
   text-decoration: underline;
 }
 </style>

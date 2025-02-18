@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="logo-container">
-      <img src="C:\Users\mpira\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
+      <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
       <span class="logo-text">TripBud</span>
     </div>
 
@@ -25,11 +25,11 @@
             class="toggle-password" 
             @click="togglePasswordVisibility"
           >
-            <img src="C:\Users\mpira\TripBud\TripBud\frontend\src\assets\hide.png" alt="Toggle Password" style="width: 20px; height: 20px;" />
+            <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\hide.png" alt="Toggle Password" style="width: 20px; height: 20px;" />
           </button>
         </div>
 
-        <button type="submit" class="signup-button">Sign In</button>
+        <button type="submit" class="signin-button">Sign In</button>
       </form>
       <p>Don't have an account? <router-link to="/register" class="register-text">Register now</router-link></p>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
@@ -122,7 +122,7 @@ label {
   margin-bottom: 0.25rem;
 }
 
-input, .signup-button{
+input, .signin-button{
   width: 100%;
   padding: 0.7rem;
   border: 1px solid #ccc;
@@ -151,15 +151,16 @@ input, .signup-button{
     padding: 0;
   }
 
-.signup-button {
+.signin-button {
   background: #409FDB;
   color: white;
   cursor: pointer;
   border: none;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.signup-button:hover {
+.signin-button:hover {
   background: #368BD1;
 }
 
