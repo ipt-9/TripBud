@@ -27,9 +27,16 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $token = $user->createToken('YourAppName')->plainTextToken;
+
         return response()->json([
             'message' => 'User registered successfully',
-            'user' => $user,
+            'user' => [
+                'full_name' => $user->full_name,
+                'username' => $user->username,
+                'email' => $user->email,
+            ],
+            'token' => $token,
         ], 201);
     }
 
@@ -42,28 +49,24 @@ class AuthController extends Controller
 
         $user = User::where('username', $request->username)->first();
 
-        if ($user) {
-            if (Hash::check($request->password, $user->password)) {
-                return response()->json([
-                    'message' => 'Login successful',
-                    'user' => [
-                        'full_name' => $user->full_name,
-                        'username' => $user->username,
-                        'email' => $user->email,
-                    ],
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => 'Incorrect password',
-                ], 401);
-            }
+        if ($user && Hash::check($request->password, $user->password)) {
+            $token = $user->createToken('YourAppName')->plainTextToken;
+
+            return response()->json([
+                'message' => 'Login successful',
+                'user' => [
+                    'full_name' => $user->full_name,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                ],
+                'token' => $token,
+            ], 200);
         }
 
         return response()->json([
-            'message' => 'User not found',
-        ], 404);
+            'message' => 'Invalid credentials',
+        ], 401);
     }
-
 
     public function checkAuth()
     {

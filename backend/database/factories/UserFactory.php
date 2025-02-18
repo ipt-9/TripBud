@@ -25,8 +25,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $rawPassword = $this->faker->password();
-        $encryptedPassword = Crypt::encrypt($rawPassword);
-        $hashedPassword = Hash::make($encryptedPassword);
+        $hashedPassword = Hash::make($rawPassword);
 
         return [
             'full_name' => $this->faker->name(),

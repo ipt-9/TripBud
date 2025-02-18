@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'tripbud_users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -30,8 +32,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        //'password',
-        //'remember_token',
+        'password',
     ];
 
     protected $visible = [
@@ -39,7 +40,6 @@ class User extends Authenticatable
         'full_name',
         'username',
         'email',
-        'password',
         'remember_token'
     ];
 
