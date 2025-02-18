@@ -1,0 +1,45 @@
+services:
+  laravel:
+    container_name: laravel
+    image: bitnami/laravel:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ../backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: mysql_db
+      DB_PORT: 3306
+      DB_DATABASE: tripbud
+      DB_USERNAME: root
+      DB_PASSWORD: Sursee6210
+    depends_on:
+      - mysql_db
+    networks:
+      - laravel
+
+  mysql_db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: Sursee6210
+      MYSQL_DATABASE: tripbud
+    ports:
+      - "3307:3306"
+    networks:
+      - laravel
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "9001:80"
+    environment:
+      PMA_HOST: mysql_db
+      PMA_PORT: 3306
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
