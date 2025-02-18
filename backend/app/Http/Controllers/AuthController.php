@@ -20,59 +20,51 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $encryptedFullName = Crypt::encryptString($request->full_name);
-        $encryptedUsername = Crypt::encryptString($request->username);
-        $encryptedEmail = Crypt::encryptString($request->email);
-        $encryptedPassword = Crypt::encryptString($request->password);
-        $hashedPassword = Hash::make($encryptedPassword);
-
         $user = User::create([
-            'full_name' => $encryptedFullName,
-            'username' => $encryptedUsername,
-            'email' => $encryptedEmail,
-            'password' => $hashedPassword,
+            'full_name' => $request->full_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
         return response()->json([
             'message' => 'User registered successfully',
-            'user' => $user
+            'user' => $user,
         ], 201);
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'identifier' => 'required|string',
-            'password' => 'required|string|min:8',
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
 
-        $encryptedIdentifier = Crypt::encryptString($request->identifier);
+        $user = User::where('username', $request->username)->first();
 
-        $user = User::where('username', $encryptedIdentifier)
-            ->orWhere('email', $encryptedIdentifier)
-            ->first();
-
-        if (!$user) {
-            Log::info('Invalid credentials');
-            return response()->json(['message' => 'Invalid credentials'], 401);
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                return response()->json([
+                    'message' => 'Login successful',
+                    'user' => [
+                        'full_name' => $user->full_name,
+                        'username' => $user->username,
+                        'email' => $user->email,
+                    ],
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Incorrect password',
+                ], 401);
+            }
         }
 
-        $encryptedPassword = Crypt::encryptString($request->password);
-
-        if (!Hash::check($encryptedPassword, $user->password)) {
-            Log::info('Invalid credentials');
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        Log::info('Login successful');
         return response()->json([
-            'message' => 'Login successful',
-            'token' => $token,
-            'user' => $user
-        ]);
+            'message' => 'User not found',
+        ], 404);
     }
+
+
     public function checkAuth()
     {
     }
