@@ -1,7 +1,7 @@
 <template>
     <div class="trip-organizer">
       <div class="header">
-        <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="Logo" class="logo" />
+        <img v-for="img in images" v-bind:src="img" class="logo" />
         <h1>Trip Organizer</h1>
       </div>
       
@@ -45,7 +45,7 @@
         <label>Budget</label>
         <div class="budget-fields">
           <label>Transport ($):</label>
-          <input type="number" placeholder="0" v-model.number="trip.budget.transport" min="0" step="0.01" />
+          <input type="number" placeholder="0" v-model.number="trip.budget.transport" min="0" step="0.01" style="appearance: textfield;"/>
           <label>Food ($):</label>
           <input type="number" placeholder="0" v-model.number="trip.budget.food" min="0" step="0.01" />
           <label>Activities ($):</label>
@@ -73,7 +73,8 @@
           inviteEmail: '',
           budget: { transport: 0, food: 0, activities: 0, hotel: 0 }
         },
-        destinationResults: []
+        destinationResults: [],
+        images:['src/assets/TripBudLogo.png'],
       };
     },
     methods: {
@@ -130,6 +131,17 @@
     width: 100%;
     padding: 5px;
   }
+
+  .budget-fields input::-webkit-outer-spin-button,
+  .budget-fields input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Entfernt die Pfeile für Firefox */
+.budget-fields input[type=number] {
+    -moz-appearance: textfield;
+}
   
   .create-trip {
     background: blue;
