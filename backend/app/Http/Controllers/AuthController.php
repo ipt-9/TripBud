@@ -27,7 +27,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken('YourAppName')->plainTextToken;
+        $token = $user->createToken('tripbud')->plainTextToken;
 
         return response()->json([
             'message' => 'User registered successfully',
@@ -43,14 +43,21 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required|string',
+            'login' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        $user = User::where('username', $request->login)
+            ->orWhere('email', $request->login)
+            ->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            $token = $user->createToken('YourAppName')->plainTextToken;
+            $user->tokens->each(function ($token) {
+                $token->delete();
+            });
+
+            $token = $user->createToken('tripbud')->plainTextToken;
+            session(['auth_token' => $token]);
 
             return response()->json([
                 'message' => 'Login successful',
@@ -71,7 +78,13 @@ class AuthController extends Controller
     public function checkAuth()
     {
     }
-    public function logout()
+    public function logout(Request $request)
     {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'Logout successful',
+        ], 200);
     }
+
 }

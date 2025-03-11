@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardConroller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,4 @@ Route::post('/login/user', [AuthController::class, 'login']);
 Route::get('/check-auth', [AuthController::class, 'checkAuth']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-//Route::get('/dashboard', [CategoryController::class, 'index'])->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->get('/dashboard', [DashboardConroller::class, 'index']);
