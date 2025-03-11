@@ -6,7 +6,7 @@ import CreateTrip from '../components/CreateTrip.vue';
 
 const routes = [
   
-  { path: 'Plans', component: PlansPage}, // Automatically go to register
+  { path: '/', component: PlansPage}, // Automatically go to register
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
   { path: '/createtrip', component: CreateTrip}

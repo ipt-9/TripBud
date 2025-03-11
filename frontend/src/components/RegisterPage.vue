@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="logo-container">
-      <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\TripBudLogo.png" alt="TripBud Logo" class="logo" />
+      <img v-for="img in images" v-bind:src="img" class="logo" />
       <span class="logo-text">TripBud</span>
     </div>
 
@@ -31,7 +31,7 @@
             class="toggle-password" 
             @click="togglePasswordVisibility"
           >
-            <img src="C:\Users\schus\TripBud\TripBud\frontend\src\assets\hide.png" alt="Toggle Password" style="width: 20px; height: 20px;" />
+          <img v-for="(img, index) in passwordImages" :key="index" :src="img" style="width: 20px; height: 20px;" />
           </button>
         </div>
 
@@ -50,7 +50,9 @@ export default {
       username: '',
       password: '',
       showPassword: false,
-      errorMessage: ''
+      errorMessage: '',
+      images:['src/assets/TripBudLogo.png'],
+      passwordImages: ['src/assets/hide.png']
     };
   },
   methods: {
