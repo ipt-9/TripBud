@@ -69,13 +69,14 @@ export default {
 }
 
 
+
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center;;
   height: 100vh;
-  background: linear-gradient(to bottom, #e0f2fe, #ffffff);
+  background: linear-gradient(to bottom, #e0f2fe, #ffffff)
 }
 
 .logo-container {

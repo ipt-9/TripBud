@@ -3,13 +3,15 @@ import RegisterPage from '../components/RegisterPage.vue';
 import LoginPage from '../components/LoginPage.vue';
 import PlansPage from '../components/PlansPage.vue';
 import CreateTrip from '../components/CreateTrip.vue';
+import SettingsPage from '../components/SettingsPage.vue';
 
 const routes = [
   
   { path: '/', component: PlansPage}, // Automatically go to register
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
-  { path: '/createtrip', component: CreateTrip}
+  { path: '/createtrip', component: CreateTrip},
+  { path: '/settings', component: SettingsPage}
 ];
 
 const router = createRouter({
