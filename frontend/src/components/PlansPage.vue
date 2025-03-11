@@ -89,6 +89,8 @@
     transition: transform 0.3s ease, background 0.3s ease;
   }
   
+
+  
   .card:hover {
     background: #409FDB;
     color: white;
