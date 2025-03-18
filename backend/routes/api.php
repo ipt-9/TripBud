@@ -2,14 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardConroller;
+use App\Http\Controllers\SettingsConroller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-//Route::get('/home', [CategoryController::class, 'index']);
-//Route::get('/why-us', [CategoryController::class, 'index']);
-//Route::get('/plans', [CategoryController::class, 'index']);
-//Route::get('/register', [CategoryController::class, 'index']);
-//Route::get('/login', [CategoryController::class, 'index']);
 
 
 Route::post('/register/user', [AuthController::class, 'register']);
@@ -19,3 +14,20 @@ Route::get('/check-auth', [AuthController::class, 'checkAuth']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/dashboard', [DashboardConroller::class, 'index']);
+
+Route::middleware('auth:sanctum')->get('/settings', [SettingsConroller::class, '']);
+Route::middleware('auth:sanctum')->get('/settings/cancelChanges', [SettingsConroller::class, 'cancelChanges']);
+Route::middleware('auth:sanctum')->put('/settings/updateChanges', [SettingsConroller::class, 'updateChanges']);
+
+Route::middleware('auth:sanctum')->put('/settings/account/profile', [SettingsConroller::class, '']);
+Route::middleware('auth:sanctum')->put('/settings/account/profile/updateImage', [SettingsConroller::class, 'updateImage']);
+Route::middleware('auth:sanctum')->delete('/settings/account/profile/deleteImage', [SettingsConroller::class, 'deleteImage']);
+
+Route::middleware('auth:sanctum')->get('/settings/account/payment', [SettingsConroller::class, '']);
+Route::middleware('auth:sanctum')->put('/settings/account/payment/editMethod', [SettingsConroller::class, 'editMethod']);
+Route::middleware('auth:sanctum')->delete('/settings/account/payment/deleteMethod', [SettingsConroller::class, 'deleteMethod']);
+
+Route::middleware('auth:sanctum')->get('/settings/plans', [SettingsConroller::class, '']);
+Route::middleware('auth:sanctum')->put('/settings/plans/changePlan', [SettingsConroller::class, 'changePlan']);
+
+Route::middleware('auth:sanctum')->get('/settings/support', [SettingsConroller::class, '']);
