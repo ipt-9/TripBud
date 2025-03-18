@@ -4,6 +4,7 @@ import LoginPage from '../components/LoginPage.vue';
 import PlansPage from '../components/PlansPage.vue';
 import CreateTrip from '../components/CreateTrip.vue';
 import SettingsPage from '../components/SettingsPage.vue';
+import WhyUs from '../components/WhyUs.vue';
 
 const routes = [
   
@@ -11,7 +12,8 @@ const routes = [
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
   { path: '/createtrip', component: CreateTrip},
-  { path: '/settings', component: SettingsPage}
+  { path: '/settings', component: SettingsPage},
+  { path: '/whyus', component: WhyUs}
 ];
 
 const router = createRouter({
