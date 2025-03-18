@@ -4,12 +4,16 @@ import LoginPage from '../components/LoginPage.vue';
 import PlansPage from '../components/PlansPage.vue';
 import CreateTrip from '../components/CreateTrip.vue';
 import SettingsPage from '../components/SettingsPage.vue';
+import WhyUs from '../components/WhyUs.vue';
+import StartPage from '../components/StartPage.vue';
 
 const routes = [
   { path: '/plans', component: PlansPage }, // Automatically go to register
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
   { path: '/createtrip', component: CreateTrip},
+  { path: '/whyus', component: WhyUs },
+  { path: '/', component: StartPage},
   { path: '/settings', component: SettingsPage}
 ];
 
