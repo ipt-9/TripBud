@@ -6,10 +6,10 @@ import CreateTrip from '../components/CreateTrip.vue';
 
 const routes = [
   
-  { path: '/', component: PlansPage}, // Automatically go to register
+  { path: '/plans', component: PlansPage}, // Automatically go to register
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
-  { path: '/createtrip', component: CreateTrip}
+  { path: '/', component: CreateTrip}
 ];
 
 const router = createRouter({
