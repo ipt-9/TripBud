@@ -1,6 +1,6 @@
 <template>
     <div class="trip-organizer">
-      <div class="header">
+      <div class="logo-container">
         <img v-for="img in images" v-bind:src="img" class="logo" />
         <h1>Trip Organizer</h1>
       </div>
@@ -13,7 +13,7 @@
         
         <div class="form-group">
           <label>Description:</label>
-          <textarea v-model="trip.description"></textarea>
+          <textarea v-model="trip.description" ref="descriptionField" @input="autoExpand" style="resize: none; height: 100px; width: 100%;"></textarea>
         </div>
         
         <div class="form-group">
@@ -42,18 +42,28 @@
         
         
         <div class="budget">
-        <label>Budget</label>
-        <div class="budget-fields">
-          <label>Transport ($):</label>
-          <input type="number" placeholder="0" v-model.number="trip.budget.transport" min="0" step="0.01" style="appearance: textfield;"/>
-          <label>Food ($):</label>
-          <input type="number" placeholder="0" v-model.number="trip.budget.food" min="0" step="0.01" />
-          <label>Activities ($):</label>
-          <input type="number" placeholder="0" v-model.number="trip.budget.activities" min="0" step="0.01" />
-          <label>Hotel ($):</label>
-          <input type="number" placeholder="0" v-model.number="trip.budget.hotel" min="0" step="0.01" />
+          <label>Budget</label>
+          <div class="budget-container">
+            <div class="budget-fields">
+              <div class="form-group">
+                <label>Transport ($):</label>
+                <input type="number" v-model.number="trip.budget.transport"/>
+              </div>
+              <div class="form-group">
+                <label>Food ($):</label>
+                <input type="number" v-model.number="trip.budget.food"/>
+              </div>
+              <div class="form-group">
+                <label>Activities ($):</label>
+                <input type="number" v-model.number="trip.budget.activities"/>
+              </div>
+              <div class="form-group">
+                <label>Hotel ($):</label>
+                <input type="number" v-model.number="trip.budget.hotel"/>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
         
         <button class="create-trip" @click="createTrip">Create Trip</button>
       </div>
@@ -87,29 +97,49 @@
         this.destinationResults = [];
       },
       inviteMember() {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!this.trip.inviteEmail) {
+          alert("Please enter an email address.");
+          return;
+        }
+        if (!emailPattern.test(this.trip.inviteEmail)) {
+          alert("Please enter a valid email address.");
+          return;
+        }
         alert(`Invitation sent to ${this.trip.inviteEmail}`);
+        this.trip.inviteEmail = "";
       },
       createTrip() {
+        if (!this.trip.name || !this.trip.description || !this.trip.fromDate || !this.trip.toDate || !this.trip.destination || !this.trip.inviteEmail) {
+          alert("Please fill out all fields before creating the trip.");
+          return;
+        }
         alert('Trip Created!');
+      },
+      autoExpand() {
+        const field = this.$refs.descriptionField;
+        field.style.height = 'auto';
+        field.style.height = field.scrollHeight + 'px';
       }
     }
   };
   </script>
   
-  <style scoped>
+  <style>
+  * {
+    font-family: 'Outfit', sans-serif;
+  }
   .trip-organizer {
-    font-family: Arial, sans-serif;
-    background: #e6f7ff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 600px;
-    margin: auto;
+    background: linear-gradient(to bottom, #e0f2fe, #ffffff);
   }
   
-  .header {
-    display: flex;
-    align-items: center;
-  }
+  .logo-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+}
   
   .logo {
     width: 40px;
@@ -117,8 +147,6 @@
   }
   
   .form-container {
-    display: flex;
-    flex-direction: column;
   }
   
   .form-group {
@@ -143,12 +171,17 @@
     -moz-appearance: textfield;
 }
   
-  .create-trip {
-    background: blue;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  </style>
+.create-trip {
+  background: #409FDB;
+  color: white;
+  cursor: pointer;
+  border: none;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.create-trip:hover {
+  background: #368BD1;
+}
+</style>
   
