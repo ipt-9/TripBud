@@ -55,14 +55,17 @@
               </div>
               <div class="box-right-email-notification">
                   <label for="box-right-notification-checkbox"></label>
-                  <span><input type="checkbox" id="box-right-notification-checkbox" /> E-Mail Notification</span>
+                  <span><input type="checkbox" class="box-right-notification-checkbox" /> E-Mail Notification</span>
                   <p>You will be notified with E-Mail when someone messages you.</p>
                 </div>
                 <div class="box-right-sound-notification">
                   <label for="box-right-box-notification-checkbox"></label>
-                  <span><input type="checkbox" id="box-right-notification-checkbox" /> Sound Notification</span>
+                  <span><input type="checkbox" class="box-right-notification-checkbox" /> Sound Notification</span>
                   <p>You will be notified with Sound when someone messages you.</p>
                 </div>
+            </div>
+            <div class="box-right-line7">
+              <button class="box-right-save-button">Save</button>
             </div>
         </div>
     </div>
@@ -227,6 +230,31 @@ export default {
     margin: auto; /* Automatische horizontale Zentrierung */
 }
 
+.box-right-line7 {
+    background-color: rgb(196, 196, 196);
+    width: 93%;
+    height: 1px;
+    position: absolute;
+    top: 135%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.box-right-save-button {
+  background-color: #409FDB;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  margin-top: 20px;
+  cursor: pointer;
+  height: 4.5vh;
+  width: 5.5vw;
+  font-size: 105%;
+}
+
 .box-right-profile h1 {
   margin-top: 55px;
   margin-left: 60px;
@@ -323,7 +351,12 @@ export default {
 
 .box-right-email-notification p,
 .box-right-sound-notification p {
-  margin-left: 87px;
+  margin-left: 112px;
+}
+
+.box-right-notification-checkbox {
+  height: 1.5vh;
+  margin-right: 25px;
 }
 
 .rounded-box-left h2 {
@@ -341,23 +374,23 @@ export default {
 }
 
 input::placeholder {
-    color: gray; /* Farbe anpassen */
-    font-size: 17px; /* Größe ändern */
+    color: gray;
+    font-size: 17px;
     padding-left: 10px;
-    opacity: 1; /* Falls der Placeholder zu blass ist */
+    opacity: 1;
 }
 
 .rounded-box-right::-webkit-scrollbar {
-    width: 10px; /* Breite der Scrollbar */
+    width: 10px;
 }
 
 .rounded-box-right::-webkit-scrollbar-track {
-    background: transparent; /* Unsichtbarer Hintergrund */
+    background: transparent;
 }
 
 .rounded-box-right::-webkit-scrollbar-thumb {
-    background: #aaa; /* Farbe der Scroll-Leiste */
-    border-radius: 10px; /* Abgerundete Ecken */
+    background: #aaa;
+    border-radius: 10px;
 }
 
 
