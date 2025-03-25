@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardConroller;
 use App\Http\Controllers\SettingsConroller;
+use App\Http\Controllers\ChatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,6 @@ Route::middleware('auth:sanctum')->get('/settings/plans', [SettingsConroller::cl
 Route::middleware('auth:sanctum')->put('/settings/plans/changePlan', [SettingsConroller::class, 'changePlan']);
 
 Route::middleware('auth:sanctum')->get('/settings/support', [SettingsConroller::class, '']);
+
+
+Route::middleware('auth:sanctum')->get('/chat', [ChatController::class, 'index']);
