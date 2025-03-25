@@ -6,14 +6,15 @@
         </div>
         <div class="rounded-box-left">
             <input type="text" placeholder="Search...">
-            <h2>Account</h2>
-            <h2>Plans</h2>
-            <h2>Help & Support</h2>
+            <a href=""><h2>Account</h2></a>
+            <a href=""><h2>Plans</h2></a>
+            <a href=""><h2>Help & Support</h2></a>
 
         </div>
         <div class ="rounded-box-right">
           <div class="box-right-register">
-            <h2>Account</h2><h2>Payment</h2>
+            <a href=""><h2 class="box-right-register-account">Account</h2></a>
+            <a href=""><h2 class="box-right-register-payment">Payment</h2></a>
           </div>
             <div class ="box-right-line">
               <div class="box-right-profile">
@@ -65,8 +66,14 @@
                 </div>
             </div>
             <div class="box-right-line7">
-              <button class="box-right-save-button">Save</button>
+              <div class="box-right-button-container">
+                <button class="box-right-cancel-button" onclick="">Cancel</button>
+                <button class="box-right-save-button" onclick="">Save</button>
+
+
+              </div>
             </div>
+
         </div>
     </div>
   </template>
@@ -130,6 +137,12 @@ export default {
     box-sizing: border-box;
 }
 
+.rounded-box-left a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 .rounded-box-right {
     width: 75%; /* Anpassbare Breite für verschiedene Bildschirmgrößen */
     height: 85%;
@@ -149,13 +162,19 @@ export default {
     max-height: 85%;
 }
 
-.box-right-register h2:first-child {
+.rounded-box-right a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.box-right-register-account {
     margin-right: 55px; /* Abstand nach rechts */
     margin-left: 40px;
     font-weight: 700;
 }
 
-.box-right-register h2:last-child {
+.box-right-register-payment {
     font-weight: 500;
     color: rgb(116, 116, 116);
 }
@@ -243,16 +262,27 @@ export default {
     justify-content: flex-end;
 }
 
-.box-right-save-button {
+.box-right-save-button,
+.box-right-cancel-button {
   background-color: #409FDB;
-  border: none;
   border-radius: 50px;
+  border: none;
   color: white;
-  margin-top: 20px;
+  margin-top: 25px;
   cursor: pointer;
   height: 4.5vh;
-  width: 5.5vw;
+  width: 6vw;
   font-size: 105%;
+}
+
+.box-right-cancel-button {
+  background-color: rgb(230, 230, 230);
+  color: black;
+  margin-right: 10px;
+}
+
+.box-right-button-container {
+ padding-bottom: 85px;
 }
 
 .box-right-profile h1 {
