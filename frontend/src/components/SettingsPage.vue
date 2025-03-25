@@ -6,19 +6,27 @@
         </div>
         <div class="rounded-box-left">
             <input type="text" placeholder="Search...">
-            <h2>Account</h2>
-            <h2>Plans</h2>
-            <h2>Help & Support</h2>
+            <a href="">
+              <img src="../assets/user.png"/><h2>Account</h2></a>
+            <a href="">
+              <img src="../assets/shopping-cart.png"/><h2>Plans</h2></a>
+            <a href="">
+              <img src="../assets/info.png"/><h2>Help & Support</h2></a>
+            <button class="box-left-logout">Log Out</button>
 
         </div>
         <div class ="rounded-box-right">
           <div class="box-right-register">
-            <h2>Account</h2><h2>Payment</h2>
+            <a href=""><h2 class="box-right-register-account">Account</h2></a>
+            <a href=""><h2 class="box-right-register-payment">Payment</h2></a>
           </div>
             <div class ="box-right-line">
               <div class="box-right-profile">
               <h1>Your Profile</h1>
               <p>Update your profile settings here</p>
+              <img src="../assets/account-symbol.png" class="profile-picture"/>
+                <button class="box-right-edit-button">Edit</button>
+                <button class="box-right-delete-button">Delete</button>
             </div>
           </div>
             
@@ -55,15 +63,24 @@
               </div>
               <div class="box-right-email-notification">
                   <label for="box-right-notification-checkbox"></label>
-                  <span><input type="checkbox" id="box-right-notification-checkbox" /> E-Mail Notification</span>
+                  <span><input type="checkbox" class="box-right-notification-checkbox" /> E-Mail Notification</span>
                   <p>You will be notified with E-Mail when someone messages you.</p>
                 </div>
                 <div class="box-right-sound-notification">
                   <label for="box-right-box-notification-checkbox"></label>
-                  <span><input type="checkbox" id="box-right-notification-checkbox" /> Sound Notification</span>
+                  <span><input type="checkbox" class="box-right-notification-checkbox" /> Sound Notification</span>
                   <p>You will be notified with Sound when someone messages you.</p>
                 </div>
             </div>
+            <div class="box-right-line7">
+              <div class="box-right-button-container">
+                <button class="box-right-cancel-button" onclick="">Cancel</button>
+                <button class="box-right-save-button" onclick="">Save</button>
+
+
+              </div>
+            </div>
+
         </div>
     </div>
   </template>
@@ -127,6 +144,32 @@ export default {
     box-sizing: border-box;
 }
 
+.rounded-box-left img {
+  height: 30px;
+  margin-right: 10px; /* Abstand zwischen Bild und Text */
+  margin-bottom: 45px;
+  margin-right: 15px;
+}
+
+.rounded-box-left a {
+  text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Bild und Text vertikal zentrieren */
+    margin-bottom: 20px; /* Abstand zwischen den Links */
+}
+
+.box-left-logout {
+  width: 100%;
+  height: 6%;
+  border-radius: 50px;
+  background-color: rgb(105, 105, 105);
+  border: none;
+  color: white;
+  font-size: 110%;
+}
+
 .rounded-box-right {
     width: 75%; /* Anpassbare Breite für verschiedene Bildschirmgrößen */
     height: 85%;
@@ -146,13 +189,19 @@ export default {
     max-height: 85%;
 }
 
-.box-right-register h2:first-child {
+.rounded-box-right a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.box-right-register-account {
     margin-right: 55px; /* Abstand nach rechts */
     margin-left: 40px;
     font-weight: 700;
 }
 
-.box-right-register h2:last-child {
+.box-right-register-payment {
     font-weight: 500;
     color: rgb(116, 116, 116);
 }
@@ -161,6 +210,62 @@ export default {
     margin-top: 35px; /* Abstand nach unten */
     display: inline-block; /* Damit margin funktioniert */
     font-weight: 500;
+}
+
+.box-right-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 60px;
+  align-items: center;
+}
+
+.box-right-profile img {
+  height: 80px;
+  margin-right: 50px;
+  position: absolute;
+  margin-top: 50px;
+  top: 10%;
+  right: 20%;
+
+}
+
+.profile-picture {
+  width: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.box-right-edit-button {
+  background-color: #409FDB;
+  border-radius: 50px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  right: 15%;
+  top: 10%;
+  margin-top: 70px;
+  margin-right: 10px;
+  height: 4.5vh;
+  width: 4vw;
+  font-size: 105%;
+
+}
+
+.box-right-delete-button {
+  background-color: #db4040;
+  border-radius: 50px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  top: 10%;
+  right: 8%;
+  margin-top: 70px;
+  height: 4.5vh;
+  width: 5vw;
+  font-size: 105%;
 }
 
 .box-right-line {
@@ -225,6 +330,42 @@ export default {
     left: 0;
     right: 0;
     margin: auto; /* Automatische horizontale Zentrierung */
+}
+
+.box-right-line7 {
+    background-color: rgb(196, 196, 196);
+    width: 93%;
+    height: 1px;
+    position: absolute;
+    top: 135%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.box-right-save-button,
+.box-right-cancel-button {
+  background-color: #409FDB;
+  border-radius: 50px;
+  border: none;
+  color: white;
+  margin-top: 25px;
+  cursor: pointer;
+  height: 4.5vh;
+  width: 6vw;
+  font-size: 105%;
+}
+
+.box-right-cancel-button {
+  background-color: rgb(230, 230, 230);
+  color: black;
+  margin-right: 10px;
+}
+
+.box-right-button-container {
+ padding-bottom: 85px;
 }
 
 .box-right-profile h1 {
@@ -323,7 +464,12 @@ export default {
 
 .box-right-email-notification p,
 .box-right-sound-notification p {
-  margin-left: 87px;
+  margin-left: 112px;
+}
+
+.box-right-notification-checkbox {
+  height: 1.5vh;
+  margin-right: 25px;
 }
 
 .rounded-box-left h2 {
@@ -341,23 +487,23 @@ export default {
 }
 
 input::placeholder {
-    color: gray; /* Farbe anpassen */
-    font-size: 17px; /* Größe ändern */
+    color: gray;
+    font-size: 17px;
     padding-left: 10px;
-    opacity: 1; /* Falls der Placeholder zu blass ist */
+    opacity: 1;
 }
 
 .rounded-box-right::-webkit-scrollbar {
-    width: 10px; /* Breite der Scrollbar */
+    width: 10px;
 }
 
 .rounded-box-right::-webkit-scrollbar-track {
-    background: transparent; /* Unsichtbarer Hintergrund */
+    background: transparent;
 }
 
 .rounded-box-right::-webkit-scrollbar-thumb {
-    background: #aaa; /* Farbe der Scroll-Leiste */
-    border-radius: 10px; /* Abgerundete Ecken */
+    background: #aaa;
+    border-radius: 10px;
 }
 
 
