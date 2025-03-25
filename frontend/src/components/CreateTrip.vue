@@ -106,12 +106,14 @@ export default {
       this.destinationResults = [];
     },
     inviteMember() {
-      if (!this.trip.inviteEmail) {
-        alert("Please enter an email address.");
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!this.trip.inviteEmail || !emailRegex.test(this.trip.inviteEmail)) {
+        alert("Please enter a valid email address.");
         return;
       }
-      alert(`Invitation sent to ${this.trip.inviteEmail}`);
-      this.trip.inviteEmail = "";
+      const subject = encodeURIComponent("Trip Invitation");
+      const body = encodeURIComponent(`Hey, join my trip: ${this.trip.name} from ${this.trip.fromDate} to ${this.trip.toDate} at ${this.trip.destination}.`);
+      window.location.href = `mailto:${this.trip.inviteEmail}?subject=${subject}&body=${body}`;
     },
     createTrip() {
       if (!this.trip.name || !this.trip.description || !this.trip.fromDate || !this.trip.toDate || !this.trip.destination) {
@@ -210,7 +212,7 @@ export default {
   font-size: 16px;
 }
 
-.send-btn:hover {
+.send-:hover {
   background: #368BD1;
 }
 
