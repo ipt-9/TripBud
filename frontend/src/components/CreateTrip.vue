@@ -96,8 +96,8 @@ export default {
         budget: { transport: 0, food: 0, activities: 0, hotel: 0 }
       },
       destinationResults: [],
-      images: ['src/assets/TripBudLogo.png'],
-      accountImages: ['src/assets/account-symbol.png']
+      images: ['../assets/TripBudLogo.png'],
+      accountImages: ['../assets/account-symbol.png']
     };
   },
   methods: {

@@ -85,13 +85,51 @@
     </div>
   </template>
 
-<script>
+<!-- <script>
+import api from "./axios";
+
 export default {
   data() {
     return {
-      images:['src/assets/TripBudLogo.png'],
-  }}}
-</script>
+      images: ["src/assets/TripBudLogo.png"],
+      user: {
+        username: "",
+        email: "",
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+        emailNotifications: false,
+        soundNotifications: false,
+      },
+      error: null,
+    };
+  },
+  methods: {
+    async saveChanges() {
+      try {
+        const response = await api.post("/update/user", this.user);
+        console.log("User updated successfully:", response.data);
+      } catch (error) {
+        this.error = error.response?.data?.message || "Something went wrong!";
+      }
+    },
+    async editProfile() {
+      console.log("Edit profile clicked");
+    },
+    async deleteProfile() {
+      try {
+        await api.delete("/delete/user");
+        console.log("User deleted successfully");
+      } catch (error) {
+        this.error = error.response?.data?.message || "Could not delete profile!";
+      }
+    },
+    cancelChanges() {
+      console.log("Changes canceled");
+    },
+  },
+};
+</script> -->
 
 <style>
 * {

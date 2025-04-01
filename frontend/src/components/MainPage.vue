@@ -138,18 +138,18 @@
 export default {
   data() {
     return {
-      images: ['src/assets/TripBudLogo.png'],
-      StartImages: ['src/assets/FrontImg.png'],
-      whyusImages: ['src/assets/why-us-img.png'],
+      images: ['../assets/TripBudLogo.png'],
+      StartImages: ['../assets/FrontImg.png'],
+      whyusImages: ['../assets/why-us-img.png'],
       features: [
-        { icon: 'src/assets/download-symbol.png', title: 'In-App Storage', description: 'Store your travel documents for your trip directly in the app!' },
-        { icon: 'src/assets/group-symbol.png', title: 'Plan Together', description: 'Invite your friends to the trip and exchange together!' },
-        { icon: 'src/assets/document-symbol.png', title: 'Integrated Blog', description: 'Capture your journey and create an album!' }
+        { icon: '../assets/download-symbol.png', title: 'In-App Storage', description: 'Store your travel documents for your trip directly in the app!' },
+        { icon: '../assets/group-symbol.png', title: 'Plan Together', description: 'Invite your friends to the trip and exchange together!' },
+        { icon: '../assets/document-symbol.png', title: 'Integrated Blog', description: 'Capture your journey and create an album!' }
       ],
       hoveredIndex: null,
-      appleImages: ['src/assets/AppleStore.png'],
-      googleImages: ['src/assets/GooglePlay.png'],
-      logoImages: ['src/assets/TripBudLogo.png']
+      appleImages: ['../assets/AppleStore.png'],
+      googleImages: ['../assets/GooglePlay.png'],
+      logoImages: ['../assets/TripBudLogo.png']
     };
   },
   methods: {
