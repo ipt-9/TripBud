@@ -6,8 +6,8 @@ import CreateTrip from '../components/CreateTrip.vue';
 import SettingsPage from '../components/SettingsPage.vue';
 import WhyUs from '../components/WhyUs.vue';
 import StartPage from '../components/StartPage.vue';
-import MainPage from '../components/MainPage.vue';
 import documents from '../components/documents.vue';
+import MainPage from '../components/MainPage.vue';
 
 const routes = [
   { path: '/plans', component: PlansPage }, // Automatically go to register
@@ -17,7 +17,8 @@ const routes = [
   { path: '/whyus', component: WhyUs },
   { path: '/start', component: StartPage},
   { path: '/settings', component: SettingsPage},
-  { path: '/', component: documents}
+  { path: '/documents', component: documents},
+  { path: '/', component: MainPage}
 ];
 
 
