@@ -215,6 +215,7 @@ export default {
         });
       }
     },
+    
     pausePulse(event) {
       event.target.style.animationPlayState = 'paused';
     },

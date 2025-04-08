@@ -11,7 +11,7 @@ import MainPage from '../components/MainPage.vue';
 import TripOrganizer from '../components/TripOrganizer.vue';
 
 const routes = [
-  { path: '/', component: MainPage},
+  { path: '/', component: documents},
   { path: '/plans', component: PlansPage },
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
@@ -20,7 +20,7 @@ const routes = [
   { path: '/start', component: StartPage},
   { path: '/settings', component: SettingsPage},
   { path: '/triporganizer', component: TripOrganizer},
-  { path: '/documents', component: documents}
+  { path: '/mainpage', component: MainPage}
   
 ];
 
