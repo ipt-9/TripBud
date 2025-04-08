@@ -90,7 +90,7 @@ export default {
         inviteEmail: '',
         budget: { transport: 0, food: 0, activities: 0, hotel: 0 }
       },
-      destinationResults: [],
+      inviteLink: '',
       images: ['src/assets/TripBudLogo.png'],
       accountImages: ['src/assets/account-symbol.png']
     };
