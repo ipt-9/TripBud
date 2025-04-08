@@ -8,22 +8,18 @@
     <h2 class="login-title">Register</h2>
     <div class="login-card">
       <form @submit.prevent="handleRegister">
-        <!-- Full name -->
         <label for="fullname" class="textleft">Full name</label>
         <input v-model="name" type="text" id="fullname" placeholder="Full name" required />
         <p v-if="errors.name" class="error">{{ errors.name }}</p>
 
-        <!-- Username -->
         <label for="username" class="textleft">Username</label>
         <input v-model="username" type="text" id="username" placeholder="Username" required />
         <p v-if="errors.username" class="error">{{ errors.username }}</p>
 
-        <!-- Email -->
         <label for="email" class="textleft">Email</label>
         <input v-model="email" type="email" id="email" placeholder="Email" required />
         <p v-if="errors.email" class="error">{{ errors.email }}</p>
 
-        <!-- Password -->
         <label for="password" class="textleft">Password</label>
         <div class="password-wrapper">
           <input 
@@ -46,13 +42,11 @@
         </p>
         <p v-if="errors.password" class="error">{{ errors.password }}</p>
 
-        <!-- Confirm Password -->
         <label for="password_confirmation" class="textleft">Confirm Password</label>
         <input v-model="password_confirmation" type="password" id="password_confirmation" placeholder="Confirm Password" required />
         <p v-if="password_confirmation && password !== password_confirmation" class="error">Passwords do not match</p>
         <p v-if="errors.password_confirmation" class="error">{{ errors.password_confirmation }}</p>
 
-        <!-- Submit button -->
         <button type="submit" class="signup-button" :disabled="!formValid">Sign Up</button>
       </form>
       <p>Already have an account? <router-link to="/login" class="login-text">Login now</router-link></p>
@@ -71,7 +65,7 @@ export default {
       password: '',
       password_confirmation: '',
       showPassword: false,
-      errors: {}, // Stores validation errors
+      errors: {},
       images: ['../assets/TripBudLogo.png'],
       passwordImages: ['../assets/hide.png']
     };
@@ -94,9 +88,8 @@ export default {
   },
   methods: {
     async handleRegister() {
-      this.errors = {}; // Clear previous errors
+      this.errors = {};
 
-      // Frontend validation: checking password length and match before submitting to backend
       if (!this.passwordValid || this.password !== this.password_confirmation) {
         this.errors.password = 'Password must be at least 8 characters long and match the confirmation';
         return;
@@ -120,12 +113,10 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          this.$router.push('/dashboard'); // Redirect to dashboard on successful registration
+          this.$router.push('/dashboard');
         } else if (response.status === 422) {
-          // Backend validation errors
           this.errors = data.errors;
         } else if (response.status === 409) {
-          // Email already exists
           this.errors.email = data.message;
         } else {
           this.errors.general = data.message || 'An unexpected error occurred. Please try again.';
@@ -262,7 +253,6 @@ input, .signup-button {
   text-decoration: underline;
 }
 
-/* Password Validation Message */
 .invalid-text {
   color: red;
   font-size: 0.9rem;
