@@ -24,11 +24,11 @@
 export default {
   data() {
     return {
-      whyusImages: ['src/assets/why-us-img.png'],
+      whyusImages: ['../assets/why-us-img.png'],
       features: [
-        { icon: 'src/assets/download-symbol.png', title: 'In-App Storage', description: 'Store your travel documents for your trip directly in the app!' },
-        { icon: 'src/assets/group-symbol.png', title: 'Plan Together', description: 'Invite your friends to the trip and exchange together!' },
-        { icon: 'src/assets/document-symbol.png', title: 'Integrated Blog', description: 'Capture your journey and create an album!' }
+        { icon: '../assets/download-symbol.png', title: 'In-App Storage', description: 'Store your travel documents for your trip directly in the app!' },
+        { icon: '../assets/group-symbol.png', title: 'Plan Together', description: 'Invite your friends to the trip and exchange together!' },
+        { icon: '../assets/document-symbol.png', title: 'Integrated Blog', description: 'Capture your journey and create an album!' }
       ],
       hoveredIndex: null
     };

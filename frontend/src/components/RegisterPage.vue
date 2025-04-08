@@ -1,22 +1,29 @@
 <template>
   <div class="login-container">
     <div class="logo-container">
-      <img v-for="img in images" v-bind:src="img" class="logo" />
+      <img v-for="img in images" :src="img" class="logo" />
       <span class="logo-text">TripBud</span>
     </div>
 
     <h2 class="login-title">Register</h2>
     <div class="login-card">
-      <form @submit.prevent="handleLogin">
-        <label for="fullname" class="textleft">Fullname</label>
-        <input v-model="username" type="text" id="fullname" placeholder="Fullname" required />
+      <form @submit.prevent="handleRegister">
+        <!-- Full name -->
+        <label for="fullname" class="textleft">Full name</label>
+        <input v-model="name" type="text" id="fullname" placeholder="Full name" required />
+        <p v-if="errors.name" class="error">{{ errors.name }}</p>
 
+        <!-- Username -->
         <label for="username" class="textleft">Username</label>
         <input v-model="username" type="text" id="username" placeholder="Username" required />
+        <p v-if="errors.username" class="error">{{ errors.username }}</p>
 
+        <!-- Email -->
         <label for="email" class="textleft">Email</label>
-        <input v-model="username" type="text" id="email" placeholder="Email" required />
+        <input v-model="email" type="email" id="email" placeholder="Email" required />
+        <p v-if="errors.email" class="error">{{ errors.email }}</p>
 
+        <!-- Password -->
         <label for="password" class="textleft">Password</label>
         <div class="password-wrapper">
           <input 
@@ -31,14 +38,25 @@
             class="toggle-password" 
             @click="togglePasswordVisibility"
           >
-          <img v-for="(img, index) in passwordImages" :key="index" :src="img" style="width: 20px; height: 20px;" />
+            <img v-for="(img, index) in passwordImages" :key="index" :src="img" style="width: 20px; height: 20px;" />
           </button>
         </div>
+        <p :class="passwordValid ? 'valid-text' : 'invalid-text'">
+          Password must be at least 8 characters long
+        </p>
+        <p v-if="errors.password" class="error">{{ errors.password }}</p>
 
-        <button type="submit" class="signup-button">Sign Up</button>
+        <!-- Confirm Password -->
+        <label for="password_confirmation" class="textleft">Confirm Password</label>
+        <input v-model="password_confirmation" type="password" id="password_confirmation" placeholder="Confirm Password" required />
+        <p v-if="password_confirmation && password !== password_confirmation" class="error">Passwords do not match</p>
+        <p v-if="errors.password_confirmation" class="error">{{ errors.password_confirmation }}</p>
+
+        <!-- Submit button -->
+        <button type="submit" class="signup-button" :disabled="!formValid">Sign Up</button>
       </form>
       <p>Already have an account? <router-link to="/login" class="login-text">Login now</router-link></p>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      <p v-if="errors.general" class="error">{{ errors.general }}</p>
     </div>
   </div>
 </template>
@@ -47,20 +65,73 @@
 export default {
   data() {
     return {
+      name: '',
       username: '',
+      email: '',
       password: '',
+      password_confirmation: '',
       showPassword: false,
-      errorMessage: '',
-      images:['src/assets/TripBudLogo.png'],
-      passwordImages: ['src/assets/hide.png']
+      errors: {}, // Stores validation errors
+      images: ['../assets/TripBudLogo.png'],
+      passwordImages: ['../assets/hide.png']
     };
   },
+  computed: {
+    passwordValid() {
+      return this.password.length >= 8;
+    },
+    formValid() {
+      return (
+        this.name &&
+        this.username &&
+        this.email &&
+        this.password &&
+        this.password_confirmation &&
+        this.passwordValid &&
+        this.password === this.password_confirmation
+      );
+    }
+  },
   methods: {
-    handleLogin() {
-      if (this.username !== 'testuser' || this.password !== 'testpass') {
-        this.errorMessage = 'Invalid username or password';
-      } else {
-        this.$router.push('/dashboard');
+    async handleRegister() {
+      this.errors = {}; // Clear previous errors
+
+      // Frontend validation: checking password length and match before submitting to backend
+      if (!this.passwordValid || this.password !== this.password_confirmation) {
+        this.errors.password = 'Password must be at least 8 characters long and match the confirmation';
+        return;
+      }
+
+      try {
+        const response = await fetch('https://api.tripbud-bmsd22a.bbzwinf.ch/api/register/user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: this.name,
+            username: this.username,
+            email: this.email,
+            password: this.password,
+            password_confirmation: this.password_confirmation
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          this.$router.push('/dashboard'); // Redirect to dashboard on successful registration
+        } else if (response.status === 422) {
+          // Backend validation errors
+          this.errors = data.errors;
+        } else if (response.status === 409) {
+          // Email already exists
+          this.errors.email = data.message;
+        } else {
+          this.errors.general = data.message || 'An unexpected error occurred. Please try again.';
+        }
+      } catch (error) {
+        this.errors.general = 'An error occurred. Please try again later.';
       }
     },
     togglePasswordVisibility() {
@@ -117,7 +188,6 @@ export default {
   width: 300px;
 }
 
-
 form {
   display: flex;
   flex-direction: column;
@@ -130,7 +200,7 @@ label {
   margin-bottom: 0.25rem;
 }
 
-input, .signup-button{
+input, .signup-button {
   width: 100%;
   padding: 0.7rem;
   border: 1px solid #ccc;
@@ -140,24 +210,24 @@ input, .signup-button{
 }
 
 .password-wrapper {
-    position: relative;
-  }
+  position: relative;
+}
 
 .password-wrapper input {
   flex: 1;
 }
 
 .toggle-password {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    padding: 0;
-  }
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0;
+}
 
 .signup-button {
   background: #409FDB;
@@ -168,13 +238,19 @@ input, .signup-button{
   margin-bottom: 1rem;
 }
 
-.signup-button:hover {
+.signup-button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.signup-button:hover:enabled {
   background: #368BD1;
 }
 
 .error {
   color: red;
-  margin-top: 1rem;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
 
 .login-text {
@@ -184,5 +260,18 @@ input, .signup-button{
 
 .login-text:hover {
   text-decoration: underline;
+}
+
+/* Password Validation Message */
+.invalid-text {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.valid-text {
+  color: green;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
 </style>

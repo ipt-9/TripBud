@@ -6,19 +6,22 @@ import CreateTrip from '../components/CreateTrip.vue';
 import SettingsPage from '../components/SettingsPage.vue';
 import WhyUs from '../components/WhyUs.vue';
 import StartPage from '../components/StartPage.vue';
+import documents from '../components/documents.vue';
 import MainPage from '../components/MainPage.vue';
 import TripOrganizer from '../components/TripOrganizer.vue';
 
 const routes = [
-  { path: '/plans', component: PlansPage }, // Automatically go to register
+  { path: '/', component: MainPage},
+  { path: '/plans', component: PlansPage },
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
   { path: '/createtrip', component: CreateTrip},
   { path: '/whyus', component: WhyUs },
   { path: '/start', component: StartPage},
-  { path: '/', component: MainPage},
   { path: '/settings', component: SettingsPage},
-  { path: '/triporganizer', component: TripOrganizer}
+  { path: '/triporganizer', component: TripOrganizer},
+  { path: '/documents', component: documents}
+  
 ];
 
 

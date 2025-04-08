@@ -83,9 +83,9 @@
 export default {
   data() {
     return {
-      appleImages: ['src/assets/AppleStore.png'],
-      googleImages: ['src/assets/GooglePlay.png'],
-      logoImages: ['src/assets/TripBudLogo.png']
+      appleImages: ['../assets/AppleStore.png'],
+      googleImages: ['../assets/GooglePlay.png'],
+      logoImages: ['../assets/TripBudLogo.png']
     };
   },
 

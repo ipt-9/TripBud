@@ -35,8 +35,8 @@
   export default {
     data() {
       return {
-        images: ['src/assets/TripBudLogo.png'],
-        StartImages: ['src/assets/FrontImg.png']
+        images: ['../assets/TripBudLogo.png'],
+        StartImages: ['../assets/FrontImg.png']
       };
     },
     name: 'StartPage'
