@@ -1,548 +1,829 @@
 <template>
-    <div class ="setting-container">
-        <div class="logo-container">
-            <img v-for="img in images" v-bind:src="img" class="logo" />
-            <span class="logo-text">Settings</span>
+  <div class="setting-container">
+    <header class="header">
+      <div class="logo-container">
+        <img src="../assets/TripBudLogo.png" class="logo" alt="Logo">
+        <span class="logo-text">Settings</span>
+      </div>
+      <button class="menu-toggle" id="menu-toggle">☰</button>
+    </header>
+    
+    <div class="content-wrapper">
+      <!-- Regular Sidebar (Desktop) -->
+      <div class="sidebar">
+        <div class="search-box">
+          <input type="text" placeholder="Search...">
         </div>
-        <div class="rounded-box-left">
-            <input type="text" placeholder="Search...">
-            <a href="">
-              <img src="../assets/user.png"/><h2>Account</h2></a>
-            <a href="">
-              <img src="../assets/shopping-cart.png"/><h2>Plans</h2></a>
-            <a href="">
-              <img src="../assets/info.png"/><h2>Help & Support</h2></a>
-            <button class="box-left-logout">Log Out</button>
-
+        
+        <div class="nav-links">
+          <a href="#" class="nav-link active">
+            <img src="../assets/user.png" alt="User icon">
+            <h2>Account</h2>
+          </a>
+          
+          <a href="#" class="nav-link">
+            <img src="../assets/shopping-cart.png" alt="Cart icon">
+            <h2>Plans</h2>
+          </a>
+          
+          <a href="#" class="nav-link">
+            <img src="../assets/info.png" alt="Info icon">
+            <h2>Help & Support</h2>
+          </a>
         </div>
-        <div class ="rounded-box-right">
-          <div class="box-right-register">
-            <a href=""><h2 class="box-right-register-account">Account</h2></a>
-            <a href=""><h2 class="box-right-register-payment">Payment</h2></a>
-          </div>
-            <div class ="box-right-line">
-              <div class="box-right-profile">
-              <h1>Your Profile</h1>
-              <p>Update your profile settings here</p>
-              <img src="../assets/account-symbol.png" class="profile-picture"/>
-                <button class="box-right-edit-button">Edit</button>
-                <button class="box-right-delete-button">Delete</button>
-            </div>
-          </div>
-            
-            <div class ="box-right-line2">
-              <div class ="box-right-username">
-              <h2>Username</h2>
-              <input type="text">
-            </div>
-          </div>
-            
-            <div class ="box-right-line3">
-              <div class ="box-right-email">
-              <h2>E-Mail</h2>
-              <input type="email">
+        
+        <div class="sidebar-footer">
+          <div class="user-profile-sidebar">
+            <img src="../assets/account-symbol.png" class="user-avatar-small" alt="User avatar">
+            <div class="user-info">
+              <div class="user-name">John Doe</div>
+              <span class="membership-badge">Premium</span>
             </div>
           </div>
           
-            <div class ="box-right-line4">
-              <div class ="box-right-password">
-              <h2>Current Password</h2>
-              <input type="password">
-              <div class="box-right-new-password">
-                <h2 class="box-right-password-new">New Password</h2>
-                <input type="password"></div>
-              <div class="box-right-confirm-password">
-                <h2 class="box-right-password-confirm">Confirm Password</h2>
-                <input type="password"></div>
+          <button class="logout-btn">Log Out</button>
+        </div>
+      </div>
+      
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="tab-header">
+          <a href="#" class="tab-link active">Account</a>
+          <a href="#" class="tab-link">Payment</a>
+        </div>
+        
+        <div class="section">
+          <div class="profile-header">
+            <div class="profile-title">
+              <h1 class="section-title">Your Profile</h1>
+              <p class="section-subtitle">Update your profile settings here</p>
+            </div>
+            
+            <div class="profile-picture-container">
+              <img src="../assets/account-symbol.png" class="profile-picture" alt="Profile picture">
+              <div class="button-group">
+                <button class="btn btn-primary">Edit</button>
+                <button class="btn btn-danger">Delete</button>
+              </div>
             </div>
           </div>
-            <div class="box-right-line6"></div>
-            <div class="box-right-line5">
-                <div class="box-right-notifications">
-                <h2>Notifications</h2>
-              </div>
-              <div class="box-right-email-notification">
-                  <label for="box-right-notification-checkbox"></label>
-                  <span><input type="checkbox" class="box-right-notification-checkbox" /> E-Mail Notification</span>
-                  <p>You will be notified with E-Mail when someone messages you.</p>
-                </div>
-                <div class="box-right-sound-notification">
-                  <label for="box-right-box-notification-checkbox"></label>
-                  <span><input type="checkbox" class="box-right-notification-checkbox" /> Sound Notification</span>
-                  <p>You will be notified with Sound when someone messages you.</p>
-                </div>
-            </div>
-            <div class="box-right-line7">
-              <div class="box-right-button-container">
-                <button class="box-right-cancel-button" onclick="">Cancel</button>
-                <button class="box-right-save-button" onclick="">Save</button>
-
-
-              </div>
-            </div>
-
         </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="username">Username</label>
+          <input type="text" id="username" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="email">E-Mail</label>
+          <input type="email" id="email" class="form-control">
+        </div>
+        
+        <div class="form-group password-section">
+          <div>
+            <label class="form-label" for="current-password">Current Password</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="current-password" class="form-control password-input">
+              <img src="../assets/hide.png" class="toggle-password" alt="Toggle password visibility" @click="togglePasswordVisibility('current-password')">
+            </div>
+          </div>
+          
+          <div>
+            <label class="form-label" for="new-password">New Password</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="new-password" class="form-control password-input">
+              <img src="../assets/hide.png" class="toggle-password" alt="Toggle password visibility" @click="togglePasswordVisibility('new-password')">
+            </div>
+          </div>
+          
+          <div>
+            <label class="form-label" for="confirm-password">Confirm Password</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="confirm-password" class="form-control password-input">
+              <img src="../assets/hide.png" class="toggle-password" alt="Toggle password visibility" @click="togglePasswordVisibility('confirm-password')">
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <h2 class="form-label">Notifications</h2>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="email-notification">
+            <label for="email-notification">E-Mail Notification</label>
+          </div>
+          <p class="checkbox-description">You will be notified with E-Mail when someone messages you.</p>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="sound-notification">
+            <label for="sound-notification">Sound Notification</label>
+          </div>
+          <p class="checkbox-description">You will be notified with Sound when someone messages you.</p>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="btn btn-light">Cancel</button>
+          <button class="btn btn-primary">Save</button>
+        </div>
+      </div>
     </div>
-  </template>
+  </div>
+  
+  <!-- Mobile Menu Overlay -->
+  <div class="overlay" id="overlay"></div>
+  
+  <!-- Mobile Sidebar -->
+  <div class="mobile-sidebar" id="mobile-sidebar">
+    <div class="mobile-sidebar-header">
+      <div class="logo-container">
+        <img src="../assets/TripBudLogo.png" class="logo" alt="Logo">
+        <span class="logo-text">Menu</span>
+      </div>
+      <button class="close-menu" id="close-menu">×</button>
+    </div>
+    
+    <div class="search-box">
+      <input type="text" placeholder="Search...">
+    </div>
+    
+    <div class="mobile-nav-links">
+      <a href="#" class="nav-link active">
+        <img src="../assets/user.png" alt="User icon">
+        <h2>Account</h2>
+      </a>
+      
+      <a href="#" class="nav-link">
+        <img src="../assets/shopping-cart.png" alt="Cart icon">
+        <h2>Plans</h2>
+      </a>
+      
+      <a href="#" class="nav-link">
+        <img src="../assets/info.png" alt="Info icon">
+        <h2>Help & Support</h2>
+      </a>
+    </div>
+    
+    <div class="sidebar-footer">
+      <div class="user-profile-sidebar">
+        <img src="../assets/account-symbol.png" class="user-avatar-small" alt="User avatar">
+        <div class="user-info">
+          <div class="user-name">John Doe</div>
+          <span class="membership-badge">Premium</span>
+        </div>
+      </div>
+      
+      <button class="logout-btn">Log Out</button>
+    </div>
+  </div>
+</template>
 
-<!-- <script>
-import api from "./axios";
-
+<script>
 export default {
-  data() {
-    return {
-      images: ["src/assets/TripBudLogo.png"],
-      user: {
-        username: "",
-        email: "",
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-        emailNotifications: false,
-        soundNotifications: false,
-      },
-      error: null,
-    };
+  name: 'SettingsPage',
+  mounted() {
+    // Mobile menu functionality
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const overlay = document.getElementById('overlay');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    
+    menuToggle.addEventListener('click', function() {
+      mobileSidebar.classList.add('active');
+      overlay.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    });
+    
+    function closeNav() {
+      mobileSidebar.classList.remove('active');
+      overlay.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+    
+    closeMenu.addEventListener('click', closeNav);
+    overlay.addEventListener('click', closeNav);
+    
+    // Close menu when clicking on a link (for demo purposes)
+    const mobileNavLinks = mobileSidebar.querySelectorAll('.nav-link');
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        // In a real app, you might not want to prevent default if navigating
+        // e.preventDefault();
+        closeNav();
+      });
+    });
   },
   methods: {
-    async saveChanges() {
-      try {
-        const response = await api.post("/update/user", this.user);
-        console.log("User updated successfully:", response.data);
-      } catch (error) {
-        this.error = error.response?.data?.message || "Something went wrong!";
+    togglePasswordVisibility(inputId) {
+      const passwordInput = document.getElementById(inputId);
+      const toggleIcon = passwordInput.nextElementSibling;
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        // You could also switch the icon here if you have a "show" icon
+        // toggleIcon.src = "../assets/show.png";
+      } else {
+        passwordInput.type = 'password';
+        // toggleIcon.src = "../assets/hide.png";
       }
-    },
-    async editProfile() {
-      console.log("Edit profile clicked");
-    },
-    async deleteProfile() {
-      try {
-        await api.delete("/delete/user");
-        console.log("User deleted successfully");
-      } catch (error) {
-        this.error = error.response?.data?.message || "Could not delete profile!";
-      }
-    },
-    cancelChanges() {
-      console.log("Changes canceled");
-    },
-  },
-};
-</script> -->
+    }
+  }
+}
+</script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap');
+
 * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Outfit', sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom, #e0f2fe, #ffffff);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .setting-container {
   display: flex;
   flex-direction: column;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 40px); /* Account for padding */
+}
+
+.header {
+  display: flex;
   align-items: center;
-  justify-content: center;;
-  height: 100vh;
-  background: linear-gradient(to bottom, #e0f2fe, #ffffff)
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .logo-container {
-  position: absolute;
-  top: 20px;
-  left: 20px;
   display: flex;
   align-items: center;
 }
 
-.logo-container img {
-  height: 50px;
+.logo {
+  height: 40px;
   margin-right: 10px;
 }
 
-.logo-container span {
-  font-size: 32px;
+.logo-text {
+  font-size: 28px;
   font-weight: bold;
-  color: #000000;
+  color: #333;
 }
 
-.rounded-box-left {
-    width: 20%; /* Anpassbare Breite für verschiedene Bildschirmgrößen */
-    height: 85%;
-    background-color: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    
-    position: absolute;
-    left: 0;
-    top:14%;
-
-    position: fixed;
-    
-    margin-left: 1%;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.rounded-box-left img {
-  height: 30px;
-  margin-right: 10px; /* Abstand zwischen Bild und Text */
-  margin-bottom: 45px;
-  margin-right: 15px;
-}
-
-.rounded-box-left a {
-  text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-    display: flex;
-    align-items: center; /* Bild und Text vertikal zentrieren */
-    margin-bottom: 20px; /* Abstand zwischen den Links */
-}
-
-.box-left-logout {
-  width: 100%;
-  height: 6%;
-  border-radius: 50px;
-  background-color: rgb(105, 105, 105);
+.menu-toggle {
+  display: none;
+  background: none;
   border: none;
-  color: white;
-  font-size: 110%;
-}
-
-.rounded-box-right {
-    width: 75%; /* Anpassbare Breite für verschiedene Bildschirmgrößen */
-    height: 85%;
-    background-color: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    
-    position: absolute;
-    right: 0;
-    top:14%;
-    
-    margin-right: 3%;
-    padding: 20px;
-    box-sizing: border-box;
-
-    overflow-y: auto;
-    max-height: 85%;
-}
-
-.rounded-box-right a {
-  text-decoration: none;
-  color: inherit;
+  font-size: 24px;
   cursor: pointer;
-}
-
-.box-right-register-account {
-    margin-right: 55px; /* Abstand nach rechts */
-    margin-left: 40px;
-    font-weight: 700;
-}
-
-.box-right-register-payment {
-    font-weight: 500;
-    color: rgb(116, 116, 116);
-}
-
-.rounded-box-right > div h2 {
-    margin-top: 35px; /* Abstand nach unten */
-    display: inline-block; /* Damit margin funktioniert */
-    font-weight: 500;
-}
-
-.box-right-buttons {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 60px;
-  align-items: center;
-}
-
-.box-right-profile img {
-  height: 80px;
-  margin-right: 50px;
-  position: absolute;
-  margin-top: 50px;
-  top: 10%;
-  right: 20%;
-
-}
-
-.profile-picture {
-  width: 90px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  object-fit: cover;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
 }
 
-
-.box-right-edit-button {
-  background-color: #409FDB;
-  border-radius: 50px;
-  border: none;
-  color: white;
-  cursor: pointer;
-  position: absolute;
-  right: 15%;
-  top: 10%;
-  margin-top: 70px;
-  margin-right: 10px;
-  height: 4.5vh;
-  width: 4vw;
-  font-size: 105%;
-
-}
-
-.box-right-delete-button {
-  background-color: #db4040;
-  border-radius: 50px;
-  border: none;
-  color: white;
-  cursor: pointer;
-  position: absolute;
-  top: 10%;
-  right: 8%;
-  margin-top: 70px;
-  height: 4.5vh;
-  width: 5vw;
-  font-size: 105%;
-}
-
-.box-right-line {
-    background-color: rgb(196, 196, 196);
-    width: 100%;
-    height: 1px;
-    position: absolute;
-    top: 12%;
-    right: 1px;
-
-}
-
-.box-right-line2 {
-    background-color: rgb(196, 196, 196);
-    width: 93%;
-    height: 1px;
-    position: absolute;
-    top: 35%;
-    left: 0;
-    right: 0;
-    margin: auto; /* Automatische horizontale Zentrierung */
-}
-
-.box-right-line3 {
-    background-color: rgb(196, 196, 196);
-    width: 93%;
-    height: 1px;
-    position: absolute;
-    top: 52%;
-    left: 0;
-    right: 0;
-    margin: auto; /* Automatische horizontale Zentrierung */
-}
-
-.box-right-line4 {
-    background-color: rgb(196, 196, 196);
-    width: 93%;
-    height: 1px;
-    position: absolute;
-    top: 69%;
-    left: 0;
-    right: 0;
-    margin: auto; /* Automatische horizontale Zentrierung */
-}
-.box-right-line5 {
-    background-color: rgb(196, 196, 196);
-    width: 93%;
-    height: 1px;
-    position: absolute;
-    top: 103%;
-    left: 0;
-    right: 0;
-    margin: auto; /* Automatische horizontale Zentrierung */
-}
-
-.box-right-line6 {
-    background-color: rgb(196, 196, 196);
-    width: 93%;
-    height: 1px;
-    position: absolute;
-    top: 101.5%;
-    left: 0;
-    right: 0;
-    margin: auto; /* Automatische horizontale Zentrierung */
-}
-
-.box-right-line7 {
-    background-color: rgb(196, 196, 196);
-    width: 93%;
-    height: 1px;
-    position: absolute;
-    top: 135%;
-    left: 0;
-    right: 0;
-    margin: auto;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.box-right-save-button,
-.box-right-cancel-button {
-  background-color: #409FDB;
-  border-radius: 50px;
-  border: none;
-  color: white;
-  margin-top: 25px;
-  cursor: pointer;
-  height: 4.5vh;
-  width: 6vw;
-  font-size: 105%;
-}
-
-.box-right-cancel-button {
-  background-color: rgb(230, 230, 230);
-  color: black;
-  margin-right: 10px;
-}
-
-.box-right-button-container {
- padding-bottom: 85px;
-}
-
-.box-right-profile h1 {
-  margin-top: 55px;
-  margin-left: 60px;
-  font-weight: 500;
-}
-
-.box-right-profile p {
-  margin-top: 10px;
-  margin-left: 60px;
-  font-weight: 500;
-  font-size: 140%;
-  color: rgb(116, 116, 116);
-}
-
-.box-right-username {
-  margin-top: 15px;
-  margin-left: 70px;
-}
-
-.box-right-email {
-  margin-top: 15px;
-  margin-left: 70px;
-}
-
-.box-right-password {
-  margin-top: 15px;
-  margin-left: 70px;
-}
-
-.box-right-password input {
-    position: absolute;
-    right: 0;
-    margin-right: 240px;
-    margin-top: 28px;
-    width: 49%;
-    height: 50px;
-    border-radius: 100px;
-    border-width: 0.5px;
-}
-
-.box-right-email input {
-  position: absolute;
-    right: 0;
-    margin-right: 240px;
-    margin-top: 28px;
-    width: 49%;
-    height: 50px;
-    border-radius: 100px;
-    border-width: 0.5px;
-}
-
-.box-right-username input {
-  position: absolute;
-    right: 0;
-    margin-right: 240px;
-    margin-top: 28px;
-    width: 49%;
-    height: 50px;
-    border-radius: 100px;
-    border-width: 0.5px;
-}
-
-.box-right-notifications h2 {
-  margin-top: 55px;
-  margin-left: 70px;
-  font-weight: 500;
-}
-
-.box-right-notifications span {
- font-size: 125%;
- margin-top: 120px;
- font-weight: 500;
-}
-
-.box-right-notifications {
+.content-wrapper {
   display: flex;
-  align-items: flex-start;
-  margin-right: 100px;
+  gap: 20px;
+  flex: 1;
+  position: relative;
+  min-height: calc(100vh - 100px); /* Adjust based on header height */
 }
 
-.box-right-email-notification,
-.box-right-sound-notification {
+.sidebar {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px;
+  height: calc(100vh - 100px); /* Match content wrapper height */
   display: flex;
   flex-direction: column;
 }
 
-.box-right-email-notification span,
-.box-right-sound-notification span {
-  font-size: 125%;
+.search-box {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  width: 100%;
+  height: 44px;
+  border-radius: 22px;
+  border: 1px solid #e0e0e0;
+  padding: 0 15px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #409FDB;
+  box-shadow: 0 0 0 2px rgba(64, 159, 219, 0.1);
+}
+
+.nav-links {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #555;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: #f5f9ff;
+}
+
+.nav-link.active {
+  background-color: #f0f7ff;
+  color: #409FDB;
+}
+
+.nav-link img {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+}
+
+.nav-link h2 {
+  font-size: 16px;
   font-weight: 500;
-  margin-top: 30px;
-  margin-left: 70px;
 }
 
-.box-right-email-notification p,
-.box-right-sound-notification p {
-  margin-left: 112px;
+.sidebar-footer {
+  margin-top: auto;
 }
 
-.box-right-notification-checkbox {
-  height: 1.5vh;
-  margin-right: 25px;
+.user-profile-sidebar {
+  padding: 15px 0;
+  border-top: 1px solid #eee;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
 }
 
-.rounded-box-left h2 {
-    margin-bottom: 17%;
-    font-weight: 500;
+.user-avatar-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  background-color: #f0f0f0;
 }
 
-.rounded-box-left input {
-    width: 95%;
-    height: 5%;
-    border-radius: 100px;
-    margin-bottom: 30%;
-    margin-top: 8%;
-    border-width: 0.5px;
+.user-info {
+  flex: 1;
 }
 
-input::placeholder {
-    color: gray;
-    font-size: 17px;
-    padding-left: 10px;
-    opacity: 1;
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 2px;
 }
 
-.rounded-box-right::-webkit-scrollbar {
-    width: 10px;
+.membership-badge {
+  font-size: 12px;
+  color: #409FDB;
+  background-color: #e6f3fc;
+  padding: 2px 8px;
+  border-radius: 10px;
+  display: inline-block;
 }
 
-.rounded-box-right::-webkit-scrollbar-track {
-    background: transparent;
+.logout-btn {
+  width: 100%;
+  height: 44px;
+  border-radius: 22px;
+  background-color: #6c757d;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.rounded-box-right::-webkit-scrollbar-thumb {
-    background: #aaa;
-    border-radius: 10px;
+.logout-btn:hover {
+  background-color: #5a6268;
 }
 
+.main-content {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px); /* Match sidebar height */
+}
 
+.tab-header {
+  display: flex;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.tab-link {
+  padding: 12px 20px;
+  margin-right: 15px;
+  text-decoration: none;
+  color: #777;
+  position: relative;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.tab-link.active {
+  color: #333;
+  font-weight: 600;
+}
+
+.tab-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #409FDB;
+  border-radius: 3px 3px 0 0;
+}
+
+.section {
+  margin-bottom: 36px;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.section-subtitle {
+  color: #777;
+  margin-bottom: 24px;
+  font-size: 16px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.profile-title {
+  flex: 1;
+}
+
+.profile-picture-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-picture {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #f0f0f0;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #409FDB;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #3089c3;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-light {
+  background-color: #e9ecef;
+  color: #333;
+}
+
+.btn-light:hover {
+  background-color: #dde2e6;
+}
+
+.form-group {
+  margin-bottom: 24px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 24px;
+}
+
+.form-group:last-of-type {
+  border-bottom: none;
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  max-width: 500px;
+  height: 44px;
+  border-radius: 22px;
+  border: 1px solid #ddd;
+  padding: 0 15px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.password-input-wrapper {
+  position: relative;
+  max-width: 500px;
+}
+
+.password-input {
+  padding-right: 40px; /* Make room for the icon */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #409FDB;
+  box-shadow: 0 0 0 2px rgba(64, 159, 219, 0.1);
+}
+
+.password-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.checkbox-group label {
+  font-weight: 500;
+}
+
+.checkbox-description {
+  color: #777;
+  margin-left: 30px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+  gap: 12px;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background-color: white;
+  z-index: 1000;
+  transition: left 0.3s ease;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-sidebar.active {
+  left: 0;
+}
+
+.close-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.mobile-sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-nav-links {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+/* Custom scrollbar */
+.sidebar::-webkit-scrollbar,
+.main-content::-webkit-scrollbar,
+.mobile-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.main-content::-webkit-scrollbar-track,
+.mobile-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.main-content::-webkit-scrollbar-thumb,
+.mobile-sidebar::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 6px;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .setting-container {
+    padding: 15px;
+  }
+  
+  .header {
+    margin-bottom: 20px;
+  }
+  
+  .logo-text {
+    font-size: 22px;
+  }
+  
+  .main-content {
+    padding: 20px;
+    max-height: none;
+    height: auto;
+  }
+  
+  .sidebar {
+    display: none;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .tab-header {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tab-link {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .profile-picture-container {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .password-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    height: 30px;
+  }
+  
+  .logo-text {
+    font-size: 18px;
+  }
+  
+  .form-control {
+    max-width: 100%;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .button-group .btn {
+    width: 100%;
+  }
+  
+  .nav-link h2 {
+    font-size: 14px;
+  }
+}
 </style>

@@ -35,3 +35,8 @@ Route::middleware('auth:sanctum')->get('/settings/support', [SettingsConroller::
 
 
 Route::middleware('auth:sanctum')->get('/chat', [ChatController::class, 'index']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/messages', [ChatController::class, 'fetchMessages']);
+    Route::post('/messages', [ChatController::class, 'sendMessage']);
+});
