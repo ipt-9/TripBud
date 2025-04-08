@@ -162,20 +162,6 @@
 export default {
   data() {
     return {
-<<<<<<< HEAD
-      images: ['../assets/TripBudLogo.png'],
-      StartImages: ['../assets/FrontImg.png'],
-      whyusImages: ['../assets/why-us-img.png'],
-      features: [
-        { icon: '../assets/download-symbol.png', title: 'In-App Storage', description: 'Store your travel documents for your trip directly in the app!' },
-        { icon: '../assets/group-symbol.png', title: 'Plan Together', description: 'Invite your friends to the trip and exchange together!' },
-        { icon: '../assets/document-symbol.png', title: 'Integrated Blog', description: 'Capture your journey and create an album!' }
-      ],
-      hoveredIndex: null,
-      appleImages: ['../assets/AppleStore.png'],
-      googleImages: ['../assets/GooglePlay.png'],
-      logoImages: ['../assets/TripBudLogo.png']
-=======
       logoImage: 'src/assets/TripBudLogo.png',
       frontImage: 'src/assets/FrontImg.png',
       whyUsImage: 'src/assets/why-us-img.png',
@@ -199,7 +185,6 @@ export default {
           description: 'Capture your journey and create an album!' 
         }
       ]
->>>>>>> 1fb4a4dd766c7015cef83d32ed3241a2c6247f44
     };
   },
   // Add these lifecycle hooks

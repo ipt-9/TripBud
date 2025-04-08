@@ -36,9 +36,6 @@
         <div class="form-group">
           <label>Destination:</label>
           <input type="text" v-model="trip.destination" placeholder="Enter destination..." class="input-field"/>
-          <ul v-if="destinationResults.length" class="dropdown">
-            <li v-for="result in destinationResults" :key="result" @click="selectDestination(result)">{{ result }}</li>
-          </ul>
         </div>
       </div>
       
@@ -46,10 +43,8 @@
         <div class="form-group">
           <label>Invite Members:</label>
           <div class="invite-container">
-            <input type="email" v-model="trip.inviteEmail" placeholder="Enter email" class="input-field"/>
-            <div class="send-btn-container">
-              <button class="send-btn" @click="inviteMember">Send Email</button>
-            </div>
+            <button class="generate-link-btn" @click="generateInviteLink">Generate Invite Link</button>
+            <input type="text" v-model="inviteLink" readonly class="invite-link" v-if="inviteLink"/>
           </div>
         </div>
       </div>
@@ -95,25 +90,20 @@ export default {
         inviteEmail: '',
         budget: { transport: 0, food: 0, activities: 0, hotel: 0 }
       },
-      destinationResults: [],
-      images: ['../assets/TripBudLogo.png'],
-      accountImages: ['../assets/account-symbol.png']
+      inviteLink: '',
+      images: ['src/assets/TripBudLogo.png'],
+      accountImages: ['src/assets/account-symbol.png']
     };
   },
   methods: {
-    selectDestination(result) {
-      this.trip.destination = result;
-      this.destinationResults = [];
-    },
-    inviteMember() {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!this.trip.inviteEmail || !emailRegex.test(this.trip.inviteEmail)) {
-        alert("Please enter a valid email address.");
+    generateInviteLink() {
+      if (!this.trip.name) {
+        alert("Please enter a trip name first.");
         return;
       }
-      const subject = encodeURIComponent("Trip Invitation");
-      const body = encodeURIComponent(`Hey, join my trip: ${this.trip.name} from ${this.trip.fromDate} to ${this.trip.toDate} at ${this.trip.destination}.`);
-      window.location.href = `mailto:${this.trip.inviteEmail}?subject=${subject}&body=${body}`;
+      const baseUrl = window.location.origin;
+      const tripId = Math.random().toString(36).substr(2, 9);
+      this.inviteLink = `${baseUrl}/join-trip/${tripId}`;
     },
     createTrip() {
       if (!this.trip.name || !this.trip.description || !this.trip.fromDate || !this.trip.toDate || !this.trip.destination) {
@@ -139,6 +129,7 @@ export default {
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
   padding: 30px;
   margin: auto;
+  height: 100vh;
 }
 
 .header {
@@ -183,6 +174,26 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.invite-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.generate-link-btn {
+  background: #409FDB;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.invite-link {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #f4f4f4;
 }
 
 .send-btn-container {

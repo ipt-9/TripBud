@@ -8,17 +8,20 @@ import WhyUs from '../components/WhyUs.vue';
 import StartPage from '../components/StartPage.vue';
 import documents from '../components/documents.vue';
 import MainPage from '../components/MainPage.vue';
+import TripOrganizer from '../components/TripOrganizer.vue';
 
 const routes = [
-  { path: '/plans', component: PlansPage }, // Automatically go to register
+  { path: '/', component: MainPage},
+  { path: '/plans', component: PlansPage },
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
   { path: '/createtrip', component: CreateTrip},
   { path: '/whyus', component: WhyUs },
   { path: '/start', component: StartPage},
   { path: '/settings', component: SettingsPage},
-  { path: '/documents', component: documents},
-  { path: '/', component: MainPage}
+  { path: '/triporganizer', component: TripOrganizer},
+  { path: '/documents', component: documents}
+  
 ];
 
 
