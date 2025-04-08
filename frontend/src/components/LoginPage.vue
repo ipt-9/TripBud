@@ -8,12 +8,10 @@
     <h2 class="login-title">Login</h2>
     <div class="login-card">
       <form @submit.prevent="handleLogin">
-        <!-- Username -->
         <label for="username" class="textleft">Username</label>
         <input v-model="username" type="text" id="username" placeholder="Username" required />
         <p v-if="errors.username" class="error">{{ errors.username }}</p>
 
-        <!-- Password -->
         <label for="password" class="textleft">Password</label>
         <div class="password-wrapper">
           <input 
@@ -33,14 +31,12 @@
         </div>
         <p v-if="errors.password" class="error">{{ errors.password }}</p>
 
-        <!-- Submit Button -->
         <button type="submit" class="signin-button" :disabled="!formValid">Sign In</button>
       </form>
       <p>Don't have an account? <router-link to="/register" class="register-text">Register now</router-link></p>
       <p v-if="errors.general" class="error">{{ errors.general }}</p>
     </div>
 
-    <!-- Custom Popup -->
     <transition name="fade">
       <div v-if="showPopup" class="popup-overlay" @click="closePopup">
         <div class="popup-content" @click.stop>
@@ -66,7 +62,7 @@ export default {
       username: '',
       password: '',
       showPassword: false,
-      errors: {}, // Stores validation errors
+      errors: {},
       images: ['../assets/TripBudLogo.png'],
       passwordImages: ['../assets/hide.png'],
       showPopup: false,
@@ -74,30 +70,27 @@ export default {
     };
   },
   computed: {
-    // Frontend validation check for enabling the submit button
     formValid() {
       return this.username && this.password;
     }
   },
   methods: {
     async handleLogin() {
-      this.errors = {}; // Clear previous errors
+      this.errors = {};
 
-      // Basic validation before submitting to the backend
       if (!this.username || !this.password) {
         this.errors.general = 'Both fields are required';
         return;
       }
 
       try {
-        // Submit login data to backend API
         const response = await fetch('https://api.tripbud-bmsd22a.bbzwinf.ch/api/login/user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            login: this.username, // Assuming backend accepts either username or email
+            login: this.username, 
             password: this.password
           })
         });
@@ -105,23 +98,17 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          // Successful login, show welcome popup
           this.popupMessage = `Welcome back, ${this.username}! You've successfully logged in.`;
           this.showPopup = true;
           
-          // We'll redirect after the popup is closed
         } else if (response.status === 422) {
-          // Backend validation errors (e.g., empty fields or other validation issues)
           this.errors = data.errors;
         } else if (response.status === 401) {
-          // Incorrect username or password
           this.errors.general = 'Invalid username or password';
         } else {
-          // Handle any other errors
           this.errors.general = data.message || 'An unexpected error occurred. Please try again.';
         }
       } catch (error) {
-        // Handle network or API errors
         this.errors.general = 'An error occurred. Please try again later.';
       }
     },
@@ -130,7 +117,6 @@ export default {
     },
     closePopup() {
       this.showPopup = false;
-      // Redirect to dashboard after closing popup
       this.$router.push('/dashboard');
     }
   }
@@ -253,7 +239,6 @@ input, .signin-button {
   text-decoration: underline;
 }
 
-/* Popup styles */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -316,7 +301,6 @@ input, .signin-button {
   background: #368BD1;
 }
 
-/* Animation */
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.3s;
 }

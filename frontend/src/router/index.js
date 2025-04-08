@@ -9,6 +9,7 @@ import StartPage from '../components/StartPage.vue';
 import documents from '../components/documents.vue';
 import MainPage from '../components/MainPage.vue';
 import TripOrganizer from '../components/TripOrganizer.vue';
+import ChatPage from '../components/Chatpage.vue';
 
 const routes = [
   { path: '/', component: documents},
@@ -20,7 +21,13 @@ const routes = [
   { path: '/start', component: StartPage},
   { path: '/settings', component: SettingsPage},
   { path: '/triporganizer', component: TripOrganizer},
+<<<<<<< HEAD
   { path: '/mainpage', component: MainPage}
+=======
+  { path: '/documents', component: documents},
+  { path: '/chat', component: ChatPage, meta: {requiresAuth: true}}
+
+>>>>>>> dbb4ea5163127501e2b3affe2c611105e4fd911d
   
 ];
 
