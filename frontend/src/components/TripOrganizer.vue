@@ -34,9 +34,9 @@ export default {
         { name: "Paris" },
         { name: "Tokyo" }
       ],
-      images:['src/assets/TripBudLogo.png'],
-      accountImages: ['src/assets/account-symbol.png'],
-      trashImages:['src/assets/trash-symbol.png']
+      images:['../assets/TripBudLogo.png'],
+      accountImages: ['../assets/account-symbol.png'],
+      trashImages:['../assets/trash-symbol.png']
     };
   },
   methods: {
