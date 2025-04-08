@@ -1,5 +1,8 @@
 <template>
   <div class="setting-container">
+    <!-- Background Image Container -->
+    <div class="background-image-container"></div>
+    
     <header class="header">
       <div class="logo-container">
         <img src="../assets/TripBudLogo.png" class="logo" alt="Logo">
@@ -36,7 +39,7 @@
           <div class="user-profile-sidebar">
             <img src="../assets/account-symbol.png" class="user-avatar-small" alt="User avatar">
             <div class="user-info">
-              <div class="user-name">John Doe</div>
+              <div class="user-name">Piravinth Mylvaganam</div>
               <span class="membership-badge">Premium</span>
             </div>
           </div>
@@ -244,6 +247,22 @@ body {
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* Background Image Container */
+.background-image-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/lines.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.8; /* Adjust opacity as needed */
 }
 
 .setting-container {
@@ -253,6 +272,8 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   min-height: calc(100vh - 40px); /* Account for padding */
+  position: relative;
+  z-index: 1;
 }
 
 .header {
@@ -301,7 +322,7 @@ body {
 }
 
 .sidebar {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent to show background */
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   padding: 20px;
@@ -312,6 +333,7 @@ body {
   height: calc(100vh - 100px); /* Match content wrapper height */
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(5px); /* Adds a blur effect to background */
 }
 
 .search-box {
@@ -429,13 +451,14 @@ body {
 }
 
 .main-content {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent to show background */
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   padding: 30px;
   flex: 1;
   overflow-y: auto;
   max-height: calc(100vh - 100px); /* Match sidebar height */
+  backdrop-filter: blur(5px); /* Adds a blur effect to background */
 }
 
 .tab-header {
@@ -481,7 +504,7 @@ body {
 }
 
 .section-subtitle {
-  color: #777;
+  color: #777777;
   margin-bottom: 24px;
   font-size: 16px;
 }
@@ -574,7 +597,7 @@ body {
   max-width: 500px;
   height: 44px;
   border-radius: 22px;
-  border: 1px solid #ddd;
+  border: 1px solid #bebdbd;
   padding: 0 15px;
   font-size: 15px;
   transition: all 0.3s ease;
@@ -665,7 +688,7 @@ body {
   left: -280px;
   width: 280px;
   height: 100%;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   z-index: 1000;
   transition: left 0.3s ease;
   padding: 20px;
@@ -673,6 +696,7 @@ body {
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(5px);
 }
 
 .mobile-sidebar.active {

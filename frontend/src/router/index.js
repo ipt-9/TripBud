@@ -13,7 +13,7 @@ import ChatPage from '../components/Chatpage.vue';
 import Dashboard from '../components/Dashboard.vue';
 
 const routes = [
-  { path: '/', component: documents},
+  { path: '/', component: MainPage},
   { path: '/plans', component: PlansPage },
   { path: '/register', component: RegisterPage },
   { path: '/login', component: LoginPage },
