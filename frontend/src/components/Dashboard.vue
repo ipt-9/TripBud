@@ -24,7 +24,7 @@
         </div>
       </div>
     </header>
-    
+   
     <div class="main-layout">
       <!-- Left Sidebar Navigation -->
       <nav class="sidebar">
@@ -47,7 +47,7 @@
           <img :src="blogImages[0]" class="sidebar-icons"/>
         </div>
       </nav>
-      
+     
       <!-- Main Content Container -->
       <div class="content-container">
         <!-- Chat Section -->
@@ -70,10 +70,10 @@
               </div>
             </div>
             <div class="chat-input-container">
-              <input 
-                type="text" 
-                class="chat-input" 
-                placeholder="Type a message..." 
+              <input
+                type="text"
+                class="chat-input"
+                placeholder="Type a message..."
                 v-model="newMessage"
                 @keyup.enter="sendMessage"
               />
@@ -83,7 +83,7 @@
             </div>
           </div>
         </section>
-        
+       
         <!-- Calendar Section -->
         <section class="section calendar-section">
           <h2 class="section-title">Calendar</h2>
@@ -146,7 +146,7 @@
             </div>
           </div>
         </section>
-        
+       
         <!-- Favourites Section -->
         <section class="section favourites-section">
           <h2 class="section-title">Favourites</h2>
@@ -187,7 +187,7 @@
             </div>
           </div>
         </section>
-        
+       
         <!-- Budget Section -->
         <section class="section budget-section">
           <h2 class="section-title">Budget</h2>
@@ -237,10 +237,10 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 import axios from 'axios';
-
+ 
 export default {
   name: 'Dashboard',
   data() {
@@ -249,7 +249,7 @@ export default {
       activeDateTab: 'today',
       activePage: 'dashboard',
       showDropdown: false,
-      
+     
       // Images for sidebar icons (from first code)
       images: ['src/assets/TripBudLogo.png'],
       accountImages: ['src/assets/account-symbol.png'],
@@ -259,14 +259,14 @@ export default {
       scheduleImages: ['src/assets/schedule-symbol.png'],
       budgetplanerImages: ['src/assets/wallet-symbol.png'],
       blogImages: ['src/assets/blog-symbol.png'],
-      
+     
       // Chat data
       messages: [],
       newMessage: '',
       loading: false,
       error: null,
       isSending: false,
-      
+     
       // API configuration
       apiUrl: 'https://api.tripbud-bmsd22a.bbzwinf.ch/api/messages',
       bearerToken: null, // Will be populated from localStorage
@@ -277,7 +277,7 @@ export default {
     // Check if user is logged in
     this.bearerToken = localStorage.getItem('bearerToken');
     this.userId = localStorage.getItem('userId') || '3';
-    
+   
     if (!this.bearerToken) {
       console.warn('No bearer token found. Redirecting to login...');
       this.$router.push('/login');
@@ -286,19 +286,19 @@ export default {
   mounted() {
     // Fetch messages when component is mounted
     this.fetchMessages();
-    
+   
     // Set up polling to fetch messages periodically (every 30 seconds)
     this.pollInterval = setInterval(() => {
       this.fetchMessages();
     }, 30000);
-    
+   
     // Add event listener to close dropdown when clicking outside
     document.addEventListener('click', this.handleOutsideClick);
   },
   beforeUnmount() {
     // Clear polling interval when component is destroyed
     clearInterval(this.pollInterval);
-    
+   
     // Remove event listener
     document.removeEventListener('click', this.handleOutsideClick);
   },
@@ -309,10 +309,10 @@ export default {
         this.error = 'Authentication token missing. Please log in again.';
         return;
       }
-      
+     
       this.loading = true;
       this.error = null;
-      
+     
       try {
         const response = await axios.get(this.apiUrl, {
           headers: {
@@ -320,7 +320,7 @@ export default {
             'Accept': 'application/json'
           }
         });
-        
+       
         // Check if the response contains the expected data
         if (Array.isArray(response.data)) {
           this.messages = response.data;
@@ -331,20 +331,20 @@ export default {
           console.warn('Unexpected response format:', response.data);
           this.messages = [];
         }
-        
+       
         // Scroll to the bottom of the chat after messages are loaded
         this.$nextTick(() => {
           this.scrollToBottom();
         });
       } catch (err) {
         console.error('Error fetching messages:', err);
-        
+       
         if (err.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
           console.error('Response data:', err.response.data);
           console.error('Response status:', err.response.status);
-          
+         
           if (err.response.status === 401) {
             this.error = 'Authentication failed. Please log in again.';
             // Redirect to login if token is invalid
@@ -364,7 +364,7 @@ export default {
         this.loading = false;
       }
     },
-    
+   
     formatMessageForSending(messageText) {
       // Based on the error message, it seems the server expects a specific format
       // with a non-null 'message' field
@@ -376,22 +376,22 @@ export default {
         timestamp: new Date().toISOString()
       };
     },
-    
+   
     async sendMessage() {
       // Don't send empty messages
       if (!this.newMessage.trim()) return;
-      
+     
       if (!this.bearerToken) {
         this.error = 'Authentication token missing. Please log in again.';
         return;
       }
-      
+     
       this.isSending = true;
-      
+     
       try {
         // Format the message data properly
         const messageData = this.formatMessageForSending(this.newMessage);
-        
+       
         // Send message to API
         const response = await axios.post(this.apiUrl, messageData, {
           headers: {
@@ -399,25 +399,25 @@ export default {
             'Content-Type': 'application/json'
           }
         });
-        
+       
         console.log('Message sent successfully:', response.data);
-        
+       
         // Optimistically add message to the UI
         this.messages.push(messageData);
-        
+       
         // Clear the input
         this.newMessage = '';
-        
+       
         // Scroll to the bottom
         this.$nextTick(() => {
           this.scrollToBottom();
         });
-        
+       
         // Fetch all messages to ensure we have the latest state
         await this.fetchMessages();
       } catch (err) {
         console.error('Error sending message:', err);
-        
+       
         // Check for authentication error
         if (err.response && err.response.status === 401) {
           this.error = 'Authentication failed. Please log in again.';
@@ -435,50 +435,51 @@ export default {
         this.isSending = false;
       }
     },
-    
+   
     // Navigation methods
     navigate(page) {
       this.activePage = page;
       this.$router.push('/' + page);
     },
-    
+   
     // Helper methods
     formatMessageTime(timestamp) {
       if (!timestamp) return '';
-      
+     
       const date = new Date(timestamp);
       const today = new Date();
-      
+     
       // Check if the message is from today
       if (date.toDateString() === today.toDateString()) {
         return `Today, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
       }
-      
-
+     
+ 
       // Check if the message is from yesterday
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       if (date.toDateString() === yesterday.toDateString()) {
         return `Yesterday, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
       }
-      
+     
       // For older messages, show the date
       return `${date.toLocaleDateString()}, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
     },
-    
+   
     scrollToBottom() {
       const container = document.querySelector('.chat-messages');
       if (container) {
         container.scrollTop = container.scrollHeight;
       }
     },
-    
+   
     handleOutsideClick(event) {
       const profileIcon = document.querySelector('.profile-icon');
       if (profileIcon && !profileIcon.contains(event.target) && this.showDropdown) {
         this.showDropdown = false;
       }
     },
+   
     
     // Logout method
     logout() {
@@ -486,7 +487,7 @@ export default {
       localStorage.removeItem('userId');
       this.$router.push('/login');
     },
-    
+   
     // Original methods
     setActiveTab(tab) {
       this.activeTab = tab;
@@ -500,7 +501,7 @@ export default {
   }
 }
 </script>
-
+ 
 <style scoped>
 /* Base Styles */
 .dashboard-container {
@@ -514,7 +515,7 @@ export default {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 }
-
+ 
 /* Header Styles */
 .header {
   display: flex;
@@ -523,17 +524,17 @@ export default {
   padding: 1rem 2rem;
   background-color: transparent;
 }
-
+ 
 .header-left {
   display: flex;
   align-items: center;
 }
-
+ 
 .logo {
   display: flex;
   align-items: center;
 }
-
+ 
 .logo-icon {
   background-color: #4a90e2;
   width: 40px;
@@ -541,13 +542,13 @@ export default {
   border-radius: 10px;
   margin-right: 1rem;
 }
-
+ 
 .dashboard-title {
   font-size: 1.8rem;
   font-weight: 600;
   margin: 0;
 }
-
+ 
 .profile-icon {
   width: 40px;
   height: 40px;
@@ -556,7 +557,7 @@ export default {
   position: relative;
   cursor: pointer;
 }
-
+ 
 .dropdown-menu {
   position: absolute;
   top: 50px;
@@ -568,7 +569,7 @@ export default {
   z-index: 10;
   min-width: 150px;
 }
-
+ 
 .dropdown-item {
   display: flex;
   align-items: center;
@@ -576,11 +577,11 @@ export default {
   border-radius: 6px;
   cursor: pointer;
 }
-
+ 
 .dropdown-item:hover {
   background-color: #f5f5f5;
 }
-
+ 
 /* Main Layout */
 .main-layout {
   display: flex;
@@ -588,7 +589,7 @@ export default {
   padding: 0 2rem 2rem;
   gap: 2rem;
 }
-
+ 
 /* Sidebar Styles */
 .sidebar {
   width: 60px;
@@ -602,7 +603,7 @@ export default {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   height: fit-content;
 }
-
+ 
 /* Updated sidebar styles from first code */
 .sidebar-item {
   width: 40px;
@@ -614,28 +615,28 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
+ 
 .sidebar-item:hover {
   background-color: #e0f2fe;
   transform: scale(1.1);
 }
-
+ 
 .sidebar-icons {
   height: 24px;
   width: 24px;
   transition: all 0.3s ease;
   filter: grayscale(100%) opacity(0.4);
 }
-
+ 
 .sidebar-item.active {
   background-color: #e0f2fe;
 }
-
+ 
 .sidebar-item.active .sidebar-icons {
   filter: none;
   transform: scale(1.2);
 }
-
+ 
 /* Content Container */
 .content-container {
   flex: 1;
@@ -644,7 +645,7 @@ export default {
   gap: 1.5rem;
   grid-auto-rows: min-content;
 }
-
+ 
 /* Section Styles */
 .section {
   background-color: white;
@@ -652,37 +653,37 @@ export default {
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-
+ 
 .section-title {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
 }
-
+ 
 /* Chat Section */
 .chat-section {
   grid-column: 1;
   grid-row: 1;
 }
-
+ 
 .chat-container {
   display: flex;
   flex-direction: column;
   height: 300px;
 }
-
+ 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 1rem;
   padding: 0.5rem;
 }
-
+ 
 .chat-message {
   display: flex;
   margin-bottom: 1rem;
 }
-
+ 
 .chat-avatar {
   width: 36px;
   height: 36px;
@@ -691,37 +692,37 @@ export default {
   margin-right: 0.75rem;
   flex-shrink: 0;
 }
-
+ 
 .message-content {
   flex: 1;
 }
-
+ 
 .message-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.25rem;
 }
-
+ 
 .message-sender {
   font-weight: 500;
   color: #333;
 }
-
+ 
 .message-time {
   font-size: 0.75rem;
   color: #999;
 }
-
+ 
 .message-text {
   color: #444;
   line-height: 1.4;
 }
-
+ 
 .chat-input-container {
   display: flex;
   gap: 0.5rem;
 }
-
+ 
 .chat-input {
   flex: 1;
   padding: 0.75rem;
@@ -729,7 +730,7 @@ export default {
   border-radius: 10px;
   font-size: 0.9rem;
 }
-
+ 
 .send-button {
   padding: 0.75rem 1rem;
   background-color: #4a90e2;
@@ -739,41 +740,41 @@ export default {
   cursor: pointer;
   font-weight: 500;
 }
-
+ 
 .send-button:disabled {
   background-color: #9fc4ee;
   cursor: not-allowed;
 }
-
+ 
 /* Loading and error states */
 .loading-messages, .error-messages, .no-messages {
   text-align: center;
   padding: 1rem;
   color: #666;
 }
-
+ 
 .error-messages {
   color: #e53935;
 }
-
+ 
 /* Calendar Section */
 .calendar-section {
   grid-column: 1;
   grid-row: 2;
 }
-
+ 
 .calendar-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1.5rem;
 }
-
+ 
 .calendar-month {
   display: flex;
   align-items: center;
   font-weight: 500;
 }
-
+ 
 .dropdown-arrow {
   background: none;
   border: none;
@@ -782,12 +783,12 @@ export default {
   font-size: 0.7rem;
   color: #777;
 }
-
+ 
 .calendar-nav {
   display: flex;
   gap: 0.5rem;
 }
-
+ 
 .prev-month, .next-month {
   width: 24px;
   height: 24px;
@@ -801,27 +802,27 @@ export default {
   font-size: 0.7rem;
   color: #777;
 }
-
+ 
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
   margin-bottom: 0.75rem;
 }
-
+ 
 .weekday {
   padding: 0.5rem;
   font-weight: 500;
   color: #777;
 }
-
+ 
 .calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 0.25rem;
   text-align: center;
 }
-
+ 
 .day {
   padding: 0.5rem;
   border-radius: 50%;
@@ -835,39 +836,39 @@ export default {
   transition: background-color 0.2s;
   font-size: 0.9rem;
 }
-
+ 
 .day:hover {
   background-color: #f0f0f0;
 }
-
+ 
 .day.inactive {
   color: #ccc;
 }
-
+ 
 .day.next-month {
   color: #ccc;
 }
-
+ 
 .day.current {
   border: 1px solid #ddd;
 }
-
+ 
 .day.selected {
   background-color: #e0e8ff;
   color: #4a90e2;
 }
-
+ 
 .day.highlight {
   background-color: #81d4fa;
   color: white;
 }
-
+ 
 /* Favourites Section */
 .favourites-section {
   grid-column: 2;
   grid-row: 1;
 }
-
+ 
 .favourites-header {
   display: flex;
   border-bottom: 1px solid #f0f0f0;
@@ -876,38 +877,38 @@ export default {
   font-weight: 500;
   color: #777;
 }
-
+ 
 .favourites-items {
   display: flex;
   flex-direction: column;
 }
-
+ 
 .fav-item {
   display: flex;
   align-items: center;
   padding: 0.75rem 0;
   border-bottom: 1px solid #f9f9f9;
 }
-
+ 
 .name-col {
   display: flex;
   align-items: center;
   flex: 2;
 }
-
+ 
 .size-col {
   flex: 1;
   text-align: center;
   color: #666;
 }
-
+ 
 .owner-col {
   flex: 2;
   text-align: right;
   color: #666;
   font-size: 0.9rem;
 }
-
+ 
 .fav-icon {
   width: 30px;
   height: 30px;
@@ -918,19 +919,19 @@ export default {
   justify-content: center;
   background-color: #e5effc;
 }
-
+ 
 .doc-icon {
   background-color: #e3f2fd;
 }
-
+ 
 .img-icon {
   background-color: #e8f5e9;
 }
-
+ 
 .fav-name {
   font-weight: 500;
 }
-
+ 
 .fav-heart {
   background: none;
   border: none;
@@ -939,19 +940,19 @@ export default {
   color: #ff5252;
   font-size: 0.9rem;
 }
-
+ 
 /* Budget Section */
 .budget-section {
   grid-column: 2;
   grid-row: 2;
 }
-
+ 
 .budget-tabs {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
 }
-
+ 
 .budget-tab {
   background: none;
   border: none;
@@ -961,16 +962,16 @@ export default {
   transition: all 0.2s;
   font-weight: normal;
 }
-
+ 
 .budget-tab:hover {
   background-color: #f5f5f5;
 }
-
+ 
 .budget-tab.active {
   background-color: #f0f0f0;
   font-weight: 500;
 }
-
+ 
 .budget-days {
   display: flex;
   gap: 0.5rem;
@@ -978,7 +979,7 @@ export default {
   overflow-x: auto;
   padding-bottom: 0.5rem;
 }
-
+ 
 .day-tab {
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -987,45 +988,45 @@ export default {
   white-space: nowrap;
   transition: all 0.2s;
 }
-
+ 
 .day-tab:hover {
   background-color: #e5e5e5;
 }
-
+ 
 .day-tab.active {
   background-color: #333;
   color: white;
 }
-
+ 
 .budget-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
-
+ 
 .budget-card {
   border-radius: 15px;
   padding: 1rem;
   display: flex;
   align-items: center;
 }
-
+ 
 .budget-card.purple {
   background-color: #f3e5f5;
 }
-
+ 
 .budget-card.pink {
   background-color: #ffebee;
 }
-
+ 
 .budget-card.teal {
   background-color: #e0f2f1;
 }
-
+ 
 .budget-card.yellow {
   background-color: #fff8e1;
 }
-
+ 
 .budget-icon {
   width: 32px;
   height: 32px;
@@ -1033,54 +1034,54 @@ export default {
   margin-right: 1rem;
   background-color: white;
 }
-
+ 
 .budget-amount {
   flex: 1;
 }
-
+ 
 .amount-main {
   font-weight: 600;
   font-size: 1.1rem;
 }
-
+ 
 .amount-diff {
   color: #ff5252;
   font-size: 0.9rem;
 }
-
+ 
 /* Responsive Design */
 @media (max-width: 1200px) {
   .content-container {
     grid-template-columns: 1fr;
   }
-  
+ 
   .chat-section, .calendar-section, .favourites-section, .budget-section {
     grid-column: 1;
   }
-  
+ 
   .chat-section {
     grid-row: 1;
   }
-  
+ 
   .calendar-section {
     grid-row: 2;
   }
-  
+ 
   .favourites-section {
     grid-row: 3;
   }
-  
+ 
   .budget-section {
     grid-row: 4;
   }
 }
-
+ 
 @media (max-width: 768px) {
   .main-layout {
     padding: 0 1rem 1rem;
     flex-direction: column;
   }
-  
+ 
   .sidebar {
     width: 100%;
     flex-direction: row;
@@ -1088,48 +1089,48 @@ export default {
     justify-content: space-between;
     margin-bottom: 1rem;
   }
-  
+ 
   .header {
     padding: 1rem;
   }
-  
+ 
   .dashboard-title {
     font-size: 1.5rem;
   }
-  
+ 
   .budget-cards {
     grid-template-columns: 1fr;
   }
 }
-
+ 
 @media (max-width: 480px) {
   .calendar-days {
     grid-template-columns: repeat(7, 1fr);
     gap: 0.1rem;
   }
-  
+ 
   .day {
     width: 25px;
     height: 25px;
     font-size: 0.8rem;
   }
-  
+ 
   .favourites-header, .fav-item {
     font-size: 0.9rem;
   }
-  
+ 
   .size-col {
     display: none;
   }
-  
+ 
   .name-col {
     flex: 1;
   }
-  
+ 
   .owner-col {
     flex: 1;
   }
-  
+ 
   .budget-tabs, .budget-days {
     flex-wrap: wrap;
   }
