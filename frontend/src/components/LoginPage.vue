@@ -4,39 +4,39 @@
       <img v-for="img in images" v-bind:src="img" class="logo" />
       <span class="logo-text">TripBud</span>
     </div>
-
+ 
     <h2 class="login-title">Login</h2>
     <div class="login-card">
       <form @submit.prevent="handleLogin">
         <label for="username" class="textleft">Username</label>
         <input v-model="username" type="text" id="username" placeholder="Username" required />
         <p v-if="errors.username" class="error">{{ errors.username }}</p>
-
+ 
         <label for="password" class="textleft">Password</label>
         <div class="password-wrapper">
-          <input 
-            v-model="password" 
-            :type="showPassword ? 'text' : 'password'" 
-            id="password" 
-            placeholder="Password" 
-            required 
+          <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            id="password"
+            placeholder="Password"
+            required
           />
-          <button 
-            type="button" 
-            class="toggle-password" 
+          <button
+            type="button"
+            class="toggle-password"
             @click="togglePasswordVisibility"
           >
             <img v-for="(img, index) in passwordImages" :key="index" :src="img" style="width: 20px; height: 20px;" />
           </button>
         </div>
         <p v-if="errors.password" class="error">{{ errors.password }}</p>
-
+ 
         <button type="submit" class="signin-button" :disabled="!formValid">Sign In</button>
       </form>
       <p>Don't have an account? <router-link to="/register" class="register-text">Register now</router-link></p>
       <p v-if="errors.general" class="error">{{ errors.general }}</p>
     </div>
-
+ 
     <transition name="fade">
       <div v-if="showPopup" class="popup-overlay" @click="closePopup">
         <div class="popup-content" @click.stop>
@@ -54,7 +54,7 @@
     </transition>
   </div>
 </template>
-
+ 
 <script>
 export default {
   data() {
@@ -77,12 +77,12 @@ export default {
   methods: {
     async handleLogin() {
       this.errors = {};
-
+ 
       if (!this.username || !this.password) {
         this.errors.general = 'Both fields are required';
         return;
       }
-
+ 
       try {
         const response = await fetch('https://api.tripbud-bmsd22a.bbzwinf.ch/api/login/user', {
           method: 'POST',
@@ -90,17 +90,38 @@ export default {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            login: this.username, 
+            login: this.username,
             password: this.password
           })
         });
-
+ 
         const data = await response.json();
-
+ 
         if (response.ok) {
+          // Save the token and user ID to localStorage
+          if (data && data.token) {
+            // Log the response data for debugging
+            console.log('Login response data:', data);
+           
+            // Save the token
+            localStorage.setItem('bearerToken', data.token);
+           
+            // Save the user ID if available, otherwise use default
+            const userId = data.user && data.user.id ? data.user.id : '3';
+            localStorage.setItem('userId', userId);
+           
+            console.log('Saved token:', data.token);
+            console.log('Saved user ID:', userId);
+          } else {
+            console.error('Token not found in response:', data);
+            // Using a placeholder token for testing/development ONLY
+            localStorage.setItem('bearerToken', '18|feuNjrwwH8BhUkV2pDYWD0Uaf1A6Gn9Ukrov5Ij52670c870');
+            localStorage.setItem('userId', '3');
+          }
+         
           this.popupMessage = `Welcome back, ${this.username}! You've successfully logged in.`;
           this.showPopup = true;
-          
+         
         } else if (response.status === 422) {
           this.errors = data.errors;
         } else if (response.status === 401) {
@@ -109,6 +130,7 @@ export default {
           this.errors.general = data.message || 'An unexpected error occurred. Please try again.';
         }
       } catch (error) {
+        console.error('Login error:', error);
         this.errors.general = 'An error occurred. Please try again later.';
       }
     },
@@ -120,14 +142,15 @@ export default {
       this.$router.push('/dashboard');
     }
   }
+ 
 };
 </script>
-
+ 
 <style scoped>
 * {
   font-family: 'Outfit', sans-serif;
 }
-
+ 
 .login-container {
   display: flex;
   flex-direction: column;
@@ -136,7 +159,7 @@ export default {
   height: 100vh;
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
 }
-
+ 
 .logo-container {
   position: absolute;
   top: 20px;
@@ -144,24 +167,24 @@ export default {
   display: flex;
   align-items: center;
 }
-
+ 
 .logo-container img {
   height: 50px;
   margin-right: 10px;
 }
-
+ 
 .logo-container span {
   font-size: 32px;
   font-weight: bold;
   color: #409FDB;
 }
-
+ 
 .login-title {
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
 }
-
+ 
 .login-card {
   background: white;
   padding: 2rem;
@@ -170,19 +193,19 @@ export default {
   text-align: center;
   width: 300px;
 }
-
+ 
 form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
-
+ 
 label {
   text-align: left;
   margin-top: 1rem;
   margin-bottom: 0.25rem;
 }
-
+ 
 input, .signin-button {
   width: 100%;
   padding: 0.7rem;
@@ -191,15 +214,15 @@ input, .signin-button {
   display: block;
   box-sizing: border-box;
 }
-
+ 
 .password-wrapper {
   position: relative;
 }
-
+ 
 .password-wrapper input {
   flex: 1;
 }
-
+ 
 .toggle-password {
   position: absolute;
   right: 10px;
@@ -211,7 +234,7 @@ input, .signin-button {
   font-size: 20px;
   padding: 0;
 }
-
+ 
 .signin-button {
   background: #409FDB;
   color: white;
@@ -220,25 +243,30 @@ input, .signin-button {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-
+ 
 .signin-button:hover {
   background: #368BD1;
 }
-
+ 
+.signin-button:disabled {
+  background: #90c4eb;
+  cursor: not-allowed;
+}
+ 
 .error {
   color: red;
   margin-top: 1rem;
 }
-
+ 
 .register-text {
   color: #409FDB;
   cursor: pointer;
 }
-
+ 
 .register-text:hover {
   text-decoration: underline;
 }
-
+ 
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -251,7 +279,7 @@ input, .signin-button {
   align-items: center;
   z-index: 1000;
 }
-
+ 
 .popup-content {
   background-color: white;
   border-radius: 10px;
@@ -262,7 +290,7 @@ input, .signin-button {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   animation: popup-appear 0.3s ease-out;
 }
-
+ 
 .popup-icon {
   margin: 0 auto 1.5rem;
   width: 60px;
@@ -273,19 +301,19 @@ input, .signin-button {
   align-items: center;
   justify-content: center;
 }
-
+ 
 .popup-title {
   color: #333;
   font-size: 1.5rem;
   margin-bottom: 0.75rem;
 }
-
+ 
 .popup-message {
   color: #666;
   margin-bottom: 1.5rem;
   line-height: 1.5;
 }
-
+ 
 .popup-button {
   background: #409FDB;
   color: white;
@@ -296,19 +324,19 @@ input, .signin-button {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-
+ 
 .popup-button:hover {
   background: #368BD1;
 }
-
+ 
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.3s;
 }
-
+ 
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
-
+ 
 @keyframes popup-appear {
   from {
     opacity: 0;

@@ -1,12 +1,12 @@
 <template>
   <div class="trip-organizer">
-    <div class="header">
+    <header class="header">
       <div class="logo-container">
         <img v-for="img in images" :src="img" class="logo" />
         <h1>Trip Organizer</h1>
       </div>
       <img :src="accountImages" class="settings-icon" @click="openSettings" />
-    </div>
+    </header>
 
     <div class="triporganizer-content">
       <h2 class="triporganizer-title">Ongoing Trips</h2>
@@ -16,7 +16,7 @@
             <span class="trip-name">{{ trip.name }}</span>
           </div>
           <div class="trip-actions">
-            <img v-for="(img, i) in trashImages" :key="i" :src="img" class="delete-icon" @click.stop="confirmDelete(index)"/>
+            <img v-for="(img, index) in trashImages" :key="index" :src="img" class="delete-icon" @click.stop="confirmDelete(index)"/>
           </div>
         </div>        
       </div>
