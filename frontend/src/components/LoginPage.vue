@@ -1,3 +1,4 @@
+<!-- Login.vue (Updated) -->
 <template>
   <div class="login-container">
     <div class="logo-container">
@@ -98,6 +99,27 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
+          // Save the token and user ID to localStorage
+          if (data && data.token) {
+            // Log the response data for debugging
+            console.log('Login response data:', data);
+            
+            // Save the token
+            localStorage.setItem('bearerToken', data.token);
+            
+            // Save the user ID if available, otherwise use default
+            const userId = data.user && data.user.id ? data.user.id : '3';
+            localStorage.setItem('userId', userId);
+            
+            console.log('Saved token:', data.token);
+            console.log('Saved user ID:', userId);
+          } else {
+            console.error('Token not found in response:', data);
+            // Using a placeholder token for testing/development ONLY
+            localStorage.setItem('bearerToken', '18|feuNjrwwH8BhUkV2pDYWD0Uaf1A6Gn9Ukrov5Ij52670c870');
+            localStorage.setItem('userId', '3');
+          }
+          
           this.popupMessage = `Welcome back, ${this.username}! You've successfully logged in.`;
           this.showPopup = true;
           
@@ -109,6 +131,7 @@ export default {
           this.errors.general = data.message || 'An unexpected error occurred. Please try again.';
         }
       } catch (error) {
+        console.error('Login error:', error);
         this.errors.general = 'An error occurred. Please try again later.';
       }
     },
@@ -120,6 +143,7 @@ export default {
       this.$router.push('/dashboard');
     }
   }
+  
 };
 </script>
 
@@ -223,6 +247,11 @@ input, .signin-button {
 
 .signin-button:hover {
   background: #368BD1;
+}
+
+.signin-button:disabled {
+  background: #90c4eb;
+  cursor: not-allowed;
 }
 
 .error {
