@@ -3,7 +3,7 @@
     <div class="main-content">
       <div class="header">
         <div class="header-left">
-          <div class="logo">
+          <div class="logo-docs">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M19.5 16.5V5.25C19.5 4.65326 19.2629 4.08097 18.841 3.65901C18.419 3.23705 17.8467 3 17.25 3H6.75C6.15326 3 5.58097 3.23705 5.15901 3.65901C4.73705 4.08097 4.5 4.65326 4.5 5.25V18.75C4.5 19.3467 4.73705 19.919 5.15901 20.341C5.58097 20.7629 6.15326 21 6.75 21H17.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8.25 7.5H15.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -345,7 +345,7 @@ export default {
   align-items: center;
 }
 
-.logo {
+.logo-docs {
   width: 48px;
   height: 48px;
   background-color: #4695FF;
@@ -360,7 +360,7 @@ export default {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.logo:hover {
+.logo-docs:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(70, 149, 255, 0.3);
 }
@@ -656,7 +656,7 @@ td {
     display: none;
   }
   
-  .logo {
+  .logo-docs {
     width: 40px;
     height: 40px;
     font-size: 18px;

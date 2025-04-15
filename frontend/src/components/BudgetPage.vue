@@ -375,7 +375,7 @@ export default {
     // Sidebar navigation
     navigate(page) {
       this.activePage = page;
-      // In a real app, you would handle navigation here
+      this.$router.push('/' + page);
     },
    
     // Budget planner methods
@@ -514,7 +514,7 @@ export default {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   height: fit-content;
   position: sticky;
-  top: 1.5rem;
+  top: 8rem;
 }
 
 .sidebar-item {
