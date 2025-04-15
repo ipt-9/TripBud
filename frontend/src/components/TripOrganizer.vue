@@ -1,26 +1,26 @@
 <template>
-  <div class="trip-organizer">
-    <header class="header">
-      <div class="logo-container">
-        <img v-for="img in images" :src="img" class="logo" />
-        <h1>Trip Organizer</h1>
+  <div class="trip-organizer-container">
+    <header class="trip-organizer-header">
+      <div class="trip-organizer-logo-wrapper">
+        <img v-for="img in images" :src="img" class="trip-organizer-logo" />
+        <h1 class="trip-organizer-heading">Trip Organizer</h1>
       </div>
-      <img :src="accountImages" class="settings-icon" @click="openSettings" />
+      <img :src="accountImages" class="trip-organizer-settings-icon" @click="openSettings" />
     </header>
 
-    <div class="triporganizer-content">
-      <h2 class="triporganizer-title">Ongoing Trips</h2>
-      <div class="triporganizer-card">
-        <div v-for="(trip, index) in trips" :key="index" class="trip-item" @click="viewTrip(trip)">
-          <div class="trip-info">
-            <span class="trip-name">{{ trip.name }}</span>
+    <div class="trip-organizer-content-section">
+      <h2 class="trip-organizer-section-title">Ongoing Trips</h2>
+      <div class="trip-organizer-card-container">
+        <div v-for="(trip, index) in trips" :key="index" class="trip-organizer-item" @click="viewTrip(trip)">
+          <div class="trip-organizer-item-info">
+            <span class="trip-organizer-item-name">{{ trip.name }}</span>
           </div>
-          <div class="trip-actions">
-            <img v-for="(img, index) in trashImages" :key="index" :src="img" class="delete-icon" @click.stop="confirmDelete(index)"/>
+          <div class="trip-organizer-item-actions">
+            <img v-for="(img, index) in trashImages" :key="index" :src="img" class="trip-organizer-delete-icon" @click.stop="confirmDelete(index)"/>
           </div>
         </div>        
       </div>
-      <button type="submit" class="newtrip-button" @click="createNewTrip">Create New Trip</button>
+      <button type="submit" class="trip-organizer-new-button" @click="createNewTrip">Create New Trip</button>
     </div>
   </div>
 </template>
@@ -34,9 +34,9 @@ export default {
         { name: "Paris" },
         { name: "Tokyo" }
       ],
-      images:['../assets/TripBudLogo.png'],
-      accountImages: ['../assets/account-symbol.png'],
-      trashImages:['../assets/trash-symbol.png']
+      images:['src/assets/TripBudLogo.png'],
+      accountImages: ['src/assets/default.png'],
+      trashImages:['src/assets/trash-symbol.png']
     };
   },
   methods: {
@@ -66,53 +66,57 @@ export default {
   font-family: 'Outfit', sans-serif;
 }
 
-.trip-organizer {
+.trip-organizer-container {
   background: linear-gradient(to bottom, #e0f2fe, #ffffff); 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100vh;
+  padding-top: 20px;
 }
 
-.header {
+.trip-organizer-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3%;
+  margin-bottom: 7%;
   width: 90%;
+  position: relative;
 }
 
-.logo-container {
+.trip-organizer-logo-wrapper {
   display: flex;
   align-items: center;
 }
 
-.logo {
+.trip-organizer-logo {
   width: 50px;
   margin-right: 15px;
 }
 
-.settings-icon {
-  position: absolute;
-  top: 4%;
-  right: 2%;
-  height: 6%;
+.trip-organizer-heading {
+  margin: 0;
+  font-size: 24px;
+}
+
+.trip-organizer-settings-icon {
+  height: 30px;
   cursor: pointer;
 }
 
-.triporganizer-content {
+.trip-organizer-content-section {
   width: 70%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.triporganizer-title {
+.trip-organizer-section-title {
   margin-bottom: 10px;
 }
 
-.triporganizer-card {
+.trip-organizer-card-container {
   background: white;
   padding: 2rem;
   border-radius: 10px;
@@ -122,17 +126,17 @@ export default {
   min-height: 200px;
 }
 
-.trip-info {
+.trip-organizer-item-info {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.trip-name {
+.trip-organizer-item-name {
   font-size: 16px;
 }
 
-.delete-icon {
+.trip-organizer-delete-icon {
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -140,13 +144,13 @@ export default {
   transition: filter 0.3s ease;
 }
 
-.delete-icon:hover {
+.trip-organizer-delete-icon:hover {
   filter: grayscale(0%);
   transform: scale(1.2);
   filter: hue-rotate(-10deg) saturate(1000%) brightness(90%);
 }
 
-.trip-item {
+.trip-organizer-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -156,22 +160,22 @@ export default {
   transition: all 0.3s ease;
 }
 
-.trip-item:hover {
+.trip-organizer-item:hover {
   background-color: #f1f1f1;
   transform: translateX(5px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.trip-actions {
+.trip-organizer-item-actions {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.trip-item:hover .trip-actions {
+.trip-organizer-item:hover .trip-organizer-item-actions {
   opacity: 1;
 }
 
-.newtrip-button {
+.trip-organizer-new-button {
   background: #409FDB;
   color: white;
   display: block;
@@ -185,7 +189,7 @@ export default {
   transition: 0.3s;
 }
 
-.newtrip-button:hover {
+.trip-organizer-new-button:hover {
   background: #368BD1;
 }
 </style>
