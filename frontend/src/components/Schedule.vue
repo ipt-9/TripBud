@@ -25,7 +25,7 @@
           <div class="sidebar-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
             <img :src="budgetplanerImages" class="sidebar-icons"/>
           </div>
-          <div class="sidebar-item" :class="{ active: activePage === 'blog' }" @click="navigate('blog')">
+          <div class="sidebar-item" :class="{ active: activePage === 'travelblog' }" @click="navigate('travelblog')">
             <img :src="blogImages" class="sidebar-icons"/>
           </div>
         </nav>
@@ -48,18 +48,40 @@
               <div class="form-group">
                 <label>From:</label>
                 <div class="time-input">
-                  <input type="text" placeholder="00:00" v-model="newActivity.startTime" />
+                  <input 
+                    type="text" 
+                    placeholder="HH:MM" 
+                    v-model="newActivity.startTime" 
+                    @input="validateStartTime"
+                    @blur="formatStartTime"
+                    :class="{ 'input-error': startTimeError }"
+                  />
+                  <div class="error-message" v-if="startTimeError">{{ startTimeError }}</div>
                 </div>
               </div>
               
               <div class="form-group">
                 <label>To:</label>
                 <div class="time-input">
-                  <input type="text" placeholder="00:00" v-model="newActivity.endTime" />
+                  <input 
+                    type="text" 
+                    placeholder="HH:MM" 
+                    v-model="newActivity.endTime" 
+                    @input="validateEndTime"
+                    @blur="formatEndTime"
+                    :class="{ 'input-error': endTimeError }"
+                  />
+                  <div class="error-message" v-if="endTimeError">{{ endTimeError }}</div>
                 </div>
               </div>
   
-              <button class="add-activity-btn" @click="addActivity">Add Activity</button>
+              <button 
+                class="add-activity-btn" 
+                @click="addActivity"
+                :disabled="!isFormValid"
+              >
+                Add Activity
+              </button>
             </div>
           </div>
   
@@ -114,11 +136,13 @@
       </div>
     </div>
   </template>
-  
+    
   <script>
   export default {
     name: 'Schedule',
     data() {
+      const today = new Date(); // Aktuelles Datum des Geräts
+      
       return {
         trip: {
           id: '1',
@@ -127,9 +151,9 @@
           endDate: '28.02.2025',
           color: '#9896d8'
         },
-        selectedDate: new Date(2025, 1, 24),
-        currentDate: new Date(2025, 1, 19),
-        currentViewDate: new Date(2025, 1, 15),
+        selectedDate: today, // Initialisiere mit dem heutigen Datum
+        currentDate: today, // Aktuelles Datum
+        currentViewDate: today, // Ansicht zeigt den aktuellen Monat
         weekdays: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         newActivity: {
@@ -138,6 +162,8 @@
           endTime: '',
           icon: null
         },
+        startTimeError: '',
+        endTimeError: '',
         activities: [
           {
             date: '24.02.2025',
@@ -268,9 +294,164 @@
         if (!this.selectedDateFormatted) return [];
         
         return this.activities.filter(activity => activity.date === this.selectedDateFormatted);
+      },
+      isFormValid() {
+        return this.newActivity.title.trim() !== '' && 
+               this.newActivity.startTime.trim() !== '' && 
+               this.newActivity.endTime.trim() !== '' &&
+               !this.startTimeError &&
+               !this.endTimeError;
       }
     },
     methods: {
+      validateStartTime() {
+        this.startTimeError = '';
+        
+        // Check if the input follows the HH:MM format
+        if (this.newActivity.startTime) {
+          // Remove any character that is not a digit or colon
+          this.newActivity.startTime = this.newActivity.startTime.replace(/[^\d:]/g, '');
+          
+          // Restrict to HH:MM format
+          const parts = this.newActivity.startTime.split(':');
+          
+          if (parts.length > 0) {
+            // For hours, restrict to 0-12
+            if (parts[0].length > 0) {
+              const hours = parseInt(parts[0], 10);
+              if (isNaN(hours) || hours > 12) {
+                this.startTimeError = 'Hours must be between 0-12';
+              } else {
+                parts[0] = hours.toString().padStart(2, '0');
+              }
+            }
+            
+            if (parts.length > 1) {
+              // For minutes, restrict to 0-59
+              if (parts[1].length > 0) {
+                const minutes = parseInt(parts[1], 10);
+                if (isNaN(minutes) || minutes > 59) {
+                  this.startTimeError = 'Minutes must be between 0-59';
+                } else {
+                  parts[1] = minutes.toString().padStart(2, '0');
+                }
+              }
+              
+              // Limit minutes to 2 digits
+              if (parts[1].length > 2) {
+                parts[1] = parts[1].substring(0, 2);
+              }
+            }
+            
+            // If there are more than 2 parts, ignore them
+            this.newActivity.startTime = parts.slice(0, 2).join(':');
+          }
+        }
+        
+        // Check if endTime needs to be validated due to startTime change
+        if (this.newActivity.endTime) {
+          this.validateEndTime();
+        }
+      },
+      
+      validateEndTime() {
+        this.endTimeError = '';
+        
+        // Check if the input follows the HH:MM format
+        if (this.newActivity.endTime) {
+          // Remove any character that is not a digit or colon
+          this.newActivity.endTime = this.newActivity.endTime.replace(/[^\d:]/g, '');
+          
+          // Restrict to HH:MM format
+          const parts = this.newActivity.endTime.split(':');
+          
+          if (parts.length > 0) {
+            // For hours, restrict to 0-12
+            if (parts[0].length > 0) {
+              const hours = parseInt(parts[0], 10);
+              if (isNaN(hours) || hours > 12) {
+                this.endTimeError = 'Hours must be between 0-12';
+              } else {
+                parts[0] = hours.toString().padStart(2, '0');
+              }
+            }
+            
+            if (parts.length > 1) {
+              // For minutes, restrict to 0-59
+              if (parts[1].length > 0) {
+                const minutes = parseInt(parts[1], 10);
+                if (isNaN(minutes) || minutes > 59) {
+                  this.endTimeError = 'Minutes must be between 0-59';
+                } else {
+                  parts[1] = minutes.toString().padStart(2, '0');
+                }
+              }
+              
+              // Limit minutes to 2 digits
+              if (parts[1].length > 2) {
+                parts[1] = parts[1].substring(0, 2);
+              }
+            }
+            
+            // If there are more than 2 parts, ignore them
+            this.newActivity.endTime = parts.slice(0, 2).join(':');
+          }
+        }
+        
+        // Check if endTime is after startTime
+        if (this.newActivity.startTime && this.newActivity.endTime) {
+          const startTimeValid = this.isValidTimeFormat(this.newActivity.startTime);
+          const endTimeValid = this.isValidTimeFormat(this.newActivity.endTime);
+          
+          if (startTimeValid && endTimeValid) {
+            const [startHours, startMinutes] = this.newActivity.startTime.split(':').map(Number);
+            const [endHours, endMinutes] = this.newActivity.endTime.split(':').map(Number);
+            
+            const startTotalMinutes = startHours * 60 + startMinutes;
+            const endTotalMinutes = endHours * 60 + endMinutes;
+            
+            if (endTotalMinutes <= startTotalMinutes) {
+              this.endTimeError = 'End time must be after start time';
+            }
+          }
+        }
+      },
+      
+      formatStartTime() {
+        if (this.newActivity.startTime && !this.startTimeError) {
+          this.newActivity.startTime = this.formatTimeString(this.newActivity.startTime);
+        }
+      },
+      
+      formatEndTime() {
+        if (this.newActivity.endTime && !this.endTimeError) {
+          this.newActivity.endTime = this.formatTimeString(this.newActivity.endTime);
+        }
+      },
+      
+      formatTimeString(timeStr) {
+        const parts = timeStr.split(':');
+        
+        if (parts.length === 1) {
+          // If only hours are provided, add :00 for minutes
+          const hours = parseInt(parts[0], 10);
+          return hours.toString().padStart(2, '0') + ':00';
+        } else if (parts.length >= 2) {
+          // Format HH:MM properly
+          const hours = parseInt(parts[0], 10);
+          const minutes = parseInt(parts[1], 10);
+          
+          return hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
+        }
+        
+        return timeStr;
+      },
+      
+      isValidTimeFormat(timeStr) {
+        const regex = /^([0-9]|0[0-9]|1[0-2]):([0-5][0-9])$/;
+        return regex.test(timeStr);
+      },
+      
       previousMonth() {
         this.currentViewDate = new Date(
           this.currentViewDate.getFullYear(),
@@ -307,7 +488,7 @@
         return `${day}.${month}.${year}`;
       },
       addActivity() {
-        if (!this.newActivity.title || !this.newActivity.startTime || !this.newActivity.endTime) {
+        if (!this.isFormValid) {
           return;
         }
         
@@ -327,6 +508,9 @@
           endTime: '',
           icon: null
         };
+        
+        this.startTimeError = '';
+        this.endTimeError = '';
       },
       navigate(page) {
         this.activePage = page;
@@ -338,8 +522,8 @@
     }
   };
   </script>
-  
-  <style scoped>
+    
+  <style>
   * {
     font-family: 'Outfit', sans-serif;
   }
@@ -491,6 +675,17 @@
     font-size: 0.9rem;
   }
   
+  .input-error {
+    border-color: #ff4d4f !important;
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+  }
+  
+  .error-message {
+    color: #ff4d4f;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
+  
   .time-input {
     position: relative;
   }
@@ -509,6 +704,11 @@
   
   .add-activity-btn:hover {
     background-color: #0258b8;
+  }
+  
+  .add-activity-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
   
   .calendar-section {
