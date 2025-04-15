@@ -3,7 +3,7 @@
     <div class="background-svg"></div>
     <header>
       <div class="logo">
-        <img :src="logoImage" class="logo-img" alt="TripBud Logo" @click.prevent="scrollToSection('hero')"/>
+        <img src="../assets/TripBudLogo.png" class="logo-img" alt="TripBud Logo" @click.prevent="scrollToSection('hero')"/>
         <h1>TripBud</h1>
       </div>
       <nav>
@@ -122,11 +122,11 @@
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-section">
-          <img :src="logoImage" style="width: 70px; height: 70px;" alt="TripBud Logo" />
+          <img src="../assets/TripBudLogo.png" style="width: 70px; height: 70px;" alt="TripBud Logo" />
           <p>&copy; 2025 TripBud all rights reserved.</p>
           <div class="app-links">
-            <img :src="googleImage" style="width: 120px; height: 50px;" alt="Google Play" />
-            <img :src="appleImage" style="width: 100px; height: 35px;" alt="App Store" />
+            <img src="../assets/GooglePlay.png" style="width: 120px; height: 50px;" alt="Google Play" />
+            <img src="../assets/AppleStore.png" style="width: 100px; height: 35px;" alt="App Store" />
           </div>
         </div>
         
