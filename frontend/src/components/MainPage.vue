@@ -3,23 +3,26 @@
     <div class="background-svg"></div>
     <header>
       <div class="logo">
-        <img :src="logoImage" class="logo-img" alt="TripBud Logo" />
+        <img :src="logoImage" class="logo-img" alt="TripBud Logo" @click.prevent="scrollToSection('hero')"/>
         <h1>TripBud</h1>
       </div>
       <nav>
-        <ul>
+        <ul class="nav-links">
           <li><a href="#" @click.prevent="scrollToSection('whyus')">Why Us</a></li>
-          <li><a href="#" @click.prevent="scrollToSection('popular')">Popular Destinations</a></li>
+          <li><a href="#" @click.prevent="scrollToSection('destinations')">Popular Destinations</a></li>
           <li><a href="#" @click.prevent="scrollToSection('pricing')">Plans</a></li>
+        </ul>
+        <ul class="auth-links">
           <li><router-link to="/register" class="btn-signup">Sign Up</router-link></li>
           <li><router-link to="/login" class="btn-login">Login</router-link></li>
         </ul>
       </nav>
     </header>
 
+
     <main>
       <!-- Hero Section -->
-      <div class="hero">
+      <div class="hero" id="hero">
         <div class="hero-text">
           <h1>Plan your next trip together.</h1>
           <p>Let's plan your perfect trip together, including all the details! Include all your buddies and store your files in-app!</p>
@@ -63,7 +66,7 @@
       </div>
 
       <!-- Destinations Section -->
-      <div class="destination-container">
+      <div class="destination-container" id="destinations">
         <h1>Popular Destinations</h1>
         <img src="../assets/destinations.svg" alt="popular destinations" class="destinationImg">
       </div>
@@ -98,7 +101,6 @@
               <p>Up to 5 GB trip storage</p>
             </div>
             <button class="btn">Get Premium</button>
-            <div class="badge">Best Deal</div>
           </div>
           
           <!-- Business Plan -->
@@ -266,7 +268,7 @@ export default {
 
 .start-page {
   color: #333;
-  background: linear-gradient(to bottom, #e0f2fe, #ffffff);
+  background: linear-gradient(135deg, #e0f2fe 0%, #d3eeff 40%, #ffffff 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -300,7 +302,24 @@ header {
   font-weight: 600;
 }
 
-nav ul {
+nav {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.nav-links {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.auth-links {
   display: flex;
   list-style-type: none;
   margin: 0;
@@ -309,6 +328,10 @@ nav ul {
 
 nav li {
   margin-right: 1.5rem;
+}
+
+nav li:last-child {
+  margin-right: 0;
 }
 
 nav a {
@@ -403,6 +426,7 @@ html {
 .whyus-container {
   display: flex;
   justify-content: space-between;
+
   padding: 4rem;
 }
 
@@ -484,7 +508,7 @@ html {
 }
 
 .destinationImg{
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .pricing-container {
@@ -501,6 +525,7 @@ html {
   display: flex;
   justify-content: center;
   gap: 24px;
+  padding-bottom: 5rem;
 }
 
 .card {
@@ -724,7 +749,7 @@ html {
 
 /* Enhanced gradients and depth */
 .start-page {
-  background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 40%, #ffffff 100%);
+  background: linear-gradient(135deg, #e0f2fe 0%, #d3eeff 40%, #ffffff 100%);
 }
 
 /* Improved header with glass effect */
@@ -767,7 +792,6 @@ nav a:hover::after {
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(64, 159, 219, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
   z-index: -1;
 }
 

@@ -46,7 +46,6 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(to bottom, #e0f2fe, #ffffff);
 }
 
 .whyus-img {
