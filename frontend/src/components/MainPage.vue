@@ -1,5 +1,6 @@
 <template>
   <div class="start-page">
+    <div class="background-svg"></div>
     <header>
       <div class="logo">
         <img :src="logoImage" class="logo-img" alt="TripBud Logo" />
@@ -27,14 +28,14 @@
           </router-link>
         </div>
         <div class="hero-image">
-          <img :src="frontImage" alt="Trip Planning Illustration" />
+          <img src="../assets/hero_image.svg" alt="Trip Planning Illustration" />
         </div>
       </div>
 
       <!-- Why Us Section -->
       <div class="whyus-container" id="whyus">
         <div class="whyus-img">
-          <img :src="whyUsImage" alt="Traveler with backpack" class="whyus-image" />
+          <img src="../assets/explorer.svg" alt="Traveler with backpack" class="whyus-image" />
         </div>
         <div class="whyus-content">
           <h1>Why Choose Us</h1>
@@ -59,6 +60,12 @@
           
           <router-link to="/register" class="create-account">Create an account!</router-link>
         </div>
+      </div>
+
+      <!-- Destinations Section -->
+      <div class="destination-container">
+        <h1>Popular Destinations</h1>
+        <img src="../assets/destinations.svg" alt="popular destinations" class="destinationImg">
       </div>
 
       <!-- Pricing Section -->
@@ -132,11 +139,15 @@
           </ul>
         </div>
         
-        <div class="footer-section">
+        <div class="footer-section address-section">
           <h3>Address</h3>
           <p>Zumhofstrasse 77</p>
           <p>6010 Kriens</p>
           <p>Switzerland</p>
+          
+          <div class="travel-img-container">
+            <img src="../assets/travel.svg" alt="travel image" class="travelImg"/>
+          </div>
         </div>
         
         <div class="footer-section">
@@ -170,17 +181,17 @@ export default {
       hoveredIndex: null,
       features: [
         { 
-          icon: 'src/assets/download-symbol.png', 
+          icon: 'src/assets/download.png', 
           title: 'In-App Storage', 
           description: 'Store your travel documents for your trip directly in the app!' 
         },
         { 
-          icon: 'src/assets/group-symbol.png', 
+          icon: 'src/assets/users.png', 
           title: 'Plan Together', 
           description: 'Invite your friends to the trip and exchange together!' 
         },
         { 
-          icon: 'src/assets/document-symbol.png', 
+          icon: 'src/assets/document.png', 
           title: 'Integrated Blog', 
           description: 'Capture your journey and create an album!' 
         }
@@ -303,7 +314,6 @@ nav li {
 nav a {
   text-decoration: none;
   color: black;
-  font-weight: bold;
   cursor: pointer;
   transition: color 0.3s;
 }
@@ -313,7 +323,7 @@ nav a:hover {
 }
 
 .btn-signup {
-  background-color: #FF9466;
+  background-color: #e68200;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   color: white !important;
@@ -321,7 +331,7 @@ nav a:hover {
 }
 
 .btn-signup:hover {
-  background-color: #e68200;
+  background-color: #FF9466;
 }
 
 .btn-login {
@@ -401,10 +411,9 @@ html {
 }
 
 .whyus-image {
-  width: 100%;
+  width: 110%;
   height: auto;
-  object-fit: cover;
-  border-radius: 20px;
+  box-shadow: none;
   max-height: 500px;
 }
 .whyus-content {
@@ -467,6 +476,15 @@ html {
 
 .create-account::after {
   content: " >";
+}
+
+.destination-container {
+  padding: 4rem;
+  text-align: center;
+}
+
+.destinationImg{
+  padding: 3rem;
 }
 
 .pricing-container {
@@ -560,8 +578,10 @@ html {
 
 .footer {
   background: transparent;
-  padding: 3rem 2rem 2rem;
+  padding: 3rem 2rem 0;
   margin-top: auto;
+  position: relative;
+  overflow: hidden;
 }
 
 .footer-content {
@@ -572,8 +592,8 @@ html {
 
 .footer-section {
   flex: 0 0 18%;
-  margin-bottom: 2rem;
 }
+
 
 .footer-section h3 {
   font-size: 1.2rem;
@@ -620,6 +640,13 @@ html {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  margin-bottom: 0;
+}
+
+.travelImg {
+  padding-top: 1rem;
+  width: 150%;
+  height: auto;
 }
 
 .app-links {
@@ -702,10 +729,7 @@ html {
 
 /* Improved header with glass effect */
 header {
-  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Enhanced navigation interactions */
@@ -713,16 +737,6 @@ nav a {
   position: relative;
 }
 
-nav a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -5px;
-  left: 0;
-  background-color: #409FDB;
-  transition: width 0.3s ease;
-}
 
 nav a:hover::after {
   width: 100%;
@@ -795,14 +809,6 @@ nav a:hover::after {
   transform: translateX(10px) scale(1.02);
 }
 
-.icon {
-  transition: transform 0.5s ease;
-}
-
-.feature-item:hover .icon {
-  transform: rotate(10deg);
-}
-
 /* Form element improvements */
 .footer-section input, 
 .footer-section textarea {
@@ -839,18 +845,18 @@ nav a:hover::after {
 /* Photo and image enhancements */
 .hero-image img, .whyus-image {
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
-  transition: all 0.5s ease;
-}
-
-.hero-image:hover img, .whyus-img:hover .whyus-image {
-  transform: scale(1.02) rotate(1deg);
-  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.15));
 }
 
 /* Footer improvements */
 .footer {
   background: linear-gradient(to top, rgba(224, 242, 254, 0.5), transparent);
   border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.travel-img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .scroll-indicator {
@@ -917,8 +923,7 @@ nav a:hover::after {
 
 /* Header shrink effect on scroll */
 .header-scrolled {
-  padding: 0.5rem 2rem;
-  background: rgba(255, 255, 255, 0.98);
+  padding: 1rem 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 </style>

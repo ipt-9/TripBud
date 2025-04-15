@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardConroller;
-use App\Http\Controllers\SettingsConroller;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,23 +16,20 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/dashboard', [DashboardConroller::class, 'index']);
 
-Route::middleware('auth:sanctum')->get('/settings', [SettingsConroller::class, '']);
-Route::middleware('auth:sanctum')->get('/settings/cancelChanges', [SettingsConroller::class, 'cancelChanges']);
-Route::middleware('auth:sanctum')->put('/settings/updateChanges', [SettingsConroller::class, 'updateChanges']);
+Route::middleware('auth:sanctum')->group(function () {
+    // Main settings endpoints
+    Route::get('/settings', [SettingsController::class, 'index']);
+    Route::put('/settings/updateChanges', [SettingsController::class, 'updateChanges']);
+    Route::get('/settings/cancelChanges', [SettingsController::class, 'cancelChanges']);
 
-Route::middleware('auth:sanctum')->put('/settings/account/profile', [SettingsConroller::class, '']);
-Route::middleware('auth:sanctum')->put('/settings/account/profile/updateImage', [SettingsConroller::class, 'updateImage']);
-Route::middleware('auth:sanctum')->delete('/settings/account/profile/deleteImage', [SettingsConroller::class, 'deleteImage']);
+    // Temporary image changes (not committed until save is clicked)
+    Route::put('/settings/account/profile/tempUpdateImage', [SettingsController::class, 'tempUpdateImage']);
+    Route::delete('/settings/account/profile/tempDeleteImage', [SettingsController::class, 'tempDeleteImage']);
 
-Route::middleware('auth:sanctum')->get('/settings/account/payment', [SettingsConroller::class, '']);
-Route::middleware('auth:sanctum')->put('/settings/account/payment/editMethod', [SettingsConroller::class, 'editMethod']);
-Route::middleware('auth:sanctum')->delete('/settings/account/payment/deleteMethod', [SettingsConroller::class, 'deleteMethod']);
-
-Route::middleware('auth:sanctum')->get('/settings/plans', [SettingsConroller::class, '']);
-Route::middleware('auth:sanctum')->put('/settings/plans/changePlan', [SettingsConroller::class, 'changePlan']);
-
-Route::middleware('auth:sanctum')->get('/settings/support', [SettingsConroller::class, '']);
-
+    // Reference data endpoints
+    Route::get('/settings/plans', [SettingsController::class, 'getPlans']);
+    Route::get('/settings/support', [SettingsController::class, 'getSupport']);
+});
 
 Route::middleware('auth:sanctum')->get('/chat', [ChatController::class, 'index']);
 

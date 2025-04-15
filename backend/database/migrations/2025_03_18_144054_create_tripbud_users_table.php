@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('theme')->default('light');
             $table->string('language')->default('en');
             $table->boolean('notifications')->default(true);
-            $table->string('profile_image')->default('default');
+            $table->string('profile_image')->default('assets/default.png');
             $table->enum('subscription_plan', ['free', 'premium', 'business'])->default('free');
             $table->enum('payment_method', ['credit_card', 'paypal', 'bank_transfer'])->nullable();
             $table->string('payment_method_details')->nullable();
