@@ -13,7 +13,7 @@
    
     <div class="content-wrapper">
       <!-- Regular Sidebar (Desktop) -->
-      <div class="sidebar">
+      <div class="sidebar-settings">
         <div class="search-box">
           <input type="text" placeholder="Search..." v-model="searchQuery">
         </div>
@@ -1037,7 +1037,7 @@ body {
   min-height: calc(100vh - 100px); /* Adjust based on header height */
 }
  
-.sidebar {
+.sidebar-settings {
   background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent to show background */
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);

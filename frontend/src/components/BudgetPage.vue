@@ -5,7 +5,7 @@
       <header class="header">
         <div class="logo-container">
           <img v-for="img in images" :src="img" class="logo" />
-          <h1>Budget Planner</h1>
+          <h1>Budget Planer</h1>
         </div>
         <img :src="accountImages[0]" class="settings-icon" @click="openSettings" />
       </header>
@@ -473,8 +473,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
-  margin-bottom: 1.5rem;
+  padding: 1%;
+  margin-bottom: 1%;
 }
 
 .logo-container {
@@ -503,7 +503,7 @@ export default {
 
 /* Sidebar Styles */
 .sidebar {
-  width: 60px;
+    width: 60px;
   background-color: white;
   border-radius: 15px;
   padding: 1.5rem 0;
@@ -512,9 +512,8 @@ export default {
   align-items: center;
   gap: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  height: fit-content;
-  position: sticky;
-  top: 8rem;
+  align-self: flex-start;
+  margin-top: 80px;
 }
 
 .sidebar-item {
