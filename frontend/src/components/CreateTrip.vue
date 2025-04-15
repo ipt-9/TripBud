@@ -1,94 +1,103 @@
 <template>
-  <div class="trip-organizer">
-    <div class="header">
-      <div class="logo-container">
-        <img src="/src/assets/TripBudLogo.png" class="logo" />
-        <h1 class="title">Trip Organizer</h1>
+  <div class="trip-organizer-container">
+    <div class="trip-background-pattern"></div>
+    
+    <div class="trip-header">
+      <div class="trip-logo-wrapper">
+        <img src="/src/assets/TripBudLogo.png" class="trip-logo-image" />
+        <h1 class="trip-page-title">Create Trip</h1>
       </div>
-      <img src="" class="settings-icon" @click="openSettings" />
+      <img src="" class="trip-settings-icon" @click="openSettings" />
     </div>
 
-    <div class="content-layout">
-      <div class="left-content">
-        <div class="card trip-details-card">
-          <div class="form-row">
-            <div class="input-group">
-              <label>Trip Name:</label>
-              <input type="text" v-model="trip.name" placeholder="Enter trip name" class="input-field"/>
-            </div>
-            
-            <div class="input-group">
-              <label>Destination:</label>
-              <input type="text" v-model="trip.destination" placeholder="Enter destination" class="input-field"/>
-            </div>
+    <div class="trip-content-wrapper">
+      <!-- Left column -->
+      <div class="trip-left-column">
+        <!-- First card -->
+        <div class="trip-card trip-details-card">
+          <div class="trip-field-wrapper">
+            <label class="trip-field-label">Trip Name:</label>
+            <input type="text" v-model="trip.name" placeholder="Enter trip name" class="trip-text-input"/>
+          </div>
+          
+          <div class="trip-field-wrapper">
+            <label class="trip-field-label">Destination:</label>
+            <input type="text" v-model="trip.destination" placeholder="Enter destination" class="trip-text-input"/>
+          </div>
+          
+          <div class="trip-field-wrapper">
+            <label class="trip-field-label">Invite Members:</label>
+            <button class="trip-btn-primary" @click="generateInviteLink">Generate Invite Link</button>
           </div>
 
-          <div class="input-group">
-            <label>Invite Members:</label>
-            <button class="generate-btn" @click="generateInviteLink">Generate Invite Link</button>
-          </div>
-
-          <div v-if="inviteLink" class="invite-link-row">
-            <input type="text" v-model="inviteLink" readonly class="invite-link-field"/>
+          <div v-if="inviteLink" class="trip-field-wrapper">
+            <input type="text" v-model="inviteLink" readonly class="trip-invite-link-field"/>
           </div>
         </div>
 
-        <div class="card details-card">
-          <div class="input-group description-group">
-            <label>Description:</label>
+        <!-- Second card -->
+        <div class="trip-card trip-description-card">
+          <div class="trip-field-wrapper">
+            <label class="trip-field-label">Description:</label>
             <textarea 
               v-model="trip.description" 
               ref="descriptionField" 
               @input="autoExpand" 
               placeholder="Add description..." 
-              class="textarea-field">
+              class="trip-textarea">
             </textarea>
           </div>
           
-          <div class="date-container">
-            <div class="input-group">
-              <label>From:</label>
-              <input type="date" v-model="trip.fromDate" class="input-field"/>
+          <div class="trip-dates-row">
+            <div class="trip-field-wrapper">
+              <label class="trip-field-label">From:</label>
+              <input type="date" v-model="trip.fromDate" class="trip-date-input"/>
             </div>
-            <div class="input-group">
-              <label>To:</label>
-              <input type="date" v-model="trip.toDate" class="input-field"/>
+            <div class="trip-field-wrapper">
+              <label class="trip-field-label">To:</label>
+              <input type="date" v-model="trip.toDate" class="trip-date-input"/>
             </div>
           </div>
         </div>
       </div>
       
-      
-      <div class="right-content">
-        <div class="card budget-card">
-          <h2 class="budget-title">Budget</h2>
-          
-          <div class="budget-item">
-            <label>Transport ($):</label>
-            <input type="number" v-model.number="trip.budget.transport" placeholder="0" class="budget-input"/>
+      <!-- Right column -->
+      <div class="trip-right-column">
+        <!-- Budget card -->
+        <div class="trip-card trip-budget-card">
+          <div class="trip-budget-header">
+            <div class="trip-budget-title-wrapper">
+              <span class="trip-budget-title">Budget</span>
+            </div>
+            <div class="trip-total-wrapper">
+              <span class="trip-total-label">Total:</span>
+              <span class="trip-total-amount">${{ calculateTotalFormatted }}</span>
+            </div>
           </div>
           
-          <div class="budget-item">
-            <label>Food ($):</label>
-            <input type="number" v-model.number="trip.budget.food" placeholder="0" class="budget-input"/>
+          <div class="trip-budget-item">
+            <label class="trip-field-label">Transport ($):</label>
+            <input type="number" v-model.number="trip.budget.transport" placeholder="0" class="trip-number-input"/>
           </div>
           
-          <div class="budget-item">
-            <label>Activities ($):</label>
-            <input type="number" v-model.number="trip.budget.activities" placeholder="0" class="budget-input"/>
+          <div class="trip-budget-item">
+            <label class="trip-field-label">Food ($):</label>
+            <input type="number" v-model.number="trip.budget.food" placeholder="0" class="trip-number-input"/>
           </div>
           
-          <div class="budget-item">
-            <label>Hotel ($):</label>
-            <input type="number" v-model.number="trip.budget.hotel" placeholder="0" class="budget-input"/>
+          <div class="trip-budget-item">
+            <label class="trip-field-label">Activities ($):</label>
+            <input type="number" v-model.number="trip.budget.activities" placeholder="0" class="trip-number-input"/>
           </div>
           
-          <div class="total-row">
-            <span class="total-text">Total: ${{ calculateTotalFormatted }}</span>
+          <div class="trip-budget-item">
+            <label class="trip-field-label">Hotel ($):</label>
+            <input type="number" v-model.number="trip.budget.hotel" placeholder="0" class="trip-number-input"/>
           </div>
         </div>
         
-        <button class="create-trip-btn" @click="createTrip">Create Trip</button>
+        <!-- Create button -->
+        <button class="trip-create-button" @click="createTrip">Create Trip</button>
       </div>
     </div>
   </div>
@@ -125,7 +134,7 @@ export default {
       return total;
     },
     calculateTotalFormatted() {
-      return this.calculateTotal.toLocaleString();
+      return this.calculateTotal > 0 ? this.calculateTotal.toLocaleString() : '0';
     }
   },
   methods: {
@@ -161,283 +170,276 @@ export default {
 * {
   box-sizing: border-box;
   font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.trip-organizer {
+.trip-organizer-container {
+  position: relative;
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
   min-height: 100vh;
   padding: 20px;
+  overflow: hidden;
 }
 
-.header {
+.trip-background-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/src/assets/lines.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.trip-header {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  padding: 0 20px;
 }
 
-.logo-container {
+.trip-logo-wrapper {
   display: flex;
   align-items: center;
 }
 
-.logo {
-  width: 40px;
-  height: 40px;
+.trip-logo-image {
+  width: 36px;
+  height: 36px;
   background-color: #409FDB;
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 6px;
   margin-right: 10px;
 }
 
-.title {
-  font-size: 24px;
+.trip-page-title {
+  font-size: 22px;
   font-weight: 600;
   color: #333;
-  margin: 0;
 }
 
-.settings-icon {
+.trip-settings-icon {
   width: 24px;
   height: 24px;
   cursor: pointer;
 }
 
-.content-layout {
+.trip-content-wrapper {
+  position: relative;
+  z-index: 1;
   display: flex;
+  justify-content: center;
   gap: 30px;
-  flex-wrap: wrap;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-.left-content {
-  flex: 3;
+.trip-left-column {
+  width: 50%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.right-content {
-  flex: 2;
+.trip-right-column {
+  width: 30%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
 }
 
-.card {
+.trip-card {
   background: white;
   border-radius: 10px;
-  padding: 25px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  margin-bottom: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.form-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
+.trip-field-wrapper {
   margin-bottom: 20px;
 }
 
-.input-group {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-bottom: 15px;
+.trip-field-wrapper:last-child {
+  margin-bottom: 0;
 }
 
-.input-group label {
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #333;
-}
-
-.input-field {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  height: 40px;
-}
-
-.input-field:focus {
-  outline: none;
-  border-color: #409FDB;
-  box-shadow: 0 0 0 3px rgba(64, 159, 219, 0.1);
-}
-
-.invite-link-row {
-  margin-bottom: 15px;
-}
-
-.invite-link-field {
-  width: 100%;
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  background-color: #f8f9fa;
-  font-size: 14px;
-}
-
-.textarea-field {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  min-height: 100px;
-  resize: none;
-}
-
-.textarea-field:focus {
-  outline: none;
-  border-color: #409FDB;
-  box-shadow: 0 0 0 3px rgba(64, 159, 219, 0.1);
-}
-
-.description-group {
-  margin-bottom: 20px;
-}
-
-.date-container {
-  display: flex;
-  gap: 20px;
-}
-
-.generate-btn {
-  background-color: #409FDB;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 14px;
-  cursor: pointer;
-  height: 40px;
-  width: 100%;
-}
-
-.generate-btn:hover {
-  background-color: #3588c7;
-}
-
-.budget-card {
-  width: 100%;
-  max-width: 500px;
-}
-
-.budget-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-top: 0;
-  margin-bottom: 20px;
-  position: relative;
-  display: inline-block;
-}
-
-.budget-title:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  width: 100%;
-  height: 3px;
-  background-color: #409FDB;
-}
-
-.budget-item {
-  margin-bottom: 20px;
-}
-
-.budget-item label {
+.trip-field-label {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
   color: #333;
 }
 
-.budget-input {
+.trip-text-input, 
+.trip-date-input,
+.trip-number-input {
   width: 100%;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 10px 12px;
   border: 1px solid #ddd;
+  border-radius: 5px;
   font-size: 14px;
 }
 
-.budget-input:focus {
-  outline: none;
-  border-color: #409FDB;
-  box-shadow: 0 0 0 3px rgba(64, 159, 219, 0.1);
-}
-
-.total-row {
-  background-color: #f0f8ff;
-  padding: 12px 20px;
-  text-align: right;
+.trip-invite-link-field {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  margin-top: 20px;
+  background-color: #f5f7fa;
+  font-size: 14px;
 }
 
-.total-text {
-  font-weight: 600;
-  color: #409FDB;
-  font-size: 16px;
+.trip-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  min-height: 100px;
+  resize: none;
 }
 
-.create-trip-btn {
+.trip-dates-row {
+  display: flex;
+  gap: 15px;
+}
+
+.trip-dates-row .trip-field-wrapper {
+  flex: 1;
+}
+
+.trip-btn-primary {
+  width: 100%;
   background-color: #409FDB;
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 12px 30px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  height: 40px;
+}
+
+.trip-btn-primary:hover {
+  background-color: #3588c7;
+}
+
+.trip-budget-card {
+  margin-bottom: 10px;
+}
+
+.trip-budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.trip-budget-title-wrapper {
+  position: relative;
+}
+
+.trip-budget-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  position: relative;
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
+.trip-budget-title:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #409FDB;
+}
+
+.trip-total-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.trip-total-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.trip-total-amount {
+  color: #409FDB;
+  font-weight: 600;
+}
+
+.trip-budget-item {
+  margin-bottom: 20px;
+}
+
+.trip-budget-item:last-child {
+  margin-bottom: 0;
+}
+
+.trip-create-button {
+  background-color: #409FDB;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   width: 100%;
-  max-width: 300px;
-  margin-top: 20px;
+  transition: background-color 0.2s;
+  height: 48px;
 }
 
-.create-trip-btn:hover {
+.trip-create-button:hover {
   background-color: #3588c7;
 }
 
-@media (max-width: 992px) {
-  .content-layout {
+@media (max-width: 1000px) {
+  .trip-content-wrapper {
     flex-direction: column;
+    align-items: center;
   }
   
-  .left-content, .right-content {
+  .trip-left-column, 
+  .trip-right-column {
     width: 100%;
-  }
-  
-  .form-row {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .budget-card {
-    max-width: none;
+    max-width: 600px;
   }
 }
 
 @media (max-width: 768px) {
-  .date-container {
+  .trip-dates-row {
     flex-direction: column;
-    gap: 15px;
   }
 }
 
 @media (max-width: 480px) {
-  .content-container {
-    padding: 0 10px;
+  .trip-card {
+    padding: 15px;
   }
   
-  .card {
-    padding: 15px;
+  .trip-budget-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .trip-total-wrapper {
+    margin-top: 10px;
   }
 }
 </style>
