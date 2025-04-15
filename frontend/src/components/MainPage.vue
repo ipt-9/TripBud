@@ -183,17 +183,17 @@ export default {
       hoveredIndex: null,
       features: [
         { 
-          icon: 'src/assets/download.png', 
+          icon: '../assets/download.png', 
           title: 'In-App Storage', 
           description: 'Store your travel documents for your trip directly in the app!' 
         },
         { 
-          icon: 'src/assets/users.png', 
+          icon: '../assets/users.png', 
           title: 'Plan Together', 
           description: 'Invite your friends to the trip and exchange together!' 
         },
         { 
-          icon: 'src/assets/document.png', 
+          icon: '../assets/document.png', 
           title: 'Integrated Blog', 
           description: 'Capture your journey and create an album!' 
         }
