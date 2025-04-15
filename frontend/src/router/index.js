@@ -11,11 +11,8 @@ import MainPage from '../components/MainPage.vue';
 import TripOrganizer from '../components/TripOrganizer.vue';
 import ChatPage from '../components/Chatpage.vue';
 import Dashboard from '../components/Dashboard.vue';
-<<<<<<< HEAD
 import BudgetPage from '../components/BudgetPage.vue';
-=======
 import TravelBlog from '../components/TravelBlog.vue';
->>>>>>> d5b5165e45cc5fb39a79371be0c45f65b01e5325
 
 const routes = [
   { path: '/', component: MainPage},
@@ -30,13 +27,8 @@ const routes = [
   { path: '/documents', component: documents},
   { path: '/chat', component: ChatPage, meta: {requiresAuth: true}},
   { path: '/dashboard', component: Dashboard},
-<<<<<<< HEAD
-  { path: '/budgetplaner', component: BudgetPage}
-
-
-=======
+  { path: '/budgetplaner', component: BudgetPage},
   { path: '/travelblog', component: TravelBlog}
->>>>>>> d5b5165e45cc5fb39a79371be0c45f65b01e5325
   
 ];
 
