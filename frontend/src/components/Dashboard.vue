@@ -1,32 +1,17 @@
 <!-- Dashboard.vue (Updated) -->
 <template>
   <div class="dashboard-container">
-    <!-- Top Navigation -->
     <header class="header">
-      <div class="header-left">
-        <div class="logo">
-          <div class="logo-icon"></div>
-          <h1 class="dashboard-title">Dashboard</h1>
-        </div>
+      <header class="header">
+      <div class="logo-container">
+        <img v-for="img in images" :src="img" class="logo" />
+        <h1>Dashboard</h1>
       </div>
-      <div class="header-right">
-        <div class="profile-icon" @click="toggleDropdown">
-          <div class="dropdown-menu" v-show="showDropdown">
-            <div class="dropdown-item">
-              <i class="settings-icon"></i>
-              <span>Settings</span>
-            </div>
-            <div class="dropdown-item" @click="logout">
-              <i class="logout-icon"></i>
-              <span>Logout</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <img :src="accountImages" class="settings-icon" @click="openSettings" />
+    </header>
     </header>
    
     <div class="main-layout">
-      <!-- Left Sidebar Navigation -->
       <nav class="sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages[0]" class="sidebar-icons"/>
@@ -43,14 +28,12 @@
         <div class="sidebar-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
           <img :src="budgetplanerImages[0]" class="sidebar-icons"/>
         </div>
-        <div class="sidebar-item" :class="{ active: activePage === 'blog' }" @click="navigate('blog')">
+        <div class="sidebar-item" :class="{ active: activePage === 'blog' }" @click="navigate('travelblog')">
           <img :src="blogImages[0]" class="sidebar-icons"/>
         </div>
       </nav>
      
-      <!-- Main Content Container -->
       <div class="content-container">
-        <!-- Chat Section -->
         <section class="section chat-section">
           <h2 class="section-title">Chat</h2>
           <div class="chat-container">
@@ -83,8 +66,7 @@
             </div>
           </div>
         </section>
-       
-        <!-- Calendar Section -->
+
         <section class="section calendar-section">
           <h2 class="section-title">Calendar</h2>
           <div class="calendar-header">
@@ -146,8 +128,7 @@
             </div>
           </div>
         </section>
-       
-        <!-- Favourites Section -->
+ 
         <section class="section favourites-section">
           <h2 class="section-title">Favourites</h2>
           <div class="favourites-list">
@@ -187,8 +168,7 @@
             </div>
           </div>
         </section>
-       
-        <!-- Budget Section -->
+
         <section class="section budget-section">
           <h2 class="section-title">Budget</h2>
           <div class="budget-tabs">
@@ -249,32 +229,28 @@ export default {
       activeDateTab: 'today',
       activePage: 'dashboard',
       showDropdown: false,
-     
-      // Images for sidebar icons (from first code)
+
       images: ['src/assets/TripBudLogo.png'],
-      accountImages: ['src/assets/account-symbol.png'],
+      accountImages: ['src/assets/default.png'],
       dashboardImages: ['src/assets/dashboard-symbol.png'],
       chatImages: ['src/assets/chat-symbol.png'],
       documentsImages: ['src/assets/document-symbol2.png'],
       scheduleImages: ['src/assets/schedule-symbol.png'],
       budgetplanerImages: ['src/assets/wallet-symbol.png'],
       blogImages: ['src/assets/blog-symbol.png'],
-     
-      // Chat data
+
       messages: [],
       newMessage: '',
       loading: false,
       error: null,
       isSending: false,
-     
-      // API configuration
+
       apiUrl: 'https://api.tripbud-bmsd22a.bbzwinf.ch/api/messages',
-      bearerToken: null, // Will be populated from localStorage
-      userId: null // Will be populated from localStorage
+      bearerToken: null,
+      userId: null
     }
   },
   created() {
-    // Check if user is logged in
     this.bearerToken = localStorage.getItem('bearerToken');
     this.userId = localStorage.getItem('userId') || '3';
    
@@ -284,26 +260,19 @@ export default {
     }
   },
   mounted() {
-    // Fetch messages when component is mounted
     this.fetchMessages();
    
-    // Set up polling to fetch messages periodically (every 30 seconds)
     this.pollInterval = setInterval(() => {
       this.fetchMessages();
     }, 30000);
-   
-    // Add event listener to close dropdown when clicking outside
+
     document.addEventListener('click', this.handleOutsideClick);
   },
   beforeUnmount() {
-    // Clear polling interval when component is destroyed
     clearInterval(this.pollInterval);
-   
-    // Remove event listener
     document.removeEventListener('click', this.handleOutsideClick);
   },
   methods: {
-    // API Methods
     async fetchMessages() {
       if (!this.bearerToken) {
         this.error = 'Authentication token missing. Please log in again.';
@@ -320,19 +289,15 @@ export default {
             'Accept': 'application/json'
           }
         });
-       
-        // Check if the response contains the expected data
+
         if (Array.isArray(response.data)) {
           this.messages = response.data;
         } else if (response.data.data && Array.isArray(response.data.data)) {
-          // Some APIs wrap the data in a 'data' property
           this.messages = response.data.data;
         } else {
           console.warn('Unexpected response format:', response.data);
           this.messages = [];
         }
-       
-        // Scroll to the bottom of the chat after messages are loaded
         this.$nextTick(() => {
           this.scrollToBottom();
         });
@@ -340,24 +305,19 @@ export default {
         console.error('Error fetching messages:', err);
        
         if (err.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
           console.error('Response data:', err.response.data);
           console.error('Response status:', err.response.status);
          
           if (err.response.status === 401) {
             this.error = 'Authentication failed. Please log in again.';
-            // Redirect to login if token is invalid
             localStorage.removeItem('bearerToken');
             this.$router.push('/login');
           } else {
             this.error = `Failed to load messages: ${err.response.data.message || 'Server error'}`;
           }
         } else if (err.request) {
-          // The request was made but no response was received
           this.error = 'No response from server. Please check your connection.';
         } else {
-          // Something happened in setting up the request that triggered an Error
           this.error = `Error setting up request: ${err.message}`;
         }
       } finally {
@@ -366,10 +326,8 @@ export default {
     },
    
     formatMessageForSending(messageText) {
-      // Based on the error message, it seems the server expects a specific format
-      // with a non-null 'message' field
       return {
-        message: messageText.trim(), // This is the key field that was missing
+        message: messageText.trim(),
         text: messageText.trim(),
         user_id: this.userId,
         sender: 'You',
@@ -378,7 +336,6 @@ export default {
     },
    
     async sendMessage() {
-      // Don't send empty messages
       if (!this.newMessage.trim()) return;
      
       if (!this.bearerToken) {
@@ -389,10 +346,8 @@ export default {
       this.isSending = true;
      
       try {
-        // Format the message data properly
         const messageData = this.formatMessageForSending(this.newMessage);
-       
-        // Send message to API
+
         const response = await axios.post(this.apiUrl, messageData, {
           headers: {
             'Authorization': `Bearer ${this.bearerToken}`,
@@ -401,30 +356,23 @@ export default {
         });
        
         console.log('Message sent successfully:', response.data);
-       
-        // Optimistically add message to the UI
+
         this.messages.push(messageData);
-       
-        // Clear the input
+
         this.newMessage = '';
-       
-        // Scroll to the bottom
+
         this.$nextTick(() => {
           this.scrollToBottom();
         });
-       
-        // Fetch all messages to ensure we have the latest state
         await this.fetchMessages();
       } catch (err) {
         console.error('Error sending message:', err);
-       
-        // Check for authentication error
+
         if (err.response && err.response.status === 401) {
           this.error = 'Authentication failed. Please log in again.';
           localStorage.removeItem('bearerToken');
           this.$router.push('/login');
         } else {
-          // Provide more detailed error information
           if (err.response && err.response.data) {
             alert(`Failed to send message: ${err.response.data.message || JSON.stringify(err.response.data)}`);
           } else {
@@ -436,33 +384,26 @@ export default {
       }
     },
    
-    // Navigation methods
     navigate(page) {
       this.activePage = page;
       this.$router.push('/' + page);
     },
-   
-    // Helper methods
     formatMessageTime(timestamp) {
       if (!timestamp) return '';
      
       const date = new Date(timestamp);
       const today = new Date();
-     
-      // Check if the message is from today
+
       if (date.toDateString() === today.toDateString()) {
         return `Today, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
       }
      
- 
-      // Check if the message is from yesterday
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       if (date.toDateString() === yesterday.toDateString()) {
         return `Yesterday, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
       }
-     
-      // For older messages, show the date
+
       return `${date.toLocaleDateString()}, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
     },
    
@@ -480,15 +421,12 @@ export default {
       }
     },
    
-    
-    // Logout method
     logout() {
       localStorage.removeItem('bearerToken');
       localStorage.removeItem('userId');
       this.$router.push('/login');
     },
-   
-    // Original methods
+
     setActiveTab(tab) {
       this.activeTab = tab;
     },
@@ -497,59 +435,45 @@ export default {
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
+    },
+    openSettings() {
+      this.$router.push('/settings');
     }
   }
 }
 </script>
  
-<style scoped>
-/* Base Styles */
+<style>
+* {
+  font-family: 'Outfit', sans-serif;
+}
+
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
   background-image: url('~@/assets/lines.png');
   background-size: cover;
-  background-repeat: no-repeat;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
 }
  
-/* Header Styles */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: transparent;
-}
- 
-.header-left {
-  display: flex;
-  align-items: center;
+  padding: 1%;
+  margin-bottom: 1%;
 }
  
 .logo {
-  display: flex;
-  align-items: center;
-}
- 
-.logo-icon {
-  background-color: #4a90e2;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  margin-right: 1rem;
+  width: 50px;
+  margin-right: 15px;
 }
  
 .dashboard-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin: 0;
+  margin-bottom: 10px;
 }
  
-.profile-icon {
+.settings-icon {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -582,15 +506,13 @@ export default {
   background-color: #f5f5f5;
 }
  
-/* Main Layout */
 .main-layout {
   display: flex;
   flex: 1;
   padding: 0 2rem 2rem;
   gap: 2rem;
 }
- 
-/* Sidebar Styles */
+
 .sidebar {
   width: 60px;
   background-color: white;
@@ -603,8 +525,7 @@ export default {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   height: fit-content;
 }
- 
-/* Updated sidebar styles from first code */
+
 .sidebar-item {
   width: 40px;
   height: 40px;
@@ -636,8 +557,7 @@ export default {
   filter: none;
   transform: scale(1.2);
 }
- 
-/* Content Container */
+
 .content-container {
   flex: 1;
   display: grid;
@@ -645,8 +565,7 @@ export default {
   gap: 1.5rem;
   grid-auto-rows: min-content;
 }
- 
-/* Section Styles */
+
 .section {
   background-color: white;
   border-radius: 15px;
@@ -659,8 +578,7 @@ export default {
   font-weight: 600;
   margin-bottom: 1rem;
 }
- 
-/* Chat Section */
+
 .chat-section {
   grid-column: 1;
   grid-row: 1;
@@ -745,8 +663,7 @@ export default {
   background-color: #9fc4ee;
   cursor: not-allowed;
 }
- 
-/* Loading and error states */
+
 .loading-messages, .error-messages, .no-messages {
   text-align: center;
   padding: 1rem;
@@ -756,8 +673,7 @@ export default {
 .error-messages {
   color: #e53935;
 }
- 
-/* Calendar Section */
+
 .calendar-section {
   grid-column: 1;
   grid-row: 2;
@@ -862,8 +778,7 @@ export default {
   background-color: #81d4fa;
   color: white;
 }
- 
-/* Favourites Section */
+
 .favourites-section {
   grid-column: 2;
   grid-row: 1;
@@ -940,8 +855,7 @@ export default {
   color: #ff5252;
   font-size: 0.9rem;
 }
- 
-/* Budget Section */
+
 .budget-section {
   grid-column: 2;
   grid-row: 2;
@@ -1048,8 +962,7 @@ export default {
   color: #ff5252;
   font-size: 0.9rem;
 }
- 
-/* Responsive Design */
+
 @media (max-width: 1200px) {
   .content-container {
     grid-template-columns: 1fr;
