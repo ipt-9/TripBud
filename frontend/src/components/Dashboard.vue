@@ -28,7 +28,7 @@
         <div class="sidebar-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
           <img :src="budgetplanerImages[0]" class="sidebar-icons"/>
         </div>
-        <div class="sidebar-item" :class="{ active: activePage === 'blog' }" @click="navigate('blog')">
+        <div class="sidebar-item" :class="{ active: activePage === 'blog' }" @click="navigate('travelblog')">
           <img :src="blogImages[0]" class="sidebar-icons"/>
         </div>
       </nav>

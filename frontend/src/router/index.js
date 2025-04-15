@@ -11,6 +11,7 @@ import MainPage from '../components/MainPage.vue';
 import TripOrganizer from '../components/TripOrganizer.vue';
 import ChatPage from '../components/Chatpage.vue';
 import Dashboard from '../components/Dashboard.vue';
+import BudgetPage from '../components/BudgetPage.vue';
 import TravelBlog from '../components/TravelBlog.vue';
 import Schedule from '../components/Schedule.vue';
 
@@ -28,7 +29,9 @@ const routes = [
   { path: '/chat', component: ChatPage, meta: {requiresAuth: true}},
   { path: '/dashboard', component: Dashboard},
   { path: '/travelblog', component: TravelBlog},
-  { path: '/schedule', component: Schedule}
+  { path: '/schedule', component: Schedule},
+  { path: '/budgetplaner', component: BudgetPage}
+  
 ];
 
 

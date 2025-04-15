@@ -127,7 +127,7 @@
                          id="current-password" 
                          class="form-control password-input"
                          v-model="passwords.current">
-                  <img :src="passwordVisibility.current ? '../assets/show.png' : '../assets/hide.png'" 
+                  <img :src="passwordVisibility.current ? 'src/assets/show.png' : 'src/assets/hide.png'" 
                        class="toggle-password" 
                        alt="Toggle password visibility" 
                        @click="togglePasswordVisibility('current')">
@@ -141,7 +141,7 @@
                          id="new-password" 
                          class="form-control password-input"
                          v-model="passwords.new">
-                  <img :src="passwordVisibility.new ? '../assets/show.png' : '../assets/hide.png'" 
+                  <img :src="passwordVisibility.new ? 'src/assets/show.png' : 'src/assets/hide.png'" 
                        class="toggle-password" 
                        alt="Toggle password visibility" 
                        @click="togglePasswordVisibility('new')">
@@ -155,7 +155,7 @@
                          id="confirm-password" 
                          class="form-control password-input"
                          v-model="passwords.confirm">
-                  <img :src="passwordVisibility.confirm ? '../assets/show.png' : '../assets/hide.png'" 
+                  <img :src="passwordVisibility.confirm ? 'src/assets/show.png' : 'src/assets/hide.png'" 
                        class="toggle-password" 
                        alt="Toggle password visibility" 
                        @click="togglePasswordVisibility('confirm')">
@@ -973,7 +973,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/lines.png');
+  background-image: url('src/assets/lines.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
