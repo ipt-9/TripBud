@@ -136,6 +136,7 @@ export default {
     calculateTotalFormatted() {
       return this.calculateTotal > 0 ? this.calculateTotal.toLocaleString() : '0';
     }
+    
   },
   methods: {
     generateInviteLink() {
