@@ -3,7 +3,7 @@
     <header class="trip-organizer-header">
       <div class="trip-organizer-logo-wrapper">
         <img v-for="img in images" :src="img" class="trip-organizer-logo" />
-        <h1 class="trip-organizer-heading">Trip Organizer</h1>
+        <h1>Trip Organizer</h1>
       </div>
       <img :src="accountImages" class="trip-organizer-settings-icon" @click="openSettings" />
     </header>
@@ -95,13 +95,10 @@ export default {
   margin-right: 15px;
 }
 
-.trip-organizer-heading {
-  margin: 0;
-  font-size: 24px;
-}
-
 .trip-organizer-settings-icon {
-  height: 30px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   cursor: pointer;
 }
 

@@ -2,18 +2,16 @@
   <div class="trip-organizer-container">
     <div class="trip-background-pattern"></div>
     
-    <div class="trip-header">
+    <header class="trip-header">
       <div class="trip-logo-wrapper">
-        <img src="/src/assets/TripBudLogo.png" class="trip-logo-image" />
-        <h1 class="trip-page-title">Create Trip</h1>
+        <img v-for="img in images" :src="img" class="trip-logo-image" />
+        <h1>Create Trip</h1>
       </div>
-      <img src="" class="trip-settings-icon" @click="openSettings" />
-    </div>
+      <img :src="accountImages" class="trip-settings-icon" @click="openSettings" />
+    </header>
 
     <div class="trip-content-wrapper">
-      <!-- Left column -->
       <div class="trip-left-column">
-        <!-- First card -->
         <div class="trip-card trip-details-card">
           <div class="trip-field-wrapper">
             <label class="trip-field-label">Trip Name:</label>
@@ -35,7 +33,6 @@
           </div>
         </div>
 
-        <!-- Second card -->
         <div class="trip-card trip-description-card">
           <div class="trip-field-wrapper">
             <label class="trip-field-label">Description:</label>
@@ -60,10 +57,8 @@
           </div>
         </div>
       </div>
-      
-      <!-- Right column -->
+
       <div class="trip-right-column">
-        <!-- Budget card -->
         <div class="trip-card trip-budget-card">
           <div class="trip-budget-header">
             <div class="trip-budget-title-wrapper">
@@ -96,7 +91,6 @@
           </div>
         </div>
         
-        <!-- Create button -->
         <button class="trip-create-button" @click="createTrip">Create Trip</button>
       </div>
     </div>
@@ -121,6 +115,8 @@ export default {
         }
       },
       inviteLink: '',
+      images:['src/assets/TripBudLogo.png'],
+      accountImages: ['src/assets/default.png']
     };
   },
   computed: {
@@ -154,10 +150,8 @@ export default {
         return;
       }
       
-      // Erfolgsmeldung anzeigen
       alert('Trip Created!');
       
-      // Zur Dashboard-Seite navigieren
       this.$router.push('/dashboard');
     },
     autoExpand() {
@@ -202,12 +196,12 @@ export default {
 }
 
 .trip-header {
-  position: relative;
-  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 7%;
+  width: 90%;
+  position: relative;
 }
 
 .trip-logo-wrapper {
@@ -216,23 +210,14 @@ export default {
 }
 
 .trip-logo-image {
-  width: 36px;
-  height: 36px;
-  background-color: #409FDB;
-  border-radius: 8px;
-  padding: 6px;
-  margin-right: 10px;
-}
-
-.trip-page-title {
-  font-size: 22px;
-  font-weight: 600;
-  color: #333;
+  width: 50px;
+  margin-right: 15px;
 }
 
 .trip-settings-icon {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   cursor: pointer;
 }
 
