@@ -342,6 +342,8 @@ export default {
   background-image: url('~@/assets/lines.png');
   background-size: cover;
   min-height: 100vh;
+  position: relative; /* Added to position the fixed sidebar relative to this container */
+  padding-bottom: 70px; /* Add padding at the bottom to prevent content from being hidden behind the fixed sidebar */
 }
  
 .tb-header {
@@ -374,16 +376,20 @@ export default {
 }
 
 .tb-sidebar {
-  width: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   background-color: white;
   border-radius: 15px;
-  padding: 1.5rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  height: fit-content;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 0 2rem;
 }
 
 .tb-sidebar-item {
@@ -808,15 +814,6 @@ export default {
 @media (max-width: 768px) {
   .tb-main-layout {
     padding: 0 1rem 1rem;
-    flex-direction: column;
-  }
-  
-  .tb-sidebar {
-    width: 100%;
-    flex-direction: row;
-    padding: 1rem;
-    justify-content: space-between;
-    margin-bottom: 1rem;
   }
   
   .tb-blog-header {
@@ -831,6 +828,11 @@ export default {
   
   .tb-media-gallery {
     justify-content: center;
+  }
+  
+  /* Adjust sidebar for smaller screens */
+  .tb-sidebar {
+    padding: 0 1rem;
   }
 }
 
@@ -852,6 +854,16 @@ export default {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
+  }
+  
+  /* Make the sidebar more compact on very small screens */
+  .tb-sidebar {
+    padding: 0 0.5rem;
+  }
+  
+  .tb-sidebar-item {
+    width: 35px;
+    height: 35px;
   }
 }
 </style>
