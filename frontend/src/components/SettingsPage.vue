@@ -1106,7 +1106,7 @@ export default {
    left: 0;
    width: 100%;
    height: 100%;
-   background-image: url('src/assets/lines.png');
+   background-image: url('../assets/lines.png');
    background-repeat: no-repeat;
    background-size: cover;
    background-position: center;

@@ -951,4 +951,318 @@ nav a:hover::after {
   padding: 1rem 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
+
+@media (max-width: 1200px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .whyus-image {
+    width: 100%;
+  }
+  
+  .cards-container {
+    gap: 16px;
+  }
+  
+  .card {
+    width: 260px;
+  }
+}
+
+/* Tablets and Small Laptops (768px - 992px) */
+@media (max-width: 992px) {
+  /* Improve existing layout */
+  .hero, .whyus-container {
+    flex-direction: column;
+    padding: 3rem 2rem;
+  }
+  
+  .hero-text, .hero-image, .whyus-img, .whyus-content {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .hero-image {
+    padding-left: 0;
+    margin-top: 2rem;
+  }
+  
+  .whyus-img {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .whyus-image {
+    width: 80%;
+    max-height: 400px;
+  }
+  
+  .whyus-content {
+    margin-left: 0;
+    margin-top: 2rem;
+  }
+  
+  /* Better card handling */
+  .cards-container {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .card {
+    flex: 0 0 calc(50% - 20px);
+    width: calc(50% - 20px);
+    max-width: 280px;
+  }
+  
+  /* Adjust footer layout */
+  .footer-content {
+    gap: 30px;
+  }
+  
+  .footer-section {
+    flex: 0 0 calc(50% - 30px);
+  }
+  
+  /* Fixed navigation */
+  .nav-links {
+    position: relative;
+    left: 0;
+    transform: none;
+    margin-left: 2rem;
+  }
+}
+
+/* Large Phones and Small Tablets (576px - 768px) */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .logo {
+    margin-bottom: 1rem;
+  }
+  
+  nav {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .nav-links {
+    position: static;
+    transform: none;
+    width: 100%;
+    justify-content: center;
+    margin: 0.5rem 0;
+    margin-left: 0;
+  }
+  
+  .auth-links {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  nav li {
+    margin-right: 1rem;
+  }
+  
+  /* Improved hero section */
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  /* Adjust sections padding */
+  .whyus-container, 
+  .destination-container, 
+  .pricing-container {
+    padding: 2rem 1rem;
+  }
+  
+  /* Card layout adjustments */
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  /* Footer improvements */
+  .footer-section {
+    flex: 0 0 100%;
+    margin-bottom: 2rem;
+  }
+  
+  .travelImg {
+    width: 100%;
+  }
+}
+
+/* Mobile Phones (Up to 576px) */
+@media (max-width: 576px) {
+  .logo-img {
+    height: 30px;
+  }
+  
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+  
+  nav li {
+    margin-right: 0.5rem;
+  }
+  
+  .nav-links, .auth-links {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .btn-signup, .btn-login {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Hero section on mobile */
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn-plan-trip {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  /* Why us section */
+  .whyus-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .feature-item {
+    margin-bottom: 1.5rem;
+  }
+  
+  .feature-item .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 1rem;
+  }
+  
+  /* Destination and pricing sections */
+  .destination-container h1,
+  .pricing-container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .destinationImg {
+    padding: 0;
+    width: 100%;
+  }
+  
+  /* Card styling for mobile */
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .price {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Contact form */
+  .footer-section input,
+  .footer-section textarea {
+    padding: 0.8rem;
+  }
+}
+
+/* Small Mobile Phones (Up to 375px) */
+@media (max-width: 375px) {
+  header {
+    padding: 0.8rem;
+  }
+  
+  .logo-img {
+    height: 25px;
+  }
+  
+  .logo h1 {
+    font-size: 1.3rem;
+  }
+  
+  .nav-links, .auth-links {
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  nav li {
+    margin-right: 0;
+    font-size: 0.9rem;
+  }
+  
+  .btn-signup, .btn-login {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+  
+  .features-box {
+    margin-top: 1rem;
+  }
+  
+  .feature-item {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Fix header on small devices */
+@media (max-width: 480px) {
+  .header-scrolled {
+    padding: 0.5rem;
+  }
+  
+  .auth-links {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Additional enhancements for better UX */
+@media (hover: none) {
+  .feature-item:hover {
+    transform: none;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  
+  .card:hover {
+    transform: none;
+  }
+}
 </style>
