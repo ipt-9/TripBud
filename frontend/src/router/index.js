@@ -10,7 +10,7 @@ import StartPage from '../components/StartPage.vue';
 import documents from '../components/documents.vue';
 import MainPage from '../components/MainPage.vue';
 import TripOrganizer from '../components/TripOrganizer.vue';
-import ChatPage from '../components/Chatpage.vue';
+import ChatPage from '../components/ChatPage.vue';
 import Dashboard from '../components/Dashboard.vue';
 import BudgetPage from '../components/BudgetPage.vue';
 import TravelBlog from '../components/TravelBlog.vue';
