@@ -9,6 +9,7 @@
     </header>
 
     <div class="main-layout">
+      <!-- Desktop sidebar - hidden on mobile -->
       <nav class="sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages[0]" class="sidebar-icons"/>
@@ -184,6 +185,28 @@
         </div>
       </div>
     </div>
+
+    <!-- Bottom Navigation Bar - Only shows on mobile -->
+    <nav class="mobile-nav">
+      <div class="mobile-nav-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
+        <img :src="dashboardImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'chat' }" @click="navigate('chat')">
+        <img :src="chatImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'documents' }" @click="navigate('documents')">
+        <img :src="documentsImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'schedule' }" @click="navigate('schedule')">
+        <img :src="scheduleImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
+        <img :src="budgetplanerImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'blog' }" @click="navigate('blog')">
+        <img :src="blogImages[0]" class="mobile-nav-icon"/>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -325,6 +348,7 @@ export default {
 <style>
 * {
   font-family: 'Outfit', sans-serif;
+  box-sizing: border-box;
 }
 
 .dashboard-container {
@@ -334,6 +358,8 @@ export default {
   background-image: url('~@/assets/lines.png');
   background-size: cover;
   min-height: 100vh;
+  padding-bottom: 0;
+  position: relative;
 }
  
 .header {
@@ -729,6 +755,42 @@ export default {
   transform: scale(0.8);
 }
 
+/* Mobile navigation bar */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 16px;
+  z-index: 100;
+  border-top: 1px solid #edf2f7;
+  justify-content: space-between;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mobile-nav-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  filter: grayscale(100%) opacity(0.4);
+  transition: all 0.2s;
+}
+
+.mobile-nav-item.active .mobile-nav-icon {
+  filter: none;
+}
+
 @media (max-width: 1200px) {
   .dm-content-layout {
     flex-direction: column;
@@ -750,16 +812,15 @@ export default {
 @media (max-width: 768px) {
   .main-layout {
     padding: 0 1rem 1rem;
-    flex-direction: column;
-    height: auto;
+    padding-bottom: 70px; /* Add padding for mobile nav */
   }
   
   .sidebar {
-    width: 100%;
-    flex-direction: row;
-    padding: 1rem;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+    display: none; /* Hide desktop sidebar on mobile */
+  }
+  
+  .mobile-nav {
+    display: flex; /* Show mobile nav on small screens */
   }
   
   .dm-content-layout {
@@ -782,6 +843,15 @@ export default {
   .dm-th-owner, .dm-td-owner {
     display: none;
   }
+  
+  .dm-files-container {
+    max-height: calc(100vh - 270px); /* Account for other elements and bottom navigation */
+  }
+  
+  /* Hide the top navigation bar */
+  nav.sidebar {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -793,6 +863,8 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+    height: auto;
+    margin-bottom: 24px;
   }
   
   .dm-add-new-btn {
@@ -804,6 +876,18 @@ export default {
   
   .dm-section-title {
     font-size: 18px;
+  }
+  
+  .header {
+    padding: 16px;
+  }
+  
+  .logo {
+    width: 40px;
+  }
+  
+  h1 {
+    font-size: 24px;
   }
 }
 </style>

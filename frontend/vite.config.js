@@ -1,17 +1,21 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import path from 'path'
+
 export default defineConfig({
-  build: {
-    outDir: 'dist'
-  },
-  plugins: [
-    vue(),
-  ],
+  plugins: [vue()],
   resolve: {
     alias: {
-      vue: "vue/dist/vue.esm-bundler.js",
-    },
+      '@': path.resolve(__dirname, './src')
+    }
   },
-});
-
- 
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://api.tripbud-bmsd22a.bbzwinf.ch',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
+})
