@@ -140,7 +140,7 @@ export default {
     },
     closePopup() {
       this.showPopup = false;
-      this.$router.push('/triporganizer');
+      this.$router.push('/dashboard');
     }
   }
  
