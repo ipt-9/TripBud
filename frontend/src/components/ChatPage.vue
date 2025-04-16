@@ -22,7 +22,7 @@
     </header>
    
     <div class="main-layout">
-      <!-- Sidebar from Dashboard.vue -->
+      <!-- Desktop sidebar - hidden on mobile -->
       <nav class="sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages[0]" class="sidebar-icons"/>
@@ -88,11 +88,11 @@
                 </div>
                 <div class="message-content">
                   <div class="message-header">
-                    <span class="message-sender">{{ message.sender || 'User' }}</span>
-                    <span class="message-time">{{ formatMessageTime(message.timestamp || message.created_at) }}</span>
+                    <span class="message-sender">{{ getUserUsername(message) }}</span>
+                    <span class="message-time">{{ formatMessageTime(message.created_at || message.timestamp) }}</span>
                   </div>
                   <div class="message-bubble">
-                    <p>{{ message.text || message.message }}</p>
+                    <p>{{ message.message }}</p>
                   </div>
                 </div>
               </div>
@@ -129,6 +129,28 @@
         </div>
       </div>
     </div>
+    
+    <!-- Bottom Navigation Bar - Only shows on mobile -->
+    <nav class="mobile-nav">
+      <div class="mobile-nav-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
+        <img :src="dashboardImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'chat' }" @click="navigate('chat')">
+        <img :src="chatImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'documents' }" @click="navigate('documents')">
+        <img :src="documentsImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'schedule' }" @click="navigate('schedule')">
+        <img :src="scheduleImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
+        <img :src="budgetplanerImages[0]" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'blog' }" @click="navigate('travelblog')">
+        <img :src="blogImages[0]" class="mobile-nav-icon"/>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -163,12 +185,14 @@ export default {
       // API settings
       apiUrl: 'https://api.tripbud-bmsd22a.bbzwinf.ch/api/messages',
       bearerToken: null,
-      userId: null
+      userId: null,
+      currentUsername: 'You' // Default username for current user
     };
   },
   created() {
     this.bearerToken = localStorage.getItem('bearerToken');
     this.userId = localStorage.getItem('userId') || '3';
+    this.currentUsername = localStorage.getItem('userUsername') || 'You';
     
     if (!this.bearerToken) {
       console.warn('No bearer token found. Redirecting to login...');
@@ -247,9 +271,7 @@ export default {
     formatMessageForSending(messageText) {
       return {
         message: messageText.trim(),
-        text: messageText.trim(),
         user_id: this.userId,
-        sender: 'You',
         timestamp: new Date().toISOString()
       };
     },
@@ -267,8 +289,17 @@ export default {
       try {
         const messageData = this.formatMessageForSending(this.newMessage);
         
-        // Optimistically add message to UI
-        this.messages.push(messageData);
+        // Optimistically add message to UI with current user info
+        const optimisticMessage = {
+          ...messageData,
+          user: {
+            id: this.userId,
+            username: this.currentUsername
+          },
+          created_at: new Date().toISOString()
+        };
+        
+        this.messages.push(optimisticMessage);
         this.newMessage = '';
         this.scrollToBottom();
 
@@ -305,6 +336,31 @@ export default {
       }
     },
     
+    // New helper method to get username from message
+    getUserUsername(message) {
+      if (this.isCurrentUser(message)) {
+        return this.currentUsername || 'You';
+      }
+      
+      // Prioritize username from user object if it exists
+      if (message.user && message.user.username) {
+        return message.user.username;
+      }
+      
+      // Fallback to name if username is not available
+      if (message.user && message.user.name) {
+        return message.user.name;
+      }
+      
+      // Fallback to sender property if it exists
+      if (message.sender) {
+        return message.sender;
+      }
+      
+      // Final fallback
+      return 'Unknown User';
+    },
+    
     formatMessageTime(timestamp) {
       if (!timestamp) return '';
       
@@ -332,7 +388,8 @@ export default {
     },
     
     isCurrentUser(message) {
-      return message.user_id === this.userId || message.sender === 'You';
+      return message.user_id == this.userId || 
+             (message.user && message.user.id == this.userId);
     },
     
     navigate(page) {
@@ -380,6 +437,8 @@ export default {
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
   background-image: url('~@/assets/lines.png');
   background-size: cover;
+  padding-bottom: 0;
+  position: relative;
 }
 
 /* Header Styles */
@@ -849,19 +908,55 @@ h1 {
   animation: spin 1s linear infinite;
 }
 
+/* Mobile Navigation Bar */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 16px;
+  z-index: 100;
+  border-top: 1px solid #edf2f7;
+  justify-content: space-between;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mobile-nav-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  filter: grayscale(100%) opacity(0.4);
+  transition: all 0.2s;
+}
+
+.mobile-nav-item.active .mobile-nav-icon {
+  filter: none;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .main-layout {
     padding: 0 1rem 1rem;
+    padding-bottom: 70px; /* Add padding for bottom nav */
   }
   
   .sidebar {
-    width: 50px;
+    display: none; /* Hide desktop sidebar on mobile */
   }
   
-  .sidebar-item {
-    width: 35px;
-    height: 35px;
+  .mobile-nav {
+    display: flex; /* Show mobile nav on small screens */
   }
   
   .message-item {
@@ -880,15 +975,8 @@ h1 {
 
 @media (max-width: 576px) {
   .main-layout {
-    flex-direction: column;
     padding: 0 0.5rem 0.5rem;
-  }
-  
-  .sidebar {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.5rem;
+    padding-bottom: 70px; /* Add padding for bottom nav */
   }
   
   .message-avatar {
@@ -908,6 +996,30 @@ h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  
+  .header {
+    padding: 16px;
+  }
+  
+  .logo {
+    width: 40px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  
+  .message-input-area {
+    padding: 10px;
+  }
+  
+  .input-wrapper input {
+    padding: 8px 10px;
+  }
+  
+  .attach-btn, .send-btn {
+    width: 36px;
+    height: 36px;
   }
 }
 </style>
