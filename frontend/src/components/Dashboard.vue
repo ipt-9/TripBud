@@ -1,18 +1,17 @@
-<!-- Dashboard.vue (Updated) -->
+<!-- Dashboard.vue (Complete Fixed Version) -->
 <template>
   <div class="dashboard-container">
     <header class="header">
-      <header class="header">
       <div class="logo-container">
-        <img v-for="img in images" :src="img" class="logo" />
+        <img v-for="img in images" :key="img" :src="img" class="logo" />
         <h1>Dashboard</h1>
       </div>
       <img :src="accountImages" class="settings-icon" @click="openSettings" />
     </header>
-    </header>
    
     <div class="main-layout">
-      <nav class="sidebar">
+      <!-- Desktop Sidebar -->
+      <nav class="sidebar desktop-sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages[0]" class="sidebar-icons"/>
         </div>
@@ -213,6 +212,28 @@
             </div>
           </div>
         </section>
+      </div>
+    </div>
+    
+    <!-- Mobile Bottom Navigation Bar -->
+    <div class="bottom-nav">
+      <div class="bottom-nav-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
+        <img :src="dashboardImages[0]" class="bottom-nav-icon"/>
+      </div>
+      <div class="bottom-nav-item" :class="{ active: activePage === 'chat' }" @click="navigate('chat')">
+        <img :src="chatImages[0]" class="bottom-nav-icon"/>
+      </div>
+      <div class="bottom-nav-item" :class="{ active: activePage === 'documents' }" @click="navigate('documents')">
+        <img :src="documentsImages[0]" class="bottom-nav-icon"/>
+      </div>
+      <div class="bottom-nav-item" :class="{ active: activePage === 'schedule' }" @click="navigate('schedule')">
+        <img :src="scheduleImages[0]" class="bottom-nav-icon"/>
+      </div>
+      <div class="bottom-nav-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
+        <img :src="budgetplanerImages[0]" class="bottom-nav-icon"/>
+      </div>
+      <div class="bottom-nav-item" :class="{ active: activePage === 'blog' }" @click="navigate('travelblog')">
+        <img :src="blogImages[0]" class="bottom-nav-icon"/>
       </div>
     </div>
   </div>
@@ -446,6 +467,7 @@ export default {
 <style>
 * {
   font-family: 'Outfit', sans-serif;
+  box-sizing: border-box;
 }
 
 .dashboard-container {
@@ -454,14 +476,22 @@ export default {
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
   background-image: url('~@/assets/lines.png');
   background-size: cover;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 70px; /* Add padding to prevent content from being hidden behind mobile nav */
 }
  
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1%;
+  padding: 1rem;
   margin-bottom: 1%;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
 }
  
 .logo {
@@ -478,7 +508,6 @@ export default {
   height: 40px;
   border-radius: 50%;
   background-color: #333;
-  position: relative;
   cursor: pointer;
 }
  
@@ -513,7 +542,8 @@ export default {
   gap: 2rem;
 }
 
-.sidebar {
+/* Desktop Sidebar */
+.desktop-sidebar {
   width: 60px;
   background-color: white;
   border-radius: 15px;
@@ -524,8 +554,51 @@ export default {
   gap: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   height: fit-content;
+  position: sticky;
+  top: 1rem;
+  align-self: flex-start;
 }
 
+/* Bottom Navigation Bar for mobile */
+.bottom-nav {
+  display: none; /* Hidden by default on desktop */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #eaeaea;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 100%;
+  flex: 1;
+}
+
+.bottom-nav-icon {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+  filter: grayscale(100%) opacity(0.4);
+}
+
+.bottom-nav-item.active .bottom-nav-icon {
+  filter: none;
+  transform: scale(1.2);
+}
+
+/* Common sidebar item styles */
 .sidebar-item {
   width: 40px;
   height: 40px;
@@ -963,6 +1036,7 @@ export default {
   font-size: 0.9rem;
 }
 
+/* Responsive styles */
 @media (max-width: 1200px) {
   .content-container {
     grid-template-columns: 1fr;
@@ -992,15 +1066,16 @@ export default {
 @media (max-width: 768px) {
   .main-layout {
     padding: 0 1rem 1rem;
-    flex-direction: column;
   }
- 
-  .sidebar {
-    width: 100%;
-    flex-direction: row;
-    padding: 1rem;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+
+  /* Hide desktop sidebar */
+  .desktop-sidebar {
+    display: none;
+  }
+  
+  /* Show mobile sidebar */
+  .bottom-nav {
+    display: flex;
   }
  
   .header {
@@ -1017,6 +1092,28 @@ export default {
 }
  
 @media (max-width: 480px) {
+  .main-layout {
+    padding: 0 0.5rem 0.5rem;
+  }
+  
+  .header {
+    padding: 0.75rem;
+  }
+  
+  h1 {
+    font-size: 1.2rem;
+  }
+  
+  .section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+  
   .calendar-days {
     grid-template-columns: repeat(7, 1fr);
     gap: 0.1rem;
@@ -1046,6 +1143,46 @@ export default {
  
   .budget-tabs, .budget-days {
     flex-wrap: wrap;
+  }
+  
+  .chat-avatar {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .chat-input-container {
+    gap: 0.25rem;
+  }
+  
+  .chat-input {
+    padding: 0.5rem;
+  }
+  
+  .send-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .settings-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .budget-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .favourites-section .owner-col {
+    display: none;
   }
 }
 </style>
