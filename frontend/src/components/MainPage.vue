@@ -1,16 +1,20 @@
 <template>
   <div class="start-page">
-    <div class="background-svg"></div>
-    <header>
+    <header :class="{'header-scrolled': isScrolled}">
       <div class="logo">
-        <img src="../assets/TripBudLogo.png" class="logo-img" alt="TripBud Logo" @click.prevent="scrollToSection('hero')"/>
+        <img src="../assets/TripBudLogo.png" class="logo-img" alt="TripBud Logo" @click="scrollToSection('hero')" />
         <h1>TripBud</h1>
       </div>
-      <nav>
+      <div class="mobile-menu-button" @click="toggleMobileMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav :class="{'mobile-active': mobileMenuOpen}">
         <ul class="nav-links">
-          <li><a href="#" @click.prevent="scrollToSection('whyus')">Why Us</a></li>
-          <li><a href="#" @click.prevent="scrollToSection('destinations')">Popular Destinations</a></li>
-          <li><a href="#" @click.prevent="scrollToSection('pricing')">Plans</a></li>
+          <li><a href="#" @click="scrollToSection('whyus')">Why Us</a></li>
+          <li><a href="#" @click="scrollToSection('destinations')">Popular Destinations</a></li>
+          <li><a href="#" @click="scrollToSection('pricing')">Plans</a></li>
         </ul>
         <ul class="auth-links">
           <li><router-link to="/register" class="btn-signup">Sign Up</router-link></li>
@@ -19,10 +23,9 @@
       </nav>
     </header>
 
-
     <main>
       <!-- Hero Section -->
-      <div class="hero" id="hero">
+      <section class="hero" id="hero">
         <div class="hero-text">
           <h1>Plan your next trip together.</h1>
           <p>Let's plan your perfect trip together, including all the details! Include all your buddies and store your files in-app!</p>
@@ -33,15 +36,15 @@
         <div class="hero-image">
           <img src="../assets/hero_image.svg" alt="Trip Planning Illustration" />
         </div>
-      </div>
+      </section>
 
       <!-- Why Us Section -->
-      <div class="whyus-container" id="whyus">
+      <section class="whyus-container" id="whyus">
         <div class="whyus-img">
           <img src="../assets/explorer.svg" alt="Traveler with backpack" class="whyus-image" />
         </div>
         <div class="whyus-content">
-          <h1>Why Choose Us</h1>
+          <h2>Why Choose Us</h2>
           <p>Enjoy unique experiences in every place you visit and discover new, affordable adventures.</p>
           
           <div class="features-box">
@@ -63,21 +66,21 @@
           
           <router-link to="/register" class="create-account">Create an account!</router-link>
         </div>
-      </div>
+      </section>
 
       <!-- Destinations Section -->
-      <div class="destination-container" id="destinations">
-        <h1>Popular Destinations</h1>
+      <section class="destination-container" id="destinations">
+        <h2>Popular Destinations</h2>
         <img src="../assets/destinations.svg" alt="popular destinations" class="destinationImg">
-      </div>
+      </section>
 
       <!-- Pricing Section -->
-      <div class="pricing-container" id="pricing">
-        <h1>Plans</h1>
+      <section class="pricing-container" id="pricing">
+        <h2>Plans</h2>
         <div class="cards-container">
           <!-- Free Plan -->
           <div class="card free">
-            <h2>Free</h2>
+            <h3>Free</h3>
             <p class="price">$0<span>/mo</span></p>
             <div class="plan-info">
               <p>2 saved trips</p>
@@ -93,7 +96,7 @@
             @mouseover="pausePulse" 
             @mouseleave="resumePulse"
           >
-            <h2>Premium</h2>
+            <h3>Premium</h3>
             <p class="price">$8.99<span>/mo</span></p>
             <div class="plan-info">
               <p>10 saved trips</p>
@@ -105,7 +108,7 @@
           
           <!-- Business Plan -->
           <div class="card business">
-            <h2>Business</h2>
+            <h3>Business</h3>
             <p class="price">$24.99<span>/mo</span></p>
             <div class="plan-info">
               <p>Unlimited saved trips</p>
@@ -115,18 +118,18 @@
             <button class="btn">Get Business</button>
           </div>
         </div>
-      </div>
+      </section>
     </main>
 
     <!-- Footer Section -->
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-section">
-          <img src="../assets/TripBudLogo.png" style="width: 70px; height: 70px;" alt="TripBud Logo" />
-          <p>&copy; 2025 TripBud all rights reserved.</p>
+          <img src="../assets/TripBudLogo.png" class="footer-logo" alt="TripBud Logo" />
+          <p><strong>&copy; 2025 TripBud all rights reserved.</strong></p>
           <div class="app-links">
-            <img src="../assets/GooglePlay.png" style="width: 120px; height: 50px;" alt="Google Play" />
-            <img src="../assets/AppleStore.png" style="width: 100px; height: 35px;" alt="App Store" />
+            <img src="../assets/GooglePlay.png" class="google-play" alt="Google Play" />
+            <img src="../assets/AppleStore.png" class="apple-store" alt="App Store" />
           </div>
         </div>
         
@@ -134,8 +137,8 @@
           <h3>Pages</h3>
           <ul>
             <li><a href="#">Home</a></li>
-            <li><a href="#" @click.prevent="scrollToSection('whyus')">Why Us</a></li>
-            <li><a href="#" @click.prevent="scrollToSection('pricing')">Plans</a></li>
+            <li><a href="#" @click="scrollToSection('whyus')">Why Us</a></li>
+            <li><a href="#" @click="scrollToSection('pricing')">Plans</a></li>
             <li><router-link to="/register">Sign Up</router-link></li>
             <li><router-link to="/login">Login</router-link></li>
           </ul>
@@ -162,9 +165,11 @@
         
         <div class="footer-section">
           <h3>Contact Us</h3>
-          <input type="email" placeholder="Email" />
-          <textarea placeholder="Message"></textarea>
-          <button>Submit</button>
+          <form @submit.prevent="submitContact">
+            <input type="email" placeholder="Email" v-model="contactEmail" required />
+            <textarea placeholder="Message" v-model="contactMessage" required></textarea>
+            <button type="submit">Submit</button>
+          </form>
         </div>
       </div>
     </footer>
@@ -175,12 +180,11 @@
 export default {
   data() {
     return {
-      logoImage: 'src/assets/TripBudLogo.png',
-      frontImage: 'src/assets/FrontImg.png',
-      whyUsImage: 'src/assets/why-us-img.png',
-      googleImage: 'src/assets/GooglePlay.png',
-      appleImage: 'src/assets/AppleStore.png',
+      isScrolled: false,
+      mobileMenuOpen: false,
       hoveredIndex: null,
+      contactEmail: '',
+      contactMessage: '',
       features: [
         { 
           icon: '../assets/download.png', 
@@ -200,28 +204,27 @@ export default {
       ]
     };
   },
-  // Add these lifecycle hooks
   mounted() {
-    // Add scroll event listener for animations
     window.addEventListener('scroll', this.handleScroll);
-    
-    // Initially check which sections are visible
     this.handleScroll();
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', this.closeMobileMenuOutside);
   },
   beforeDestroy() {
-    // Clean up event listener
     window.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('click', this.closeMobileMenuOutside);
   },
   methods: {
-    // Keep your existing methods
     scrollToSection(sectionId) {
+      // Close mobile menu when navigating
+      this.mobileMenuOpen = false;
+      
       const section = document.getElementById(sectionId);
       if (section) {
-        // Calculate header height to adjust scroll position
         const headerHeight = document.querySelector('header').offsetHeight;
         const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset;
         
-        // Scroll to section with header height offset
         window.scrollTo({
           top: sectionPosition - headerHeight,
           behavior: 'smooth'
@@ -229,30 +232,59 @@ export default {
       }
     },
     
+    toggleMobileMenu(event) {
+      this.mobileMenuOpen = !this.mobileMenuOpen;
+      // Prevent event from bubbling
+      event.stopPropagation();
+    },
+    
+    closeMobileMenuOutside(event) {
+      // Close menu when clicking outside of nav and menu button
+      const nav = document.querySelector('nav');
+      const menuButton = document.querySelector('.mobile-menu-button');
+      
+      if (this.mobileMenuOpen && 
+          !nav.contains(event.target) && 
+          !menuButton.contains(event.target)) {
+        this.mobileMenuOpen = false;
+      }
+    },
+    
     pausePulse(event) {
       event.target.style.animationPlayState = 'paused';
     },
+    
     resumePulse(event) {
       event.target.style.animationPlayState = 'running';
     },
-    // Add this new method
+    
     handleScroll() {
       // Header shrink effect
-      const header = document.querySelector('header');
-      if (window.scrollY > 100) {
-        header.classList.add('header-scrolled');
-      } else {
-        header.classList.remove('header-scrolled');
-      }
+      this.isScrolled = window.scrollY > 50;
       
       // Reveal sections when scrolled into view
-      const sections = document.querySelectorAll('.hero, .whyus-container, .pricing-container');
+      const sections = document.querySelectorAll('.hero, .whyus-container, .destination-container, .pricing-container');
       sections.forEach(section => {
         const sectionTop = section.getBoundingClientRect().top;
         if (sectionTop < window.innerHeight - 100) {
           section.classList.add('show-section');
         }
       });
+    },
+    
+    submitContact() {
+      // Handle contact form submission
+      console.log('Submitting contact form:', { 
+        email: this.contactEmail, 
+        message: this.contactMessage 
+      });
+      
+      // Reset form after submission
+      this.contactEmail = '';
+      this.contactMessage = '';
+      
+      // Show success message (in a real app)
+      alert('Thank you for your message! We will get back to you soon.');
     }
   }
 };
@@ -262,8 +294,18 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
 
 * {
+  margin: 0;
+  padding: 0;
   font-family: 'Outfit', sans-serif;
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 .start-page {
@@ -272,41 +314,72 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  transition: opacity 0.5s ease-in-out;
 }
 
+/* Header Styles */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: transparent;
-  color: black;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.header-scrolled {
+  padding: 0.5rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   display: flex;
   align-items: center;
+  z-index: 101;
 }
 
 .logo-img {
   height: 40px;
+  width: auto;
   margin-right: 0.5rem;
+  cursor: pointer;
 }
 
 .logo h1 {
   color: #409FDB;
   font-weight: 600;
+  margin: 0;
 }
 
+/* Mobile Menu Button */
+.mobile-menu-button {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 24px;
+  width: 30px;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.mobile-menu-button span {
+  width: 100%;
+  height: 3px;
+  background-color: #409FDB;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Navigation */
 nav {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   flex-grow: 1;
-  justify-content: flex-end;
+  position: relative;
 }
 
 .nav-links {
@@ -324,6 +397,7 @@ nav {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  margin-left: auto;
 }
 
 nav li {
@@ -336,13 +410,25 @@ nav li:last-child {
 
 nav a {
   text-decoration: none;
-  color: black;
-  cursor: pointer;
+  color: #333;
+  font-weight: 500;
   transition: color 0.3s;
+  position: relative;
 }
 
 nav a:hover {
-  color: #007bff;
+  color: #409FDB;
+}
+
+nav a:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #409FDB;
+  transform: scaleX(1);
 }
 
 .btn-signup {
@@ -350,30 +436,46 @@ nav a:hover {
   padding: 0.5rem 1rem;
   border-radius: 8px;
   color: white !important;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(230, 130, 0, 0.2);
 }
 
 .btn-signup:hover {
   background-color: #FF9466;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 130, 0, 0.3);
+}
+
+.btn-signup:hover::after {
+  display: none;
 }
 
 .btn-login {
-  border: 1px solid black;
+  border: 1px solid #333;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  transition: border-color 0.3s, color 0.3s;
+  transition: all 0.3s;
 }
 
 .btn-login:hover {
-  border-color: #007bff;
-  color: #007bff;
+  border-color: #409FDB;
+  color: #409FDB;
+  transform: translateY(-2px);
 }
 
+.btn-login:hover::after {
+  display: none;
+}
+
+/* Hero Section */
 .hero {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 3rem 5rem;
+  padding: 5rem 5rem 3rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .hero-text {
@@ -384,11 +486,16 @@ nav a:hover {
 .hero h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
+  background: linear-gradient(90deg, #333 0%, #409FDB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
+  line-height: 1.6;
 }
 
 .btn-plan-trip {
@@ -399,15 +506,14 @@ nav a:hover {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(64, 159, 219, 0.2);
 }
 
 .btn-plan-trip:hover {
-  background-color: #0056b3;
-}
-
-html {
-  scroll-behavior: smooth;
+  background-color: #3088c3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(64, 159, 219, 0.3);
 }
 
 .hero-image {
@@ -419,15 +525,19 @@ html {
 
 .hero-image img {
   width: 100%;
-  max-width: 600px;
+  max-width: 600px; 
   height: auto;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
 }
 
+/* Why Us Section */
 .whyus-container {
   display: flex;
   justify-content: space-between;
-
-  padding: 4rem;
+  padding: 5rem 5rem 3rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .whyus-img {
@@ -435,19 +545,21 @@ html {
 }
 
 .whyus-image {
-  width: 110%;
+  width: 100%;
+  max-width: 500px;
   height: auto;
-  box-shadow: none;
-  max-height: 500px;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
 }
+
 .whyus-content {
   flex: 0 0 55%;
   margin-left: 5%;
 }
 
-.whyus-content h1 {
-  font-size: 2rem;
+.whyus-content h2 {
+  font-size: 2.5rem;
   margin-bottom: 1rem;
+  color: #333;
 }
 
 .features-box {
@@ -459,11 +571,14 @@ html {
 
 .feature-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   text-align: left;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: all 0.3s ease;
   margin-bottom: 2rem;
+  padding: 15px;
+  border-radius: 10px;
+  width: 100%;
 }
 
 .feature-item.dimmed {
@@ -471,6 +586,8 @@ html {
 }
 
 .feature-item:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   transform: translateX(10px);
 }
 
@@ -481,13 +598,15 @@ html {
 }
 
 .feature-item h3 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin-bottom: 0.5rem;
+  color: #333;
 }
 
 .feature-item p {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #666;
+  line-height: 1.5;
 }
 
 .create-account {
@@ -495,37 +614,65 @@ html {
   text-decoration: none;
   font-weight: 500;
   display: inline-block;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  transition: transform 0.3s;
 }
 
 .create-account::after {
   content: " >";
+  transition: margin-left 0.3s;
 }
 
+.create-account:hover {
+  transform: translateX(5px);
+}
+
+.create-account:hover::after {
+  margin-left: 5px;
+}
+
+/* Destinations Section */
 .destination-container {
-  padding: 4rem;
+  padding: 5rem 5rem 3rem;
   text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.destinationImg{
+.destination-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.destinationImg {
+  max-width: 100%;
+  height: auto;
   padding: 2rem;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
 }
 
+/* Pricing Section */
 .pricing-container {
-  padding: 4rem;
+  padding: 5rem 5rem 3rem;
   text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.pricing-container h1 {
-  font-size: 2rem;
+.pricing-container h2 {
+  font-size: 2.5rem;
   margin-bottom: 3rem;
+  color: #333;
 }
 
 .cards-container {
   display: flex;
   justify-content: center;
   gap: 24px;
-  padding-bottom: 5rem;
+  padding-bottom: 3rem;
 }
 
 .card {
@@ -537,19 +684,35 @@ html {
   width: 280px;
   position: relative;
   transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .card.premium {
-  background-color: #409FDB;
+  background: linear-gradient(135deg, #409FDB 0%, #3088c3 100%);
   color: white;
   animation: pulse 2s infinite;
+  box-shadow: 0 10px 25px rgba(64, 159, 219, 0.3);
+  border: none;
 }
 
-.card.business, .card.free {
-  background-color: #fff;
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-.card h2 {
+.card h3 {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
 }
@@ -582,7 +745,14 @@ html {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card .btn:hover {
+  background-color: #3088c3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card.premium .btn {
@@ -590,38 +760,35 @@ html {
   color: #409FDB;
 }
 
-.badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #ff9800;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: bold;
-}
-
+/* Footer Styles */
 .footer {
-  background: transparent;
-  padding: 3rem 2rem 0;
+  background: linear-gradient(to top, rgba(224, 242, 254, 0.5), transparent);
+  padding: 3rem 5rem 1rem;
   margin-top: auto;
-  position: relative;
-  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .footer-content {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .footer-section {
-  flex: 0 0 18%;
+  flex: 1;
+  min-width: 200px;
 }
-
 
 .footer-section h3 {
   font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.footer-logo {
+  height: 70px;
+  width: 70px;
   margin-bottom: 1rem;
 }
 
@@ -644,60 +811,106 @@ html {
   color: #409FDB;
 }
 
-.footer-section input,
-.footer-section textarea {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.footer-section textarea {
-  height: 100px;
-  resize: none;
-}
-
-.footer-section button {
-  padding: 0.75rem 1.5rem;
-  background-color: #409FDB;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 0;
-}
-
-.travelImg {
-  padding-top: 1rem;
-  width: 150%;
-  height: auto;
-}
-
 .app-links {
   display: flex;
   gap: 12px;
   margin-top: 1rem;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
+.google-play {
+  width: 120px;
+  height: 50px;
+}
+
+.apple-store {
+  width: 100px;
+  height: 35px;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #409FDB;
+  box-shadow: 0 0 0 3px rgba(64, 159, 219, 0.2);
+}
+
+form textarea {
+  height: 120px;
+  resize: none;
+}
+
+form button {
+  padding: 0.75rem 1.5rem;
+  background-color: #409FDB;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(64, 159, 219, 0.2);
+}
+
+form button:hover {
+  background-color: #3088c3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(64, 159, 219, 0.3);
+}
+
+.travelImg {
+  max-width: 100%;
+  height: auto;
+  padding-top: 1rem;
+}
+
+/* Animation Effects */
+.show-section {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .hero, .whyus-container {
+    padding: 4rem 3rem;
   }
-  50% {
-    transform: scale(1.05);
+  
+  .destination-container, .pricing-container {
+    padding: 4rem 3rem;
   }
-  100% {
-    transform: scale(1);
+  
+  .footer {
+    padding: 3rem 3rem 1rem;
   }
 }
 
 @media (max-width: 992px) {
-  .hero, .whyus-container {
+  .hero {
     flex-direction: column;
+    text-align: center;
+    gap: 2rem;
   }
   
-  .hero-text, .whyus-img, .whyus-content {
+  .hero-text {
+    max-width: 100%;
+  }
+  
+  .whyus-container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10rem;
+  }
+  
+  .whyus-img, .whyus-content {
     max-width: 100%;
     width: 100%;
   }
@@ -709,147 +922,124 @@ html {
   
   .cards-container {
     flex-wrap: wrap;
+    justify-content: center;
   }
   
   .footer-section {
-    flex: 0 0 48%;
+    flex: 0 0 calc(50% - 1rem);
   }
 }
 
 @media (max-width: 768px) {
   header {
-    flex-direction: column;
+    padding: 1rem;
   }
   
-  nav ul {
-    margin-top: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
+  .mobile-menu-button {
+    display: flex;
   }
   
-  .hero {
-    padding: 2rem;
-  }
-  
-  .cards-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .card {
-    width: 100%;
+  nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
     max-width: 300px;
-    margin-bottom: 1.5rem;
+    height: 100vh;
+    background: white;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 5rem 2rem 2rem;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav.mobile-active {
+    right: 0;
+  }
+  
+  .nav-links, .auth-links {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .nav-links li, .auth-links li {
+    margin: 0 0 1.5rem 0;
+  }
+  
+  .hero, .whyus-container, .destination-container, .pricing-container {
+    padding: 3rem 1.5rem;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .whyus-content h2, .destination-container h2, .pricing-container h2 {
+    font-size: 2rem;
+  }
+  
+  .footer {
+    padding: 3rem 1.5rem 1rem;
   }
   
   .footer-section {
     flex: 0 0 100%;
+    margin-bottom: 2rem;
+  }
+  
+  .cards-container {
+    gap: 2rem;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 320px;
   }
 }
 
-/* Enhanced gradients and depth */
-.start-page {
-  background: linear-gradient(135deg, #e0f2fe 0%, #d3eeff 40%, #ffffff 100%);
-}
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .btn-plan-trip {
+    width: 100%;
+    padding: 0.75rem;
+  }
+  
+  .feature-item {
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .feature-item .icon {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
 
-/* Improved header with glass effect */
-header {
-  backdrop-filter: blur(10px);
-}
-
-/* Enhanced navigation interactions */
-nav a {
-  position: relative;
-}
-
-
-nav a:hover::after {
-  width: 100%;
-}
-
-/* Animated buttons with subtle hover effects */
-.btn-signup, .btn-plan-trip, .card .btn, .footer-section button {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.btn-signup:hover, .btn-plan-trip:hover, .card .btn:hover, .footer-section button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Hero section improvements */
-.hero {
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  right: -50px;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  z-index: -1;
-}
-
-.hero h1 {
-  background: linear-gradient(90deg, #333 0%, #409FDB 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-}
-
-/* Enhanced card designs */
-.card {
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transform-origin: center bottom;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.card.premium {
-  background: linear-gradient(135deg, #409FDB 0%, #3088c3 100%);
-  box-shadow: 0 10px 25px rgba(64, 159, 219, 0.3);
-  border: none;
-}
-
-/* Improved feature items */
-.feature-item {
-  padding: 15px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-.feature-item:hover {
-  background-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transform: translateX(10px) scale(1.02);
-}
-
-/* Form element improvements */
-.footer-section input, 
-.footer-section textarea {
-  transition: all 0.3s ease;
-  border: 1px solid #e0e0e0;
-}
-
-.footer-section input:focus, 
-.footer-section textarea:focus {
-  outline: none;
-  border-color: #409FDB;
-  box-shadow: 0 0 0 3px rgba(64, 159, 219, 0.2);
+  .whyus-container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15rem;
+  }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -866,88 +1056,30 @@ nav a:hover::after {
   background: #3088c3;
 }
 
-/* Photo and image enhancements */
-.hero-image img, .whyus-image {
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
-}
-
-/* Footer improvements */
-.footer {
-  background: linear-gradient(to top, rgba(224, 242, 254, 0.5), transparent);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.travel-img-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30px;
-  height: 50px;
-  border: 2px solid #409FDB;
-  border-radius: 15px;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  animation: fadeInOut 2s infinite;
-}
-
-.scroll-indicator:before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: #409FDB;
-  border-radius: 50%;
-  position: absolute;
-  top: 10px;
-  animation: scrollDown 2s infinite;
-}
-
-@keyframes scrollDown {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  80% {
+/* Animation for sections */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
     transform: translateY(20px);
-    opacity: 0;
   }
-  100% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-}
-
-@keyframes fadeInOut {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
+  to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Add a small animation for sections when they come into view */
-.hero, .whyus-container, .pricing-container {
+/* Custom utility classes */
+.text-center {
+  text-align: center;
+}
+
+.hidden {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  visibility: hidden;
 }
 
-.show-section {
+.visible {
   opacity: 1;
-  transform: translateY(0);
-}
-
-/* Header shrink effect on scroll */
-.header-scrolled {
-  padding: 1rem 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  visibility: visible;
 }
 </style>
