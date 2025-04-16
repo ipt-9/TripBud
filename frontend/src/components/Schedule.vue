@@ -9,6 +9,7 @@
     </header>
 
     <div class="main-layout">
+      <!-- Desktop sidebar - hidden on mobile -->
       <nav class="sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages" class="sidebar-icons"/>
@@ -160,6 +161,28 @@
         </div>
       </div>
     </div>
+    
+    <!-- Bottom Navigation Bar - Only shows on mobile -->
+    <nav class="mobile-nav">
+      <div class="mobile-nav-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
+        <img :src="dashboardImages" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'chat' }" @click="navigate('chat')">
+        <img :src="chatImages" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'documents' }" @click="navigate('documents')">
+        <img :src="documentsImages" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'schedule' }" @click="navigate('schedule')">
+        <img :src="scheduleImages" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
+        <img :src="budgetplanerImages" class="mobile-nav-icon"/>
+      </div>
+      <div class="mobile-nav-item" :class="{ active: activePage === 'travelblog' }" @click="navigate('travelblog')">
+        <img :src="blogImages" class="mobile-nav-icon"/>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -575,6 +598,7 @@ export default {
 <style>
 * {
   font-family: 'Outfit', sans-serif;
+  box-sizing: border-box;
 }
 
 .schedule-container {
@@ -584,6 +608,8 @@ export default {
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
   background-image: url('~@/assets/lines.png');
   background-size: cover;
+  padding-bottom: 0;
+  position: relative;
 }
 
 .header {
@@ -628,7 +654,7 @@ export default {
   align-items: center;
   gap: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  height: fit-content;
+  align-self: flex-start;
 }
 
 .sidebar-item {
@@ -971,6 +997,42 @@ export default {
   margin-top: 0.25rem;
 }
 
+/* Mobile Navigation Bar */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 16px;
+  z-index: 100;
+  border-top: 1px solid #edf2f7;
+  justify-content: space-between;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mobile-nav-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  filter: grayscale(100%) opacity(0.4);
+  transition: all 0.2s;
+}
+
+.mobile-nav-item.active .mobile-nav-icon {
+  filter: none;
+}
+
 @media (max-width: 992px) {
   .content {
     flex-direction: column;
@@ -984,19 +1046,61 @@ export default {
 @media (max-width: 768px) {
   .main-layout {
     padding: 0 1rem 1rem;
-    flex-direction: column;
+    padding-bottom: 70px; /* Add padding for bottom nav */
   }
-
+  
   .sidebar {
-    width: 100%;
-    flex-direction: row;
-    padding: 1rem;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+    display: none; /* Hide desktop sidebar on mobile */
+  }
+  
+  .mobile-nav {
+    display: flex; /* Show mobile nav on small screens */
   }
 
   .header {
     padding: 1rem;
+  }
+  
+  .content {
+    flex-direction: column;
+  }
+  
+  .trip-info-panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 16px;
+  }
+  
+  .logo {
+    width: 40px;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  .form-group input {
+    padding: 0.5rem;
+  }
+  
+  .add-activity-btn {
+    padding: 0.6rem;
+  }
+  
+  .calendar-day {
+    width: 32px;
+    height: 32px;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+  }
+  
+  .weekday {
+    padding: 0.4rem;
+    font-size: 0.8rem;
   }
 }
 </style>

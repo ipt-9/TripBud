@@ -96,10 +96,6 @@
                   </div>
                 </div>
               </div>
-              <div v-if="unfollow" class="unfollow-notification">
-                <p>*User unfollowed you*</p>
-                <span class="unfollow-time">Today, 8:33pm</span>
-              </div>
             </template>
           </div>
           
