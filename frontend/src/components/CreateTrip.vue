@@ -153,7 +153,12 @@ export default {
         alert("Please fill out all required fields before creating the trip.");
         return;
       }
+      
+      // Erfolgsmeldung anzeigen
       alert('Trip Created!');
+      
+      // Zur Dashboard-Seite navigieren
+      this.$router.push('/dashboard');
     },
     autoExpand() {
       const field = this.$refs.descriptionField;

@@ -113,7 +113,7 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          this.$router.push('/dashboard');
+          this.$router.push('/triporganizer');
         } else if (response.status === 422) {
           this.errors = data.errors;
         } else if (response.status === 409) {
