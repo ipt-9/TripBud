@@ -488,12 +488,6 @@ export default {
   margin-right: 15px;
 }
 
-.logo-container h1 {
-  font-size: 2rem;
-  font-weight: 600;
-  margin: 0;
-}
-
 .settings-icon {
   width: 40px;
   height: 40px;
@@ -1065,7 +1059,10 @@ td.negative {
     right: 0;
     width: 100%;
     z-index: 100;
-    padding: 0 2rem;
+  }
+  
+  .logo h1 {
+    font-size: 24px;
   }
   
   /* Style for the items inside the navbar */
