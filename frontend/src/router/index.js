@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LandingPage from '../views/LandingPage.vue';
 import LoginPage from '../views/LoginPage.vue';
 import RegisterPage from '../views/RegisterPage.vue';
-import TripOrganizerPage from '../views/TripOrganizerPage.vue';
+import TripOrganizerPage from '../components/TripOrganizer.vue';
 import DashboardPage from '../components/Dashboard.vue';
 import ChatPage from '../components/ChatPage.vue';
 import CreateTrip from '../components/CreateTrip.vue';
