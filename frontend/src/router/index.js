@@ -6,7 +6,7 @@ import LandingPage from '../views/LandingPage.vue';
 import LoginPage from '../views/LoginPage.vue';
 import RegisterPage from '../views/RegisterPage.vue';
 import TripOrganizerPage from '../views/TripOrganizerPage.vue';
-import DashboardPage from '../views/DashboardPage.vue';
+import DashboardPage from '../components/Dashboard.vue';
 import ChatPage from '../components/ChatPage.vue';
 import CreateTrip from '../components/CreateTrip.vue';
 import SettingsPage from '../components/SettingsPage.vue';
