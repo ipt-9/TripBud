@@ -6,7 +6,7 @@
       <h1>TripBud</h1>
     </div>
     <nav>
-      <ul class="nav-links">
+      <ul v-if="!isExcludedPage" class="nav-links">
         <li><a href="#" @click.prevent="scrollToSection('whyus')">Why Us</a></li>
         <li><a href="#" @click.prevent="scrollToSection('destinations')">Popular Destinations</a></li>
         <li><a href="#" @click.prevent="scrollToSection('pricing')">Plans</a></li>
@@ -22,6 +22,12 @@
 <script>
 export default {
   name: 'Header',
+  computed: {
+    isExcludedPage() {
+      const excludedPaths = ['/login', '/register'];
+      return excludedPaths.includes(this.$route.path);
+    }
+  },
   methods: {
     scrollToSection(sectionId) {
       const section = document.getElementById(sectionId);
