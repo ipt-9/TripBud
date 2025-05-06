@@ -482,12 +482,6 @@ export default {
   align-items: center;
 }
 
-.logo {
-  width: 50px;
-  height: 50px;
-  margin-right: 15px;
-}
-
 .settings-icon {
   width: 40px;
   height: 40px;

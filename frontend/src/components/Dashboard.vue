@@ -561,19 +561,19 @@ export default {
 
 /* Bottom Navigation Bar for mobile */
 .bottom-nav {
-  display: none; /* Hidden by default on desktop */
+  display: flex;
+  flex-direction: row; /* Explicitly set to horizontal layout */
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+  height: 60px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60px;
-  background-color: white;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  border-top: 1px solid #eaeaea;
-  z-index: 1000;
-  padding: 0.5rem 1rem;
-  justify-content: space-around;
-  align-items: center;
+  width: 100%;
+  z-index: 100;
 }
 
 .bottom-nav-item {
