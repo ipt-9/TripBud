@@ -1,12 +1,8 @@
+// RegisterForm.vue
 <template>
-  <div class="login-container">
-    <div class="logo-container">
-      <img v-for="img in images" :src="img" class="logo" />
-      <span class="logo-text">TripBud</span>
-    </div>
-
-    <h2 class="login-title">Register</h2>
-    <div class="login-card">
+  <div class="register-form-container">
+    <h2 class="register-title">Register</h2>
+    <div class="register-card">
       <form @submit.prevent="handleRegister">
         <label for="fullname" class="textleft">Full name</label>
         <input v-model="name" type="text" id="fullname" placeholder="Full name" required />
@@ -34,7 +30,7 @@
             class="toggle-password" 
             @click="togglePasswordVisibility"
           >
-            <img v-for="(img, index) in passwordImages" :key="index" :src="img" style="width: 20px; height: 20px;" />
+            <img :src="passwordIcon" style="width: 20px; height: 20px;" alt="Toggle password visibility" />
           </button>
         </div>
         <p :class="passwordValid ? 'valid-text' : 'invalid-text'">
@@ -43,20 +39,35 @@
         <p v-if="errors.password" class="error">{{ errors.password }}</p>
 
         <label for="password_confirmation" class="textleft">Confirm Password</label>
-        <input v-model="password_confirmation" type="password" id="password_confirmation" placeholder="Confirm Password" required />
-        <p v-if="password_confirmation && password !== password_confirmation" class="error">Passwords do not match</p>
+        <input 
+          v-model="password_confirmation" 
+          type="password" 
+          id="password_confirmation" 
+          placeholder="Confirm Password" 
+          required 
+        />
+        <p v-if="password_confirmation && password !== password_confirmation" class="error">
+          Passwords do not match
+        </p>
         <p v-if="errors.password_confirmation" class="error">{{ errors.password_confirmation }}</p>
 
         <button type="submit" class="signup-button" :disabled="!formValid">Sign Up</button>
       </form>
-      <p>Already have an account? <router-link to="/login" class="login-text">Login now</router-link></p>
+      <p>
+        Already have an account? 
+        <router-link to="/login" class="login-text">Login now</router-link>
+      </p>
       <p v-if="errors.general" class="error">{{ errors.general }}</p>
     </div>
   </div>
 </template>
 
 <script>
+// Import password visibility icon
+import hideIcon from '@/assets/hide.png';
+
 export default {
+  name: 'RegisterForm',
   data() {
     return {
       name: '',
@@ -66,8 +77,7 @@ export default {
       password_confirmation: '',
       showPassword: false,
       errors: {},
-      images: ['../assets/TripBudLogo.png'],
-      passwordImages: ['../assets/hide.png']
+      passwordIcon: hideIcon
     };
   },
   computed: {
@@ -116,13 +126,17 @@ export default {
           this.$router.push('/triporganizer');
         } else if (response.status === 422) {
           this.errors = data.errors;
+          this.$emit('registration-error', 'Validation error');
         } else if (response.status === 409) {
           this.errors.email = data.message;
+          this.$emit('registration-error', 'Email conflict');
         } else {
           this.errors.general = data.message || 'An unexpected error occurred. Please try again.';
+          this.$emit('registration-error', 'Server error');
         }
       } catch (error) {
         this.errors.general = 'An error occurred. Please try again later.';
+        this.$emit('registration-error', error.message);
       }
     },
     togglePasswordVisibility() {
@@ -136,47 +150,26 @@ export default {
 * {
   font-family: 'Outfit', sans-serif;
 }
-.login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: linear-gradient(to bottom, #e0f2fe, #ffffff);
+
+.register-form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-.logo-container {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.logo-container img {
-  height: 50px;
-  margin-right: 10px;
-}
-
-.logo-container span {
-  font-size: 32px;
-  font-weight: bold;
-  color: #409FDB;
-}
-
-.login-title {
+.register-title {
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
 }
 
-.login-card {
+.register-card {
   background: white;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 300px;
+  width: 100%;
 }
 
 form {
@@ -227,15 +220,18 @@ input, .signup-button {
   border: none;
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.signup-button:disabled {
-  background: gray;
-  cursor: not-allowed;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .signup-button:hover:enabled {
   background: #368BD1;
+  transform: translateY(-2px);
+}
+
+.signup-button:disabled {
+  background: #90c4eb;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .error {
@@ -263,5 +259,15 @@ input, .signup-button {
   color: green;
   font-size: 0.9rem;
   margin-top: 5px;
+}
+
+@media (max-width: 576px) {
+  .register-card {
+    padding: 1.5rem;
+  }
+  
+  .register-title {
+    font-size: 1.8rem;
+  }
 }
 </style>
