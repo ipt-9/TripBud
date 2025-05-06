@@ -329,7 +329,6 @@
               <div class="support-details" v-if="supportInfo">
                 <p>Email: {{ supportInfo.support_email }}</p>
                 <p>Phone: {{ supportInfo.support_phone }}</p>
-                <p><a :href="supportInfo.faq_url">Visit our FAQ</a></p>
               </div>
               <button class="btn btn-primary" @click="showContactForm = true">Contact Support</button>
             </div>
