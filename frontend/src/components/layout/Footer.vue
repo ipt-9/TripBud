@@ -203,5 +203,9 @@ export default {
   .footer-section textarea {
     padding: 0.8rem;
   }
+
+  .travel-img-container {
+    display: none;
+  }
 }
 </style>

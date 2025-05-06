@@ -189,21 +189,44 @@ nav a:hover {
 }
 
 @media (max-width: 576px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+  }
+  
+  .logo {
+    margin-bottom: 0;
+  }
+  
+  nav {
+    flex-direction: row;
+    width: auto;
+    justify-content: flex-end;
+  }
+  
   .logo-img {
     height: 30px;
   }
   
   .logo h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .auth-links {
+    width: auto;
+    margin-top: 0;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
   }
   
   nav li {
     margin-right: 0.5rem;
-  }
-  
-  .nav-links, .auth-links {
-    flex-wrap: wrap;
-    gap: 8px;
   }
   
   .btn-signup, .btn-login {
@@ -222,17 +245,15 @@ nav a:hover {
   }
   
   .logo h1 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
   
-  .nav-links, .auth-links {
-    justify-content: space-between;
-    width: 100%;
+  .auth-links {
+    justify-content: flex-end;
   }
   
   nav li {
-    margin-right: 0;
-    font-size: 0.9rem;
+    margin-right: 0.3rem;
   }
   
   .btn-signup, .btn-login {

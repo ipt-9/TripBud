@@ -1,4 +1,4 @@
-// WhyUsSection.vue
+<!-- WhyUsSection.vue -->
 <template>
   <div class="whyus-container" id="whyus">
     <div class="whyus-img">
@@ -96,6 +96,11 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   margin-top: 2rem;
+  background-color: #f8f9fa;
+  width: 90%;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .create-account {
@@ -141,6 +146,10 @@ export default {
     margin-left: 0;
     margin-top: 2rem;
   }
+  
+  .features-box {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -152,6 +161,8 @@ export default {
 @media (max-width: 576px) {
   .whyus-content h1 {
     font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
   }
 }
 </style>
