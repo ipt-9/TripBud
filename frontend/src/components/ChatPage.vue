@@ -1,4 +1,3 @@
-<!-- ChatPage.vue -->
 <template>
   <div class="chat-page-container">
     <header class="header">
@@ -6,23 +5,10 @@
         <img v-for="img in images" :key="img" :src="img" class="logo" />
         <h1>Chat</h1>
       </div>
-      <div class="user-profile" @click="toggleDropdown">
-        <img :src="accountImages" class="profile-icon" />
-        <div v-if="showDropdown" class="dropdown-menu">
-          <div class="dropdown-item" @click="openSettings">
-            <i class="settings-icon"></i>
-            <span>Settings</span>
-          </div>
-          <div class="dropdown-item" @click="logout">
-            <i class="logout-icon"></i>
-            <span>Logout</span>
-          </div>
-        </div>
-      </div>
+      <img :src="accountImages" class="settings-icon" @click="openSettings" />
     </header>
    
     <div class="main-layout">
-      <!-- Desktop sidebar - hidden on mobile -->
       <nav class="sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages[0]" class="sidebar-icons"/>
@@ -44,7 +30,6 @@
         </div>
       </nav>
       
-      <!-- Main Chat Container -->
       <div class="main-chat-container">
         <div class="chat-header">
           <div class="chat-info">
@@ -65,7 +50,6 @@
         </div>
         
         <div class="chat-content">
-          <!-- Chat Messages Container -->
           <div class="messages-container" ref="messagesContainer">
             <div v-if="loading" class="loading-messages">
               <div class="loading-spinner"></div>
@@ -99,7 +83,6 @@
             </template>
           </div>
           
-          <!-- Message Input Area -->
           <div class="message-input-area">
             <button class="attach-btn">
               <i class="attach-icon"></i>
@@ -130,7 +113,6 @@
       </div>
     </div>
     
-    <!-- Bottom Navigation Bar - Only shows on mobile -->
     <nav class="mobile-nav">
       <div class="mobile-nav-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
         <img :src="dashboardImages[0]" class="mobile-nav-icon"/>
@@ -163,9 +145,8 @@ export default {
     return {
       activePage: 'chat',
       showDropdown: false,
-      unfollow: true, // Just for demo purposes, toggle this to show/hide the unfollow notification
+      unfollow: true,
       
-      // Image assets
       images: ['src/assets/TripBudLogo.png'],
       accountImages: 'src/assets/default.png',
       dashboardImages: ['src/assets/dashboard-symbol.png'],
@@ -175,18 +156,16 @@ export default {
       budgetplanerImages: ['src/assets/wallet-symbol.png'],
       blogImages: ['src/assets/blog-symbol.png'],
 
-      // Chat data
       messages: [],
       newMessage: '',
       loading: false,
       error: null,
       isSending: false,
 
-      // API settings
       apiUrl: 'https://api.tripbud-bmsd22a.bbzwinf.ch/api/messages',
       bearerToken: null,
       userId: null,
-      currentUsername: 'You' // Default username for current user
+      currentUsername: 'You'
     };
   },
   created() {
@@ -202,7 +181,6 @@ export default {
   mounted() {
     this.fetchMessages();
     
-    // Poll for new messages every 30 seconds
     this.pollInterval = setInterval(() => {
       this.fetchMessages();
     }, 30000);
@@ -240,7 +218,6 @@ export default {
           this.messages = [];
         }
 
-        // Scroll to bottom after messages load
         this.$nextTick(() => {
           this.scrollToBottom();
         });
@@ -288,8 +265,7 @@ export default {
       
       try {
         const messageData = this.formatMessageForSending(this.newMessage);
-        
-        // Optimistically add message to UI with current user info
+
         const optimisticMessage = {
           ...messageData,
           user: {
@@ -311,8 +287,7 @@ export default {
         });
         
         console.log('Message sent successfully:', response.data);
-        
-        // Refresh messages to get the official version from server
+  
         await this.fetchMessages();
       } catch (err) {
         console.error('Error sending message:', err);
@@ -322,7 +297,6 @@ export default {
           localStorage.removeItem('bearerToken');
           this.$router.push('/login');
         } else {
-          // Remove the optimistically added message
           this.messages.pop();
           
           if (err.response && err.response.data) {
@@ -336,28 +310,22 @@ export default {
       }
     },
     
-    // New helper method to get username from message
     getUserUsername(message) {
       if (this.isCurrentUser(message)) {
         return this.currentUsername || 'You';
       }
-      
-      // Prioritize username from user object if it exists
+
       if (message.user && message.user.username) {
         return message.user.username;
       }
-      
-      // Fallback to name if username is not available
+
       if (message.user && message.user.name) {
         return message.user.name;
       }
-      
-      // Fallback to sender property if it exists
+
       if (message.sender) {
         return message.sender;
       }
-      
-      // Final fallback
       return 'Unknown User';
     },
     
@@ -397,10 +365,6 @@ export default {
       this.$router.push('/' + page);
     },
     
-    toggleDropdown() {
-      this.showDropdown = !this.showDropdown;
-    },
-    
     handleOutsideClick(event) {
       const profileIcon = document.querySelector('.profile-icon');
       if (profileIcon && !profileIcon.contains(event.target) && this.showDropdown) {
@@ -411,18 +375,12 @@ export default {
     openSettings() {
       this.$router.push('/settings');
       this.showDropdown = false;
-    },
-    
-    logout() {
-      localStorage.removeItem('bearerToken');
-      localStorage.removeItem('userId');
-      this.$router.push('/login');
     }
   }
 };
 </script>
 
-<style scoped>
+<style>
 * {
   font-family: 'Outfit', sans-serif;
   box-sizing: border-box;
@@ -441,7 +399,6 @@ export default {
   position: relative;
 }
 
-/* Header Styles */
 .header {
   display: flex;
   justify-content: space-between;
@@ -460,12 +417,6 @@ export default {
   margin-right: 15px;
 }
 
-h1 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
-}
-
 .user-profile {
   position: relative;
 }
@@ -479,47 +430,6 @@ h1 {
   object-fit: cover;
 }
 
-.dropdown-menu {
-  position: absolute;
-  top: 50px;
-  right: 0;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  z-index: 10;
-  min-width: 150px;
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.dropdown-item:hover {
-  background-color: #f5f5f5;
-}
-
-.dropdown-item span {
-  margin-left: 10px;
-}
-
-/* Icons for dropdown menu */
-.settings-icon::before {
-  content: "⚙️";
-  font-size: 16px;
-}
-
-.logout-icon::before {
-  content: "🚪";
-  font-size: 16px;
-}
-
-/* Main Layout */
 .main-layout {
   display: flex;
   flex: 1;
@@ -528,7 +438,6 @@ h1 {
   overflow: hidden;
 }
 
-/* Sidebar Styles (from Dashboard) */
 .sidebar {
   width: 60px;
   background-color: white;
@@ -574,7 +483,6 @@ h1 {
   transform: scale(1.2);
 }
 
-/* Main Chat Container */
 .main-chat-container {
   flex: 1;
   display: flex;
@@ -585,7 +493,6 @@ h1 {
   overflow: hidden;
 }
 
-/* Chat Header */
 .chat-header {
   display: flex;
   justify-content: space-between;
@@ -633,7 +540,6 @@ h1 {
   background-color: #e0e0e0;
 }
 
-/* Icons (placeholders) */
 .call-icon::before {
   content: "📞";
   font-size: 18px;
@@ -649,7 +555,6 @@ h1 {
   font-size: 18px;
 }
 
-/* Chat Content */
 .chat-content {
   flex: 1;
   display: flex;
@@ -657,7 +562,6 @@ h1 {
   overflow: hidden;
 }
 
-/* Messages Container */
 .messages-container {
   flex: 1;
   overflow-y: auto;
@@ -667,7 +571,6 @@ h1 {
   gap: 15px;
 }
 
-/* Loading, Error, No Messages States */
 .loading-messages, .error-messages, .no-messages {
   display: flex;
   flex-direction: column;
@@ -704,7 +607,6 @@ h1 {
   cursor: pointer;
 }
 
-/* Message Item */
 .message-item {
   display: flex;
   gap: 10px;
@@ -783,7 +685,6 @@ h1 {
   line-height: 1.4;
 }
 
-/* Unfollow Notification */
 .unfollow-notification {
   align-self: center;
   display: flex;
@@ -802,7 +703,6 @@ h1 {
   margin-top: 3px;
 }
 
-/* Message Input Area */
 .message-input-area {
   display: flex;
   align-items: center;
@@ -908,7 +808,6 @@ h1 {
   animation: spin 1s linear infinite;
 }
 
-/* Mobile Navigation Bar */
 .mobile-nav {
   display: none;
   position: fixed;
@@ -944,19 +843,18 @@ h1 {
   filter: none;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
   .main-layout {
     padding: 0 1rem 1rem;
-    padding-bottom: 70px; /* Add padding for bottom nav */
+    padding-bottom: 70px;
   }
   
   .sidebar {
-    display: none; /* Hide desktop sidebar on mobile */
+    display: none;
   }
   
   .mobile-nav {
-    display: flex; /* Show mobile nav on small screens */
+    display: flex;
   }
   
   .message-item {
@@ -976,7 +874,7 @@ h1 {
 @media (max-width: 576px) {
   .main-layout {
     padding: 0 0.5rem 0.5rem;
-    padding-bottom: 70px; /* Add padding for bottom nav */
+    padding-bottom: 70px;
   }
   
   .message-avatar {
