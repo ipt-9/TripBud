@@ -14,9 +14,6 @@
     <div class="content-wrapper">
       <!-- Regular Sidebar (Desktop) -->
       <div class="sidebar-settings">
-        <div class="search-box">
-          <input type="text" placeholder="Search..." v-model="searchQuery">
-        </div>
        
         <div class="nav-links">
           <a href="#" 
@@ -421,10 +418,7 @@
       </div>
       <button class="close-menu" @click="closeMobileMenu">×</button>
     </div>
-   
-    <div class="search-box">
-      <input type="text" placeholder="Search..." v-model="searchQuery">
-    </div>
+
    
     <div class="mobile-nav-links">
       <a href="#" 
@@ -1176,24 +1170,6 @@ export default {
    display: flex;
    flex-direction: column;
    height: fit-content;
- }
- 
- .search-box {
-   margin-bottom: 20px;
- }
- 
- .search-box input {
-   width: 100%;
-   padding: 10px 15px;
-   border: 1px solid #ddd;
-   border-radius: 8px;
-   font-size: 14px;
-   outline: none;
-   transition: border-color 0.3s;
- }
- 
- .search-box input:focus {
-   border-color: #3498db;
  }
  
  .nav-links {
