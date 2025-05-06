@@ -32,14 +32,31 @@ class ChatController extends Controller
             $query->addSelect(['id', 'name', 'username', 'profile_image']);
         }])->get();
 
-        // Add profile image URL for each message
+        // Convert to array for manipulation
+        $formattedMessages = [];
+
         foreach ($messages as $message) {
-            if ($message->user) {
-                $message->user->profile_image_url = $this->getProfileImageUrl($message->user->profile_image);
+            $messageData = $message->toArray();
+
+            if (isset($messageData['user']) && $messageData['user']) {
+                // Make sure user has a profile_picture field
+                // Even if profile_image is not set or null, we want to set a default
+                $profileImage = $messageData['user']['profile_image'] ?? 'default.png';
+                $messageData['user']['profile_picture'] = $this->getProfileImageUrl($profileImage);
+            } else {
+                // Handle case where user might be deleted but message exists
+                $messageData['user'] = [
+                    'id' => null,
+                    'name' => 'Deleted User',
+                    'username' => 'deleted',
+                    'profile_picture' => $this->getProfileImageUrl('default.png')
+                ];
             }
+
+            $formattedMessages[] = $messageData;
         }
 
-        return $messages;
+        return $formattedMessages;
     }
 
     /**
@@ -61,23 +78,27 @@ class ChatController extends Controller
             $query->addSelect(['id', 'name', 'username', 'profile_image']);
         }]);
 
-        // Add profile image URL
-        if ($message->user) {
-            $message->user->profile_image_url = $this->getProfileImageUrl($message->user->profile_image);
+        // Create message data with profile picture
+        $messageData = $message->toArray();
+
+        if (isset($messageData['user']) && $messageData['user']) {
+            $profileImage = $messageData['user']['profile_image'] ?? 'default.png';
+            $messageData['user']['profile_picture'] = $this->getProfileImageUrl($profileImage);
         }
 
+        // Broadcast original message object for event compatibility
         broadcast(new MessageSent($user, $message))->toOthers();
 
         return [
             'status' => 'Message Sent!',
-            'message' => $message
+            'message' => $messageData
         ];
     }
 
     /**
      * Get profile image URL helper
      *
-     * @param string $profileImage
+     * @param string|null $profileImage
      * @return string
      */
     private function getProfileImageUrl($profileImage)
@@ -85,14 +106,19 @@ class ChatController extends Controller
         // Base URL of your application
         $baseUrl = 'https://tripbud-bmsd22a.bbzwinf.ch';
 
-        if (!$profileImage) {
+        // Use default image if profile_image is null or empty
+        if (!$profileImage || $profileImage === 'default') {
+            return $baseUrl . '/assets/default.png';
+        } elseif ($profileImage === 'default.png') {
+            // This is what SettingsController uses as default
             return $baseUrl . '/assets/default.png';
         } elseif ($profileImage === 'assets/default.png') {
-            return $baseUrl . '/' . $profileImage;
+            return $baseUrl . '/assets/default.png';
         } elseif (strpos($profileImage, 'http') === 0) {
             return $profileImage;
         } elseif (strpos($profileImage, 'profile_images/') === 0) {
-            return $baseUrl . '/api/storage/' . $profileImage;
+            // Match the SettingsController pattern: files stored in public disk
+            return $baseUrl . '/storage/' . $profileImage;
         } else {
             return $baseUrl . '/' . ltrim($profileImage, '/');
         }
