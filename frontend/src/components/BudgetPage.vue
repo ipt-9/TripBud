@@ -1049,4 +1049,28 @@ td.negative {
   border: none;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: flex;
+    flex-direction: row; /* Explicitly set to horizontal layout */
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    height: 60px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+  
+  /* Style for the items inside the navbar */
+  .sidebar > * {
+    margin: 0 5px; /* Add some spacing between items */
+  }
+}
 </style>

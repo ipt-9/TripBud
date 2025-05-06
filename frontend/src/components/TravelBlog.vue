@@ -376,20 +376,16 @@ export default {
 }
 
 .tb-sidebar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  width: 60px;
   background-color: white;
   border-radius: 15px;
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-  height: 60px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 100;
-  padding: 0 2rem;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  align-self: flex-start;
 }
 
 .tb-sidebar-item {
@@ -812,27 +808,26 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .tb-main-layout {
-    padding: 0 1rem 1rem;
-  }
-  
-  .tb-blog-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .tb-day-title-input {
-    width: 100%;
-  }
-  
-  .tb-media-gallery {
-    justify-content: center;
-  }
-  
-  /* Adjust sidebar for smaller screens */
   .tb-sidebar {
-    padding: 0 1rem;
+    display: flex;
+    flex-direction: row; /* Explicitly set to horizontal layout */
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    height: 60px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+  
+  /* Style for the items inside the navbar */
+  .tb-sidebar > * {
+    margin: 0 5px; /* Add some spacing between items */
   }
 }
 
