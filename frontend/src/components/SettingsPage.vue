@@ -9,6 +9,9 @@
         <span class="logo-text">Settings</span>
       </div>
       <button class="menu-toggle" id="menu-toggle" @click="toggleMobileMenu">☰</button>
+      <button class="go-back-btn" @click="navigateToDashboard">
+        <img src="../assets/go-back-arrow.png" alt="Go back" class="go-back-icon">
+      </button>
     </header>
    
     <div class="content-wrapper">
@@ -653,6 +656,9 @@ export default {
         this.loadSupportInfo();
       }
     },
+    navigateToDashboard() {
+    this.$router.push('/dashboard');
+    },
     
     // API METHODS
     async loadUserSettings() {
@@ -1125,6 +1131,20 @@ export default {
    justify-content: space-between;
    margin-bottom: 30px;
  }
+
+ .go-back-btn {
+  position: absolute;
+  top: 35px;
+  left: -30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.go-back-icon {
+  width: 36px;
+  height: 36px;
+}
   
  .logo-container {
    display: flex;
