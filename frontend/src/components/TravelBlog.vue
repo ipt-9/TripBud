@@ -357,6 +357,11 @@ export default {
 .tb-logo {
   width: 50px;
   margin-right: 15px;
+  height: 40px;
+}
+
+.tb-logo-container {
+  display: flex;
 }
  
 .tb-settings-icon {
