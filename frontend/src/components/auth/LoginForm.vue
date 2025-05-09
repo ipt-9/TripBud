@@ -1,4 +1,3 @@
-// LoginForm.vue
 <template>
   <div class="login-form-container">
     <h2 class="login-title">Login</h2>

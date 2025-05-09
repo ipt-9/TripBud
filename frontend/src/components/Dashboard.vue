@@ -546,6 +546,7 @@ export default {
 .desktop-sidebar {
   width: 60px;
   background-color: white;
+  margin-bottom: 450px;
   border-radius: 15px;
   padding: 1.5rem 0;
   display: flex;
@@ -560,21 +561,7 @@ export default {
 }
 
 /* Bottom Navigation Bar for mobile */
-.bottom-nav {
-  display: flex;
-  flex-direction: row; /* Explicitly set to horizontal layout */
-  justify-content: space-around;
-  align-items: center;
-  background-color: white;
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-  height: 60px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 100;
-}
+
 
 .bottom-nav-item {
   display: flex;
@@ -1072,11 +1059,22 @@ export default {
   .desktop-sidebar {
     display: none;
   }
-  
-  /* Show mobile sidebar */
+
   .bottom-nav {
-    display: flex;
-  }
+  display: flex;
+  flex-direction: row; /* Explicitly set to horizontal layout */
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+}
  
   .header {
     padding: 1rem;

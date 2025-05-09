@@ -26,7 +26,7 @@
         <div class="sidebar-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
           <img :src="budgetplanerImages[0]" class="sidebar-icons"/>
         </div>
-        <div class="sidebar-item" :class="{ active: activePage === 'blog' }" @click="navigate('blog')">
+        <div class="sidebar-item" :class="{ active: activePage === 'travelblog' }" @click="navigate('travelblog')">
           <img :src="blogImages[0]" class="sidebar-icons"/>
         </div>
       </nav>
@@ -203,7 +203,7 @@
       <div class="mobile-nav-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
         <img :src="budgetplanerImages[0]" class="mobile-nav-icon"/>
       </div>
-      <div class="mobile-nav-item" :class="{ active: activePage === 'blog' }" @click="navigate('blog')">
+      <div class="mobile-nav-item" :class="{ active: activePage === 'travelblog' }" @click="navigate('travelblog')">
         <img :src="blogImages[0]" class="mobile-nav-icon"/>
       </div>
     </nav>
@@ -854,9 +854,23 @@ export default {
   }
 }
 
+
 @media (max-width: 480px) {
   .dm-th-size, .dm-td-size {
     display: none;
+  }
+
+
+  .dm-files-container {
+    overflow-x: auto;
+  }
+  
+  .dm-glass-morphism {
+    min-width: 350px; /* Ensure minimum width for content */
+  }
+  
+  .dm-main-content {
+    overflow: hidden;
   }
   
   .dm-action-bar {

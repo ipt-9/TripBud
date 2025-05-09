@@ -1,14 +1,15 @@
 <template>
-  <div class="app-container">
-    <!-- Main Content -->
-    <div class="budget-planner">
-      <header class="header">
+        <header class="header">
         <div class="logo-container">
           <img v-for="img in images" :src="img" class="logo" />
           <h1>Budget Planer</h1>
         </div>
         <img :src="accountImages[0]" class="settings-icon" @click="openSettings" />
       </header>
+  <div class="app-container">
+    <!-- Main Content -->
+    <div class="budget-planner">
+
       
       <section class="section budget-section">
         <div class="budget-header">
@@ -247,7 +248,7 @@
       <div class="sidebar-item" :class="{ active: activePage === 'budgetplaner' }" @click="navigate('budgetplaner')">
         <img :src="budgetplanerImages[0]" class="sidebar-icons"/>
       </div>
-      <div class="sidebar-item" :class="{ active: activePage === 'blog' }" @click="navigate('blog')">
+      <div class="sidebar-item" :class="{ active: activePage === 'travelblog' }" @click="navigate('travelblog')">
         <img :src="blogImages[0]" class="sidebar-icons"/>
       </div>
     </nav>
@@ -491,7 +492,7 @@ export default {
 
 /* Sidebar Styles */
 .sidebar {
-    width: 60px;
+  width: 60px;
   background-color: white;
   border-radius: 15px;
   padding: 1.5rem 0;
@@ -501,7 +502,6 @@ export default {
   gap: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   align-self: flex-start;
-  margin-top: 80px;
 }
 
 .sidebar-item {
