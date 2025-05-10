@@ -1,4 +1,3 @@
-// HeroSection.vue
 <template>
   <div class="hero" id="hero">
     <div class="hero-text">

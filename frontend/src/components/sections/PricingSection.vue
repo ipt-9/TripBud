@@ -1,4 +1,3 @@
-// PricingSection.vue
 <template>
   <div class="pricing-container" id="pricing">
     <h1>Plans</h1>

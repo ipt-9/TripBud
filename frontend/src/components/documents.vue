@@ -9,7 +9,6 @@
     </header>
 
     <div class="main-layout">
-      <!-- Desktop sidebar - hidden on mobile -->
       <nav class="sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages[0]" class="sidebar-icons"/>
@@ -186,7 +185,6 @@
       </div>
     </div>
 
-    <!-- Bottom Navigation Bar - Only shows on mobile -->
     <nav class="mobile-nav">
       <div class="mobile-nav-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
         <img :src="dashboardImages[0]" class="mobile-nav-icon"/>
@@ -355,11 +353,11 @@ export default {
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
-  background-image: url('~@/assets/lines.png');
   background-size: cover;
   min-height: 100vh;
   padding-bottom: 0;
   position: relative;
+    background-image: url('../assets/lines.png');
 }
  
 .header {
@@ -755,7 +753,6 @@ export default {
   transform: scale(0.8);
 }
 
-/* Mobile navigation bar */
 .mobile-nav {
   display: none;
   position: fixed;
@@ -812,15 +809,15 @@ export default {
 @media (max-width: 768px) {
   .main-layout {
     padding: 0 1rem 1rem;
-    padding-bottom: 70px; /* Add padding for mobile nav */
+    padding-bottom: 70px;
   }
   
   .sidebar {
-    display: none; /* Hide desktop sidebar on mobile */
+    display: none;
   }
   
   .mobile-nav {
-    display: flex; /* Show mobile nav on small screens */
+    display: flex;
   }
   
   .dm-content-layout {
@@ -845,10 +842,9 @@ export default {
   }
   
   .dm-files-container {
-    max-height: calc(100vh - 270px); /* Account for other elements and bottom navigation */
+    max-height: calc(100vh - 270px);
   }
   
-  /* Hide the top navigation bar */
   nav.sidebar {
     display: none;
   }
@@ -866,7 +862,7 @@ export default {
   }
   
   .dm-glass-morphism {
-    min-width: 350px; /* Ensure minimum width for content */
+    min-width: 350px;
   }
   
   .dm-main-content {

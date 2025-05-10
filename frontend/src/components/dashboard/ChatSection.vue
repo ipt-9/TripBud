@@ -1,4 +1,3 @@
-// ChatSection.vue
 <template>
   <section class="section chat-section">
     <h2 class="section-title">Chat</h2>

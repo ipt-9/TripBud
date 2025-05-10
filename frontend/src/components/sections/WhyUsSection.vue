@@ -1,4 +1,3 @@
-<!-- WhyUsSection.vue -->
 <template>
   <div class="whyus-container" id="whyus">
     <div class="whyus-img">
@@ -27,7 +26,6 @@
 
 <script>
 import FeatureItem from '@/components/ui/FeatureItem.vue';
-// Import images directly
 import downloadIcon from '@/assets/download.png';
 import usersIcon from '@/assets/users.png';
 import documentIcon from '@/assets/document.png';

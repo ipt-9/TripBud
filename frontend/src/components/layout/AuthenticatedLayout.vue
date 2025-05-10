@@ -1,9 +1,7 @@
 // AuthenticatedLayout.vue
 <template>
   <div class="authenticated-layout">
-    <!-- Custom header slot -->
     <slot name="header">
-      <!-- Default header if not provided -->
       <header class="default-header">
         <div class="logo-container">
           <img :src="logoSrc" class="logo" alt="TripBud Logo" />
@@ -29,7 +27,6 @@
 </template>
 
 <script>
-// Update the import path to match your actual directory structure
 import AppNavigation from '../navigation/AppNavigation.vue';
 import logoImg from '@/assets/TripBudLogo.png';
 import profileImg from '@/assets/default.png';
@@ -61,7 +58,6 @@ export default {
     }
   },
   created() {
-    // Check for authentication
     const bearerToken = localStorage.getItem('bearerToken');
     if (!bearerToken) {
       console.warn('No bearer token found. Redirecting to login...');
@@ -80,7 +76,7 @@ export default {
   background-size: cover;
   min-height: 100vh;
   position: relative;
-  padding-bottom: 70px; /* Add padding to prevent content from being hidden behind mobile nav */
+  padding-bottom: 70px;
 }
 
 .default-header {

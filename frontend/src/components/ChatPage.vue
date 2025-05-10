@@ -393,10 +393,10 @@ export default {
   flex-direction: column;
   height: 100vh;
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
-  background-image: url('~@/assets/lines.png');
   background-size: cover;
   padding-bottom: 0;
   position: relative;
+  background-image: url('../assets/lines.png');
 }
 
 .header {

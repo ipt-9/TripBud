@@ -1,4 +1,3 @@
-// PricingCard.vue
 <template>
   <div 
     :class="['card', planType]" 

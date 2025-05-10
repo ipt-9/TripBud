@@ -1,4 +1,3 @@
-// CalendarSection.vue
 <template>
   <section class="section calendar-section">
     <h2 class="section-title">Calendar</h2>
@@ -38,9 +37,9 @@ export default {
     return {
       weekdays: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
       currentDate: new Date(2025, 1, 16), // Hardcoded Feb 2025 for demo
-      selectedDays: [24, 25, 26, 27, 28], // Example selected days
-      highlightedDays: [19], // Example highlighted day
-      inactiveDays: [9, 10, 11, 12, 13] // Example inactive days
+      selectedDays: [24, 25, 26, 27, 28],
+      highlightedDays: [19],
+      inactiveDays: [9, 10, 11, 12, 13]
     }
   },
   computed: {
@@ -52,14 +51,11 @@ export default {
       const year = this.currentDate.getFullYear();
       const month = this.currentDate.getMonth();
       
-      // Get first day of month and last day of month
       const firstDay = new Date(year, month, 1);
       const lastDay = new Date(year, month + 1, 0);
       
-      // Array to hold all days to display
       const days = [];
       
-      // Get days from previous month to fill first week
       const firstDayOfWeek = firstDay.getDay();
       if (firstDayOfWeek > 0) {
         const prevMonth = new Date(year, month, 0);
@@ -75,7 +71,6 @@ export default {
         }
       }
       
-      // Current month days
       const daysInMonth = lastDay.getDate();
       for (let i = 1; i <= daysInMonth; i++) {
         days.push({
@@ -85,7 +80,6 @@ export default {
         });
       }
       
-      // Get days from next month to fill last week
       const lastDayOfWeek = lastDay.getDay();
       if (lastDayOfWeek < 6) {
         const daysToAdd = 6 - lastDayOfWeek;
@@ -117,33 +111,27 @@ export default {
       );
     },
     selectDay(day) {
-      // For demo purposes, just log the selected day
       console.log('Selected day:', day);
     },
     getDayClass(day) {
       const classes = [];
       
-      // Add class based on month
       if (day.month === 'prev' || day.month === 'next') {
         classes.push(day.month + '-month');
       }
       
-      // Current day
       if (day.month === 'current' && day.day === 16) {
         classes.push('current');
       }
       
-      // Selected days
       if (day.month === 'current' && this.selectedDays.includes(day.day)) {
         classes.push('selected');
       }
       
-      // Highlighted days
       if (day.month === 'current' && this.highlightedDays.includes(day.day)) {
         classes.push('highlight');
       }
       
-      // Inactive days
       if (day.month === 'current' && this.inactiveDays.includes(day.day)) {
         classes.push('inactive');
       }

@@ -1,4 +1,3 @@
-// BudgetSection.vue
 <template>
   <section class="section budget-section">
     <h2 class="section-title">Budget</h2>

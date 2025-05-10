@@ -1,4 +1,3 @@
-<!-- Dashboard.vue (Complete Fixed Version) -->
 <template>
   <div class="dashboard-container">
     <header class="header">
@@ -10,7 +9,6 @@
     </header>
    
     <div class="main-layout">
-      <!-- Desktop Sidebar -->
       <nav class="sidebar desktop-sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages[0]" class="sidebar-icons"/>
@@ -215,7 +213,6 @@
       </div>
     </div>
     
-    <!-- Mobile Bottom Navigation Bar -->
     <div class="bottom-nav">
       <div class="bottom-nav-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
         <img :src="dashboardImages[0]" class="bottom-nav-icon"/>
@@ -478,7 +475,7 @@ export default {
   background-size: cover;
   min-height: 100vh;
   position: relative;
-  padding-bottom: 70px; /* Add padding to prevent content from being hidden behind mobile nav */
+  padding-bottom: 70px;
 }
  
 .header {
@@ -542,7 +539,6 @@ export default {
   gap: 2rem;
 }
 
-/* Desktop Sidebar */
 .desktop-sidebar {
   width: 60px;
   background-color: white;
@@ -560,7 +556,6 @@ export default {
   align-self: flex-start;
 }
 
-/* Bottom Navigation Bar for mobile */
 
 
 .bottom-nav-item {
@@ -585,7 +580,6 @@ export default {
   transform: scale(1.2);
 }
 
-/* Common sidebar item styles */
 .sidebar-item {
   width: 40px;
   height: 40px;
@@ -1023,7 +1017,6 @@ export default {
   font-size: 0.9rem;
 }
 
-/* Responsive styles */
 @media (max-width: 1200px) {
   .content-container {
     grid-template-columns: 1fr;
@@ -1055,19 +1048,18 @@ export default {
     padding: 0 1rem 1rem;
   }
 
-  /* Hide desktop sidebar */
   .desktop-sidebar {
     display: none;
   }
 
   .bottom-nav {
   display: flex;
-  flex-direction: row; /* Explicitly set to horizontal layout */
+  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   background-color: white;
   box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-  height: 60px;
+  height: 65px;
   position: fixed;
   bottom: 0;
   left: 0;

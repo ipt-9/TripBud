@@ -9,7 +9,6 @@
     </header>
 
     <div class="main-layout">
-      <!-- Desktop sidebar - hidden on mobile -->
       <nav class="sidebar">
         <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
           <img :src="dashboardImages" class="sidebar-icons"/>
@@ -162,7 +161,6 @@
       </div>
     </div>
     
-    <!-- Bottom Navigation Bar - Only shows on mobile -->
     <nav class="mobile-nav">
       <div class="mobile-nav-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
         <img :src="dashboardImages" class="mobile-nav-icon"/>
@@ -606,10 +604,10 @@ export default {
   flex-direction: column;
   min-height: 100vh;
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
-  background-image: url('~@/assets/lines.png');
   background-size: cover;
   padding-bottom: 0;
   position: relative;
+  background-image: url('../assets/lines.png');
 }
 
 .header {
@@ -997,7 +995,6 @@ export default {
   margin-top: 0.25rem;
 }
 
-/* Mobile Navigation Bar */
 .mobile-nav {
   display: none;
   position: fixed;
@@ -1046,15 +1043,15 @@ export default {
 @media (max-width: 768px) {
   .main-layout {
     padding: 0 1rem 1rem;
-    padding-bottom: 70px; /* Add padding for bottom nav */
+    padding-bottom: 70px;
   }
   
   .sidebar {
-    display: none; /* Hide desktop sidebar on mobile */
+    display: none;
   }
   
   .mobile-nav {
-    display: flex; /* Show mobile nav on small screens */
+    display: flex;
   }
 
   .header {

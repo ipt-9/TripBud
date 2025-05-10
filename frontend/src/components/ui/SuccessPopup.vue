@@ -1,4 +1,3 @@
-// SuccessPopup.vue
 <template>
   <transition name="fade">
     <div class="popup-overlay" @click="$emit('close')">

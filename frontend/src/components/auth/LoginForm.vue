@@ -46,7 +46,6 @@
 </template>
 
 <script>
-// Import password visibility icon
 import hideIcon from '@/assets/hide.png';
 
 export default {
@@ -89,15 +88,11 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          // Save the token and user ID to localStorage
           if (data && data.token) {
-            // Log the response data for debugging
             console.log('Login response data:', data);
             
-            // Save the token
             localStorage.setItem('bearerToken', data.token);
             
-            // Save the user ID if available, otherwise use default
             const userId = data.user && data.user.id ? data.user.id : '3';
             localStorage.setItem('userId', userId);
             
@@ -105,12 +100,10 @@ export default {
             console.log('Saved user ID:', userId);
           } else {
             console.error('Token not found in response:', data);
-            // Using a placeholder token for testing/development ONLY
             localStorage.setItem('bearerToken', '18|feuNjrwwH8BhUkV2pDYWD0Uaf1A6Gn9Ukrov5Ij52670c870');
             localStorage.setItem('userId', '3');
           }
           
-          // Emit success event
           this.$emit('login-success', this.username);
           
         } else if (response.status === 422) {

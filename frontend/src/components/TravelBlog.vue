@@ -1,4 +1,3 @@
-<!-- TravelBlog.vue -->
 <template>
   <div class="tb-blog-container">
     <header class="tb-header">
@@ -187,7 +186,6 @@ export default {
       budgetplanerImages: ['src/assets/wallet-symbol.png'],
       blogImages: ['src/assets/blog-symbol.png'],
       
-      // Trips data
       trips: [
         { id: 1, name: 'Florence Trip' },
         { id: 2, name: 'Paris Weekend' },
@@ -195,7 +193,6 @@ export default {
       ],
       selectedTrip: 1,
       
-      // Days data
       days: [
         { id: 1, title: 'Day 1', date: 'July 2nd, 2022' },
         { id: 2, title: 'Day 2', date: 'July 3rd, 2022' },
@@ -206,7 +203,6 @@ export default {
       ],
       selectedDay: 1,
       
-      // Current day content
       currentDayTitle: 'Day 1',
       currentDayDate: '2022-07-02',
       currentSectionTitle: 'Bike Trip',
@@ -233,13 +229,10 @@ export default {
       this.$router.push('/settings');
     },
     changeTrip() {
-      // Logic to change the trip would go here
       console.log('Changed to trip:', this.selectedTrip);
-      // Normally would load days for the selected trip
     },
     selectDay(dayId) {
       this.selectedDay = dayId;
-      // This would normally load the day content from API
       const day = this.days.find(d => d.id === dayId);
       if (day) {
         this.currentDayTitle = day.title;
@@ -247,8 +240,6 @@ export default {
       }
     },
     formatDateForInput(dateString) {
-      // Convert displayed date format to input date format
-      // This is a simple implementation - production code would use a proper date library
       if (dateString.includes('July')) {
         const day = dateString.match(/\d+/)[0];
         return `2022-07-${day.padStart(2, '0')}`;
@@ -278,11 +269,9 @@ export default {
       this.currentDayExpenses = [];
     },
     saveDay() {
-      // Save current day logic would go here
       alert('Day saved successfully!');
     },
     exportBlog() {
-      // Export logic would go here
       alert('Blog export started. Your PDF will be ready shortly.');
     },
     openUploadDialog() {
@@ -291,9 +280,7 @@ export default {
     handleFileUpload(event) {
       const files = event.target.files;
       if (!files.length) return;
-      
-      // For demo purposes, we'll just create placeholder images
-      // In a real app, you would upload these to a server
+
       Array.from(files).forEach(file => {
         this.currentDayPhotos.push({
           url: '/api/placeholder/400/300',
@@ -301,7 +288,6 @@ export default {
         });
       });
       
-      // Reset file input
       this.$refs.fileUpload.value = '';
     },
     removePhoto(index) {
@@ -339,11 +325,11 @@ export default {
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, #e0f2fe, #ffffff);
-  background-image: url('~@/assets/lines.png');
   background-size: cover;
   min-height: 100vh;
-  position: relative; /* Added to position the fixed sidebar relative to this container */
-  padding-bottom: 70px; /* Add padding at the bottom to prevent content from being hidden behind the fixed sidebar */
+  position: relative;
+  padding-bottom: 70px;
+  background-image: url('../assets/lines.png');
 }
  
 .tb-header {
@@ -383,8 +369,8 @@ export default {
 .tb-sidebar {
   width: 60px;
   background-color: white;
-  border-radius: 15px;
   padding: 1.5rem 0;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -815,12 +801,12 @@ export default {
 @media (max-width: 768px) {
   .tb-sidebar {
     display: flex;
-    flex-direction: row; /* Explicitly set to horizontal layout */
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
     background-color: white;
     box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-    height: 60px;
+    height: 65px;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -830,9 +816,9 @@ export default {
     padding: 0 2rem;
   }
   
-  /* Style for the items inside the navbar */
+
   .tb-sidebar > * {
-    margin: 0 5px; /* Add some spacing between items */
+    margin: 0 5px;
   }
 }
 
@@ -856,7 +842,6 @@ export default {
     width: 100%;
   }
   
-  /* Make the sidebar more compact on very small screens */
   .tb-sidebar {
     padding: 0 0.5rem;
   }

@@ -7,7 +7,6 @@
         <img :src="accountImages[0]" class="settings-icon" @click="openSettings" />
       </header>
   <div class="app-container">
-    <!-- Main Content -->
     <div class="budget-planner">
 
       
@@ -22,7 +21,6 @@
           </div>
         </div>
        
-        <!-- Time Period Tabs -->
         <div class="budget-tabs">
           <button
             v-for="tab in timePeriodTabs"
@@ -35,7 +33,6 @@
           </button>
         </div>
        
-        <!-- Date Selection -->
         <div class="budget-days" v-if="activeTimePeriod === 'day'">
           <div
             v-for="(date, index) in dateTabs"
@@ -55,7 +52,6 @@
           <input type="date" v-model="selectedDate" @change="addCustomDate">
         </div>
        
-        <!-- Month Selection -->
         <div class="budget-months" v-if="activeTimePeriod === 'month'">
           <div
             v-for="(month, index) in monthTabs"
@@ -68,7 +64,6 @@
           </div>
         </div>
        
-        <!-- Year Selection -->
         <div class="budget-years" v-if="activeTimePeriod === 'year'">
           <div
             v-for="(year, index) in yearTabs"
@@ -81,7 +76,6 @@
           </div>
         </div>
        
-        <!-- Budget Cards -->
         <div class="budget-cards">
           <div
             v-for="(category, index) in filteredCategories"
@@ -109,7 +103,6 @@
           </div>
         </div>
        
-        <!-- Summary Section -->
         <div class="budget-summary">
           <div class="summary-header">
             <h3>Spending Summary</h3>
@@ -120,7 +113,6 @@
           </div>
          
           <div class="summary-content">
-            <!-- Chart View -->
             <div class="summary-chart" v-if="summaryView === 'chart'">
               <div class="chart-container">
                 <div class="pie-chart">
@@ -149,7 +141,6 @@
               </div>
             </div>
            
-            <!-- Table View -->
             <div class="summary-table" v-if="summaryView === 'table'">
               <table>
                 <thead>
@@ -176,7 +167,6 @@
         </div>
       </section>
      
-      <!-- Add Category Modal -->
       <div class="modal" v-if="showAddCategoryModal">
         <div class="modal-content">
           <div class="modal-header">
@@ -231,7 +221,6 @@
       </div>
     </div>
     
-    <!-- Sidebar -->
     <nav class="sidebar">
       <div class="sidebar-item" :class="{ active: activePage === 'dashboard' }" @click="navigate('dashboard')">
         <img :src="dashboardImages[0]" class="sidebar-icons"/>
@@ -260,7 +249,6 @@ export default {
   name: 'BudgetPlanner',
   data() {
     return {
-      // Sidebar data
       activePage: 'budgetplaner',
       images: ['src/assets/TripBudLogo.png'],
       accountImages: ['src/assets/account-symbol.png'],
@@ -271,7 +259,6 @@ export default {
       budgetplanerImages: ['src/assets/wallet-symbol.png'],
       blogImages: ['src/assets/blog-symbol.png'],
      
-      // Budget planner data
       activeTimePeriod: 'day',
       activeDate: 'today',
       activeMonth: 'current',
@@ -352,13 +339,10 @@ export default {
     },
    
     filteredCategories() {
-      // In a real app, you would filter based on selected time period
-      // For this example, we'll just return all categories with updated chart angles
       let categories = [...this.categories];
       let total = categories.reduce((sum, cat) => sum + cat.amount, 0);
       let currentAngle = 0;
      
-      // Calculate chart segments
       categories.forEach(category => {
         const percentage = (category.amount / total) * 100;
         const segmentDegrees = (percentage / 100) * 360;
@@ -373,13 +357,11 @@ export default {
   },
  
   methods: {
-    // Sidebar navigation
     navigate(page) {
       this.activePage = page;
       this.$router.push('/' + page);
     },
    
-    // Budget planner methods
     setActiveTimePeriod(period) {
       this.activeTimePeriod = period;
     },
@@ -401,7 +383,6 @@ export default {
         const date = new Date(this.selectedDate);
         const formattedDate = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
        
-        // Check if date already exists
         const existingDate = this.dateTabs.find(tab => tab.value === this.selectedDate);
         if (!existingDate) {
           this.dateTabs.push({
@@ -417,16 +398,13 @@ export default {
    
     addCategory() {
       if (this.newCategory.name && this.newCategory.amount) {
-        // Find matching color's chart color
         const colorObj = this.colorOptions.find(c => c.value === this.newCategory.color);
         if (colorObj) {
           this.newCategory.chartColor = colorObj.color;
         }
        
-        // Add the new category
         this.categories.push({...this.newCategory});
        
-        // Reset form
         this.newCategory = {
           name: '',
           amount: 0,
@@ -451,7 +429,6 @@ export default {
     },
     
     openSettings() {
-      // In a real app, you would handle settings here
       console.log('Opening settings');
     }
   }
@@ -459,17 +436,15 @@ export default {
 </script>
 
 <style scoped>
-/* Layout */
 .app-container {
   display: flex;
   flex-direction: row-reverse;
   gap: 2rem;
-  padding: 1.5rem;
+  padding-left: 2rem;
   min-height: 100vh;
   background-image: url('../assets/lines.png');
 }
 
-/* Header Styles */
 .header {
   display: flex;
   justify-content: space-between;
@@ -490,11 +465,9 @@ export default {
   cursor: pointer;
 }
 
-/* Sidebar Styles */
 .sidebar {
   width: 60px;
   background-color: white;
-  border-radius: 15px;
   padding: 1.5rem 0;
   display: flex;
   flex-direction: column;
@@ -536,7 +509,6 @@ export default {
   transform: scale(1.2);
 }
 
-/* Budget Planner Styles */
 .budget-planner {
   flex: 1;
   font-family: Arial, sans-serif;
@@ -583,7 +555,6 @@ export default {
   color: #4caf50;
 }
 
-/* Tabs */
 .budget-tabs {
   display: flex;
   gap: 0.5rem;
@@ -610,7 +581,6 @@ export default {
   font-weight: 500;
 }
 
-/* Date Tabs */
 .budget-days, .budget-months, .budget-years {
   display: flex;
   gap: 0.5rem;
@@ -657,7 +627,6 @@ export default {
   border-radius: 4px;
 }
 
-/* Budget Cards */
 .budget-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -778,7 +747,6 @@ export default {
   font-weight: 500;
 }
 
-/* Summary Section */
 .budget-summary {
   margin-top: 2rem;
 }
@@ -822,7 +790,6 @@ export default {
   min-height: 300px;
 }
 
-/* Chart View */
 .chart-container {
   display: flex;
   align-items: flex-start;
@@ -875,7 +842,6 @@ export default {
   text-align: right;
 }
 
-/* Table View */
 .summary-table {
   overflow-x: auto;
 }
@@ -904,7 +870,6 @@ td.negative {
   color: #ff5252;
 }
 
-/* Modal */
 .modal {
   position: fixed;
   top: 0;
@@ -1041,12 +1006,12 @@ td.negative {
 @media (max-width: 768px) {
   .sidebar {
     display: flex;
-    flex-direction: row; /* Explicitly set to horizontal layout */
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
     background-color: white;
     box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-    height: 60px;
+    height: 65px;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -1059,9 +1024,8 @@ td.negative {
     font-size: 24px;
   }
   
-  /* Style for the items inside the navbar */
   .sidebar > * {
-    margin: 0 5px; /* Add some spacing between items */
+    margin: 0 5px;
   }
 }
 </style>

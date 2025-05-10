@@ -1,4 +1,3 @@
-// FeatureItem.vue
 <template>
   <div 
     class="feature-item"

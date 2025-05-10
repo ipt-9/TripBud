@@ -1,6 +1,5 @@
 <template>
   <div class="setting-container">
-    <!-- Background Image Container -->
     <div class="background-image-container"></div>
    
     <header class="header">
@@ -15,7 +14,6 @@
     </header>
    
     <div class="content-wrapper">
-      <!-- Regular Sidebar (Desktop) -->
       <div class="sidebar-settings">
        
         <div class="nav-links">
@@ -65,13 +63,11 @@
         </div>
       </div>
      
-      <!-- Main Content -->
       <div class="main-content">
         <div v-if="message" class="alert" :class="message.type">
           {{ message.text }}
         </div>
         
-        <!-- Account Tab -->
         <div v-if="activeTab === 'account'">
           <div class="tab-header">
             <a href="#" 
@@ -84,7 +80,6 @@
                @click.prevent="setActiveSubTab('notifications')">Notifications</a>
           </div>
           
-          <!-- Profile Sub-Tab -->
           <div v-if="activeSubTab === 'profile'">
             <div class="section">
               <div class="profile-header">
@@ -174,7 +169,6 @@
             </div>
           </div>
           
-          <!-- Notifications Sub-Tab -->
           <div v-if="activeSubTab === 'notifications'">
             <div class="section">
               <div class="profile-title">
@@ -200,7 +194,6 @@
           </div>
         </div>
         
-        <!-- Payment Tab -->
         <div v-if="activeTab === 'payment'">
           <div class="section">
             <div class="profile-title">
@@ -265,7 +258,6 @@
           </form>
         </div>
         
-        <!-- Plans Tab -->
         <div v-if="activeTab === 'plans'">
           <div class="section">
             <div class="profile-title">
@@ -313,7 +305,6 @@
           </div>
         </div>
         
-        <!-- Support Tab -->
         <div v-if="activeTab === 'support'">
           <div class="section">
             <div class="profile-title">
@@ -409,10 +400,8 @@
     </div>
   </div>
  
-  <!-- Mobile Menu Overlay -->
   <div class="overlay" :class="{ 'active': isMobileMenuOpen }" @click="closeMobileMenu"></div>
  
-  <!-- Mobile Sidebar -->
   <div class="mobile-sidebar" :class="{ 'active': isMobileMenuOpen }">
     <div class="mobile-sidebar-header">
       <div class="logo-container">
@@ -483,7 +472,6 @@ export default {
       isMobileMenuOpen: false,
       message: null,
       
-      // User data that will be loaded from API
       user: {
         name: '',
         username: '',
@@ -497,7 +485,6 @@ export default {
         payment_method_details: null
       },
       
-      // Copy of user data for editing
       userProfile: {
         name: '',
         username: '',
@@ -531,7 +518,6 @@ export default {
       
       years: Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i),
       
-      // Initialize plans with pricing information
       plans: [
         {
           id: 'free',
@@ -581,7 +567,6 @@ export default {
         includeSystemInfo: true
       },
 
-      // Support information
       supportInfo: {
         support_email: '',
         support_phone: '',
@@ -591,7 +576,6 @@ export default {
   },
   
   created() {
-    // Try to restore the previous tab state
     const savedTab = localStorage.getItem('settings_active_tab');
     if (savedTab) {
       this.activeTab = savedTab;
@@ -602,32 +586,26 @@ export default {
       this.activeSubTab = savedSubTab;
     }
     
-    // Then load the data
     this.loadUserSettings();
     this.loadPlans();
     this.loadSupportInfo();
   },
   
   methods: {
-    // NAVIGATION METHODS
     setActiveTab(tab) {
       console.log('Setting active tab to:', tab);
       this.activeTab = tab;
       
-      // Set default subtab when switching to account tab
       if (tab === 'account') {
         this.activeSubTab = 'profile';
       }
       
-      // Store the active tab in localStorage to maintain state
       localStorage.setItem('settings_active_tab', tab);
       
-      // Close mobile menu if open
       if (this.isMobileMenuOpen) {
         this.closeMobileMenu();
       }
       
-      // Add debugging for tab switching issues
       console.log('Active tab is now:', this.activeTab);
     },
     
@@ -635,19 +613,15 @@ export default {
       console.log('Setting active sub-tab to:', subTab);
       this.activeSubTab = subTab;
       
-      // Store the active subtab in localStorage
       localStorage.setItem('settings_active_subtab', subTab);
     },
     
     handleTabClick(tab) {
       console.log('Tab clicked:', tab);
-      // Check if we need to load any additional data for this tab
       this.setActiveTab(tab);
       
-      // You might want to load specific data for each tab
       if (tab === 'payment' && !this.paymentMethod) {
         console.log('Loading payment data...');
-        // Additional payment data loading if needed
       } else if (tab === 'plans' && (!this.plans || this.plans.length === 0)) {
         console.log('Loading plans data...');
         this.loadPlans();
@@ -660,7 +634,6 @@ export default {
     this.$router.push('/dashboard');
     },
     
-    // API METHODS
     async loadUserSettings() {
       try {
         console.log('Fetching user settings...');
@@ -669,17 +642,14 @@ export default {
         if (response.data && response.data.settings) {
           this.user = response.data.settings;
           
-          // Update userProfile with the loaded data
           this.userProfile = {
             name: this.user.name,
             username: this.user.username,
             email: this.user.email
           };
           
-          // Set profile image URL
           this.updateProfileImageUrl();
           
-          // Parse payment method details if available
           if (this.user.payment_method && this.user.payment_method_details) {
             try {
               const paymentDetails = typeof this.user.payment_method_details === 'string' 
@@ -707,19 +677,15 @@ export default {
       try {
         console.log('Loading subscription plans...');
         
-        // Store current plans to restore in case of error
         const currentPlans = [...this.plans];
         
         const response = await apiService.getPlans();
         console.log('API response for plans:', response.data);
         
         if (response.data && response.data.available_plans && response.data.available_plans.length > 0) {
-          // Map the plans to include features and prices from API
           this.plans = response.data.available_plans.map(plan => {
-            // Find matching plan in our predefined plans
             const existingPlan = currentPlans.find(p => p.id === plan.id);
             
-            // Merge the API data with our predefined data, prioritizing price and features from predefined
             return {
               ...plan,
               price: (existingPlan && existingPlan.price) || plan.price || '',
@@ -731,7 +697,6 @@ export default {
         console.log('Plans loaded:', this.plans);
       } catch (error) {
         console.error('Error loading plans:', error);
-        // If there's an error, we keep using the existing plans
       }
     },
     
@@ -748,28 +713,23 @@ export default {
     },
     
     async saveProfileChanges() {
-      // Simple password validation
       if (this.passwords.new && this.passwords.new !== this.passwords.confirm) {
         this.showMessage('Passwords do not match', 'error');
         return;
       }
       
       try {
-        // Prepare the data to send
         const updateData = {
           name: this.userProfile.name,
           username: this.userProfile.username,
           email: this.userProfile.email
         };
         
-        // Send the update request
         const response = await apiService.updateUserSettings(updateData);
         
         if (response.data && response.data.settings) {
-          // Update the user data with the response
           this.user = response.data.settings;
           
-          // Reset password fields
           this.passwords.current = '';
           this.passwords.new = '';
           this.passwords.confirm = '';
@@ -786,7 +746,6 @@ export default {
       try {
         console.log('Saving notification settings, current value:', this.user.notifications);
         
-        // Use the checkbox value directly from user object
         const updateData = {
           notifications: this.user.notifications
         };
@@ -796,11 +755,9 @@ export default {
         const response = await apiService.updateUserSettings(updateData);
         
         if (response.data && response.data.settings) {
-          // Update user data with the response
           this.user = response.data.settings;
           this.showMessage('Notification settings updated', 'success');
           
-          // Log the updated value
           console.log('Updated notification value:', this.user.notifications);
         }
       } catch (error) {
@@ -814,26 +771,21 @@ export default {
         const response = await apiService.cancelChanges();
         
         if (response.data && response.data.settings) {
-          // If we get full settings back
           if (response.data.settings.name) {
             this.user = response.data.settings;
             
-            // Reset userProfile
             this.userProfile = {
               name: this.user.name,
               username: this.user.username,
               email: this.user.email
             };
             
-            // Reset password fields
             this.passwords.current = '';
             this.passwords.new = '';
             this.passwords.confirm = '';
             
-            // Update profile image URL
             this.updateProfileImageUrl();
           } 
-          // If we only get partial settings (like just the profile_image)
           else if (response.data.settings.profile_image) {
             this.user.profile_image = response.data.settings.profile_image;
             this.updateProfileImageUrl();
@@ -851,7 +803,6 @@ export default {
       const file = event.target.files[0];
       if (!file) return;
       
-      // Validate file size and type
       if (file.size > 2 * 1024 * 1024) {
         this.showMessage('Image size should be less than 2MB', 'error');
         return;
@@ -864,15 +815,12 @@ export default {
       }
       
       try {
-        // Create form data for the file upload
         const formData = new FormData();
         formData.append('profile_image', file);
         
-        // Send the image to the server
         const response = await apiService.uploadProfileImage(formData);
         
         if (response.data && response.data.image) {
-          // Update the profile image path
           this.user.profile_image = response.data.image;
           this.updateProfileImageUrl();
           this.showMessage('Profile picture updated temporarily. Click Save to apply changes.', 'success');
@@ -888,7 +836,6 @@ export default {
         const response = await apiService.deleteProfileImage();
         
         if (response.data && response.data.image) {
-          // Update the profile image path
           this.user.profile_image = response.data.image;
           this.updateProfileImageUrl();
           this.showMessage('Profile picture marked for deletion. Click Save to apply changes.', 'success');
@@ -900,14 +847,12 @@ export default {
     },
     
     async savePaymentMethod() {
-      // Simple validation
       if (this.editingPaymentMethod.cardNumber.replace(/\s/g, '').length !== 16) {
         this.showMessage('Please enter a valid card number', 'error');
         return;
       }
       
       try {
-        // Format payment details for the API
         const paymentData = {
           payment_method: 'credit_card',
           payment_method_details: JSON.stringify({
@@ -918,14 +863,11 @@ export default {
           })
         };
         
-        // Send the update request
         const response = await apiService.updateUserSettings(paymentData);
         
         if (response.data && response.data.settings) {
-          // Update the user data with the response
           this.user = response.data.settings;
           
-          // Update payment method display
           this.paymentMethod = {
             type: this.getCardType(this.editingPaymentMethod.cardNumber),
             last4: this.editingPaymentMethod.cardNumber.slice(-4),
@@ -944,20 +886,16 @@ export default {
     
     async deletePaymentMethod() {
       try {
-        // Send empty payment method data to delete
         const paymentData = {
           payment_method: null,
           payment_method_details: null
         };
         
-        // Send the update request
         const response = await apiService.updateUserSettings(paymentData);
         
         if (response.data && response.data.settings) {
-          // Update the user data with the response
           this.user = response.data.settings;
           
-          // Clear payment method display
           this.paymentMethod = null;
           
           this.showMessage('Payment method deleted', 'success');
@@ -977,7 +915,6 @@ export default {
         const response = await apiService.updateUserSettings(updateData);
         
         if (response.data && response.data.settings) {
-          // Update the user data with the response
           this.user = response.data.settings;
           
           const planName = this.plans.find(p => p.id === planId)?.name || planId;
@@ -992,22 +929,17 @@ export default {
     async logout() {
       try {
         await apiService.auth.logout();
-        // Redirect to login page or home page
         window.location.href = '/login';
       } catch (error) {
         console.error('Error during logout:', error);
-        // Still redirect even if there's an error
         window.location.href = '/login';
       }
     },
     
-    // UI METHODS
     updateProfileImageUrl() {
-      // Check if the profile image is an absolute URL or a relative path
       if (this.user.profile_image && this.user.profile_image.startsWith('http')) {
         this.profileImageUrl = this.user.profile_image;
       } else if (this.user.profile_image) {
-        // For relative paths, prepend the storage URL
         this.profileImageUrl = `/storage/${this.user.profile_image}`;
       } else {
         this.profileImageUrl = '';
@@ -1033,7 +965,6 @@ export default {
     },
     
     getCardType(cardNumber) {
-      // Very basic card type detection
       const first = cardNumber.charAt(0);
       if (first === '4') return 'Visa';
       if (first === '5') return 'MasterCard';
@@ -1043,11 +974,9 @@ export default {
     },
     
     submitSupportRequest() {
-      // In a real app, you would submit to backend here
       this.showContactForm = false;
       this.showMessage('Support request submitted successfully', 'success');
       
-      // Reset form
       this.supportRequest = {
         subject: '',
         message: '',
@@ -1056,11 +985,9 @@ export default {
     },
     
     submitBugReport() {
-      // In a real app, you would submit to backend here
       this.showBugReportForm = false;
       this.showMessage('Bug report submitted successfully', 'success');
       
-      // Reset form
       this.bugReport = {
         title: '',
         description: '',
@@ -1072,7 +999,6 @@ export default {
     showMessage(text, type) {
       this.message = { text, type };
       
-      // Clear message after 3 seconds
       setTimeout(() => {
         this.message = null;
       }, 3000);
@@ -1098,7 +1024,6 @@ export default {
    position: relative;
  }
   
- /* Background Image Container */
  .background-image-container {
    position: fixed;
    top: 0;
@@ -1124,7 +1049,6 @@ export default {
    z-index: 1;
  }
   
- /* Header styles */
  .header {
    display: flex;
    align-items: center;
@@ -1162,7 +1086,6 @@ export default {
    color: #333;
  }
  
- /* Menu toggle button (only visible on mobile) */
  .menu-toggle {
    display: none;
    background: none;
@@ -1172,14 +1095,12 @@ export default {
    color: #333;
  }
  
- /* Content wrapper */
  .content-wrapper {
    display: flex;
    flex: 1;
    gap: 30px;
  }
  
- /* Sidebar styles */
  .sidebar-settings {
    width: 280px;
    flex-shrink: 0;
@@ -1283,7 +1204,6 @@ export default {
    background-color: #e0e0e0;
  }
  
- /* Main content styles */
  .main-content {
    flex: 1;
    background-color: rgba(255, 255, 255, 0.9);
@@ -1293,7 +1213,6 @@ export default {
    min-height: 500px;
  }
  
- /* Alert message */
  .alert {
    padding: 12px 16px;
    border-radius: 8px;
@@ -1311,7 +1230,6 @@ export default {
    color: #c62828;
  }
  
- /* Tab header */
  .tab-header {
    display: flex;
    border-bottom: 1px solid #eee;
@@ -1337,7 +1255,6 @@ export default {
    border-bottom-color: #0288d1;
  }
  
- /* Section styling */
  .section {
    margin-bottom: 30px;
  }
@@ -1353,7 +1270,6 @@ export default {
    margin-bottom: 20px;
  }
  
- /* Profile section */
  .profile-header {
    display: flex;
    justify-content: space-between;
@@ -1386,7 +1302,6 @@ export default {
    gap: 10px;
  }
  
- /* Form styling */
  .form-group {
    margin-bottom: 20px;
  }
@@ -1443,7 +1358,6 @@ export default {
    margin-top: 30px;
  }
  
- /* Button styles */
  .btn {
    padding: 10px 20px;
    border: none;
@@ -1499,14 +1413,12 @@ export default {
    background-color: #ffcdd2;
  }
  
- /* Form row for payment form */
  .form-row {
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
    gap: 15px;
  }
  
- /* Checkbox styling */
  .checkbox-group {
    display: flex;
    align-items: center;
@@ -1526,7 +1438,6 @@ export default {
    margin-bottom: 15px;
  }
  
- /* Payment methods */
  .payment-method-card {
    display: flex;
    justify-content: space-between;
@@ -1567,7 +1478,6 @@ export default {
    color: #666;
  }
  
- /* Plans styling */
  .plans-container {
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1626,7 +1536,6 @@ export default {
    text-align: center;
  }
  
- /* Support styles */
  .support-options {
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1649,7 +1558,6 @@ export default {
    margin-bottom: 20px;
  }
  
- /* Modal styling */
  .modal {
    position: fixed;
    top: 0;
@@ -1681,7 +1589,6 @@ export default {
    min-height: 100px;
  }
  
- /* Overlay for mobile menu */
  .overlay {
    position: fixed;
    top: 0;
@@ -1700,7 +1607,6 @@ export default {
    visibility: visible;
  }
  
- /* Mobile sidebar */
  .mobile-sidebar {
    position: fixed;
    top: 0;
@@ -1743,7 +1649,6 @@ export default {
    margin-bottom: 30px;
  }
  
- /* Responsive styles */
  @media (max-width: 991px) {
    .content-wrapper {
      flex-direction: column;
@@ -1844,7 +1749,6 @@ export default {
    }
  }
  
- /* Custom styles for specific form elements */
  .form-group.password-field {
    position: relative;
  }

@@ -1,4 +1,3 @@
-// RegisterForm.vue
 <template>
   <div class="register-form-container">
     <h2 class="register-title">Register</h2>
@@ -63,7 +62,6 @@
 </template>
 
 <script>
-// Import password visibility icon
 import hideIcon from '@/assets/hide.png';
 
 export default {

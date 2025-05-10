@@ -1,4 +1,3 @@
-// DestinationsSection.vue
 <template>
   <div class="destination-container" id="destinations">
     <h1>Popular Destinations</h1>
