@@ -115,8 +115,8 @@ export default {
         }
       },
       inviteLink: '',
-      images:['src/assets/TripBudLogo.png'],
-      accountImages: ['src/assets/default.png']
+      images:['../assets/TripBudLogo.png'],
+      accountImages: ['../assets/default.png']
     };
   },
   computed: {
@@ -188,7 +188,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('/src/assets/lines.png');
+  background-image: url('/../assets/lines.png');
   background-size: cover;
   background-position: center;
   opacity: 0.1;

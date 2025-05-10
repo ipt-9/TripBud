@@ -177,14 +177,14 @@ export default {
   data() {
     return {
       activePage: 'travelblog',
-      images: ['src/assets/TripBudLogo.png'],
-      accountImages: 'src/assets/default.png',
-      dashboardImages: ['src/assets/dashboard-symbol.png'],
-      chatImages: ['src/assets/chat-symbol.png'],
-      documentsImages: ['src/assets/document-symbol2.png'],
-      scheduleImages: ['src/assets/schedule-symbol.png'],
-      budgetplanerImages: ['src/assets/wallet-symbol.png'],
-      blogImages: ['src/assets/blog-symbol.png'],
+      images: ['../assets/TripBudLogo.png'],
+      accountImages: '../assets/default.png',
+      dashboardImages: ['../assets/dashboard-symbol.png'],
+      chatImages: ['../assets/chat-symbol.png'],
+      documentsImages: ['../assets/document-symbol2.png'],
+      scheduleImages: ['../assets/schedule-symbol.png'],
+      budgetplanerImages: ['../assets/wallet-symbol.png'],
+      blogImages: ['../assets/blog-symbol.png'],
       
       trips: [
         { id: 1, name: 'Florence Trip' },

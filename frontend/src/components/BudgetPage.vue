@@ -250,14 +250,14 @@ export default {
   data() {
     return {
       activePage: 'budgetplaner',
-      images: ['src/assets/TripBudLogo.png'],
-      accountImages: ['src/assets/account-symbol.png'],
-      dashboardImages: ['src/assets/dashboard-symbol.png'],
-      chatImages: ['src/assets/chat-symbol.png'],
-      documentsImages: ['src/assets/document-symbol2.png'],
-      scheduleImages: ['src/assets/schedule-symbol.png'],
-      budgetplanerImages: ['src/assets/wallet-symbol.png'],
-      blogImages: ['src/assets/blog-symbol.png'],
+      images: ['../assets/TripBudLogo.png'],
+      accountImages: ['../assets/account-symbol.png'],
+      dashboardImages: ['../assets/dashboard-symbol.png'],
+      chatImages: ['../assets/chat-symbol.png'],
+      documentsImages: ['../assets/document-symbol2.png'],
+      scheduleImages: ['../assets/schedule-symbol.png'],
+      budgetplanerImages: ['../assets/wallet-symbol.png'],
+      blogImages: ['../assets/blog-symbol.png'],
      
       activeTimePeriod: 'day',
       activeDate: 'today',
@@ -429,7 +429,7 @@ export default {
     },
     
     openSettings() {
-      console.log('Opening settings');
+      this.$router.push('/settings');
     }
   }
 };
