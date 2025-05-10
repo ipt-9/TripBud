@@ -1,7 +1,12 @@
 <template>
   <header>
     <div class="logo">
-      <img src="@/assets/TripBudLogo.png" class="logo-img" alt="TripBud Logo" @click.prevent="scrollToSection('hero')"/>
+      <img 
+        src="@/assets/TripBudLogo.png" 
+        class="logo-img" 
+        alt="TripBud Logo" 
+        @click="handleLogoClick"
+      />
       <h1>TripBud</h1>
     </div>
     <nav>
@@ -28,6 +33,13 @@ export default {
     }
   },
   methods: {
+    handleLogoClick() {
+      if (this.isExcludedPage) {
+        this.$router.push('/');
+      } else {
+        this.scrollToSection('hero');
+      }
+    },
     scrollToSection(sectionId) {
       const section = document.getElementById(sectionId);
       if (section) {
